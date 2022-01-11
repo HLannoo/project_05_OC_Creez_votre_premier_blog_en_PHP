@@ -1,13 +1,36 @@
 {% extends "base.html" %}
 
-
 {% block title %}
-<title>Mon blog</title>
+<title>Mes articles</title>
 {% endblock %}
 
 
 {% block body %}
-    <center>
-        <h1>Contenu de la page des posts</h1>
-    </center>
+<br/>
+<br/>
+<div class="row justify-content-lg-center" >
+{% for listarticle in listarticles %}
+<div class="col-lg-3 mb-5">
+    <div class="card h-100 shadow border-0">
+        <img class="card-img-top" src={{ listarticle.ft_image }} alt="..." />
+        <div class="card-body p-4">
+            <div class="badge bg-primary bg-gradient rounded-pill mb-2">{{ listarticle.slug }}</div>
+            <a class="text-decoration-none link-dark stretched-link" href="#!"><div class="h5 card-title mb-3">{{ listarticle.title }}</div></a>
+            <p class="card-text mb-0">{{ listarticle.content }}</p>
+        </div>
+        <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+            <div class="d-flex align-items-end justify-content-between">
+                <div class="d-flex align-items-center">
+                    <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />
+                    <div class="small">
+                        <div class="fw-bold">{{ listarticle.username }}</div>
+                        <div class="text-muted">{{ listarticle.created_at }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+</div>
 {% endblock %}

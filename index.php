@@ -7,9 +7,11 @@ require APP_DIRECTORY . 'vendor/autoload.php';
 
 
 // todo : A charger dans un autoloader plus tard
-require APP_DIRECTORY . 'controllers/BaseController.php';
-require APP_DIRECTORY . 'controllers/IndexController.php';
-require APP_DIRECTORY . 'controllers/PostsController.php';
+require_once APP_DIRECTORY . 'models/connectDB.php';
+require_once APP_DIRECTORY . 'models/Articles.php';
+require_once APP_DIRECTORY . 'controllers/BaseController.php';
+require_once APP_DIRECTORY . 'controllers/IndexController.php';
+require_once APP_DIRECTORY . 'controllers/PostsController.php';
 
 
 
