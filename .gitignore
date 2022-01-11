@@ -1,0 +1,4 @@
+# Liste des fichiers à ne pas commiter
+vendor/*
+.idea/*
+
