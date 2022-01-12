@@ -28,12 +28,14 @@ class PostsController extends BaseController {
 	}
 
 	public function detail($id) {
+        $articleinstance = new Articles(connectDB::dbConnect());
+        $article = $articleinstance->getArticleById($id);
 
 		// on choisi la template à appeler
-		$template = $this->twig->load('posts/index.html');
+		$template = $this->twig->load('posts/pageid.html');
 
 		// Puis on affiche avec la méthode render
-		echo $template->render([]);
+		echo $template->render(['article'=>$article]);
 	}
 
 }
