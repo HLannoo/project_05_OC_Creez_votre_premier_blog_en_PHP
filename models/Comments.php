@@ -30,7 +30,7 @@ class Comments
     }
     function getAllArticleComments($articleid)
     {
-        $reqComments = $this->connect->query("SELECT pseudo,content, created_at, published FROM comments WHERE article_id=$articleid");
+        $reqComments = $this->connect->query("SELECT pseudo,title, content, created_at, published FROM comments WHERE article_id=$articleid");
         $resComments = $reqComments->fetchall();
         return $resComments;
 
