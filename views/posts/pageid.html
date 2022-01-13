@@ -11,7 +11,7 @@
         <div class="row gx-5">
             <div class="col-lg-3">
                 <div class="d-flex align-items-center mt-lg-5 mb-4">
-                    <img class="img-fluid rounded-circle" src="{{article.uim}}" alt="..." />
+                    <img class="img-fluid rounded-circle" src="{{article.uim}}" alt="..."/>
                     <div class="ms-3">
                         <div class="fw-bold">{{article.username}}</div>
                         <div class="text-muted">{{article.role}}</div>
@@ -31,7 +31,7 @@
                         <a class="badge bg-secondary text-decoration-none link-light">{{article.slug}}</a>
                     </header>
                     <!-- Preview image figure-->
-                    <figure class="mb-4"><img class="img-fluid rounded" src={{article.ft_image}} alt="..." /></figure>
+                    <figure class="mb-4"><img class="img-fluid rounded" src={{article.ft_image}} alt="..."/></figure>
                     <!-- Post content-->
                     <section class="mb-5">
                         {{article.chapo}}
@@ -42,5 +42,84 @@
                 </article>
                 <br/>
                 <br/>
+                {% endblock %}
+                {% block comments %}
+                <div class="container">
+                    <div class=row">
+                        {% if error == 1 %}
+                        <div class="alert alert-success">
+                            <p>Votre message a bien été envoyé, celui-ci est en attente de vérification par un
+                                admin.</p>
+                        </div>
+                        {% elseif error is null %}
+                        {% else %}
+                        <div class="alert alert-danger">
+                            <p>Un champs requis est manquant, veuillez recharger la page et réessayer.</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="row border border-dark">
+                        <div class="col-md-12">
+                            <div class="well well-sm">
+                                <form class="form-horizontal" method="post" action="/posts/{{article.id}}/addComment">
+                                    <fieldset>
+                                        <legend class="text-center header">Commentaires</legend>
+
+                                        <div class=" row form-group ">
+                                            <div class="col-md-6">
+                                                <input id="pseudo" name="pseudo" type="text" placeholder="Pseudo"
+                                                       class="form-control">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input id="title" name="title" type="text" placeholder="Titre"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class=" row form-group">
+                                            <div class="col-md-12">
+                                                <textarea class="form-control" id="content" name="content"
+                                                          placeholder="Entrez votre commentaire" rows="7"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-md-12 text-center">
+                                                <button type="submit" class="btn btn-primary btn-lg">Envoyer</button>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <br/>
-{% endblock %}
+                <br/>
+                {% endblock %}
+                {% block displaycomments %}
+                <div class="container">
+                    {% for comment in comments %}
+                    {% if comment.published == 1 %}
+                    <div class="row shadow">
+                        <div class="col-md-12">
+                            <div class="text-right media g-mb-30 media-comment">
+                                <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+                                    <div class="g-mb-15">
+                                        <h5 class="text-left h5 g-color-gray-dark-v1 mb-0">{{comment.pseudo}}</h5>
+                                        <span class="text-right g-color-gray-dark-v4 g-font-size-12">{{comment.created_at|date("d/m/Y")}}</span>
+                                    </div>
+
+                                    <p class='text-left'>{{comment.content}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    {% else %}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <br/>
+                <br/>
+                    {% endblock %}

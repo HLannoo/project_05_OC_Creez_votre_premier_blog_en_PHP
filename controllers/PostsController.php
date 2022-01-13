@@ -27,7 +27,7 @@ class PostsController extends BaseController {
 		echo $template->render(['listarticles'=>$listarticles]);
 	}
 
-	public function detail($id) {
+	public function detail($id, $error=null) {
         $articleinstance = new Articles(connectDB::dbConnect());
         $article = $articleinstance->getArticleById($id);
 
@@ -35,7 +35,25 @@ class PostsController extends BaseController {
 		$template = $this->twig->load('posts/pageid.html');
 
 		// Puis on affiche avec la méthode render
-		echo $template->render(['article'=>$article]);
+		echo $template->render(['article'=>$article,'error'=>$error, 'comments'=>$this->getAllArticleComments($id)]);
 	}
+    public function addComment($id) {
+        $content=$_POST['content'];
+        $pseudo=$_POST['pseudo'];
+        $title=$_POST['title'];
+        $idarticle = $id;
 
+        $commentInstance = new Comments(connectDB::dbConnect());
+
+        $result = $commentInstance->insertComment($pseudo, $title, $content, $idarticle);
+        $this->detail($idarticle,$result);
+
+    }
+    private function getAllArticleComments($articleid) {
+        $commentsInstance = new Comments(connectDB::dbConnect());
+        $results = $commentsInstance->getAllArticleComments($articleid);
+        return $results;
+
+
+    }
 }
