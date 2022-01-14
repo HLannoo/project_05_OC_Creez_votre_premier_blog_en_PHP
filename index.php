@@ -7,9 +7,12 @@ require APP_DIRECTORY . 'vendor/autoload.php';
 
 
 // todo : A charger dans un autoloader plus tard
-require APP_DIRECTORY . 'controllers/BaseController.php';
-require APP_DIRECTORY . 'controllers/IndexController.php';
-require APP_DIRECTORY . 'controllers/PostsController.php';
+require_once APP_DIRECTORY . 'models/connectDB.php';
+require_once APP_DIRECTORY . 'models/Articles.php';
+require_once APP_DIRECTORY . 'models/Comments.php';
+require_once APP_DIRECTORY . 'controllers/BaseController.php';
+require_once APP_DIRECTORY . 'controllers/IndexController.php';
+require_once APP_DIRECTORY . 'controllers/PostsController.php';
 
 
 
@@ -25,6 +28,9 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 
     // Page détail d'un post
     $r->addRoute('GET', '/posts/{id:\d+}', PostsController::class . '/detail');
+
+    // fonction d'ajout d'un commentaire
+    $r->addRoute('POST', '/posts/{id:\d+}/addComment', PostsController::class . '/addComment');
 });
 
 // Fetch method and URI from somewhere
