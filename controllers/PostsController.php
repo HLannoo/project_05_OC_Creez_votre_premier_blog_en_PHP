@@ -4,43 +4,48 @@
  * 
  * 
  */
-class PostsController extends BaseController {
+class PostsController extends BaseController
+{
 
 
-	// Initialisation du contructeur par défaut
-	public function __construct()
+    // Initialisation du contructeur par défaut
+    public function __construct()
     {
-    	parent::__construct();
-   	}
+        parent::__construct();
+    }
 
-	// Page d'accueil
-	public function index($params=array()) {
+    // Page d'accueil
+    public function index($params = array())
+    {
 
         $articlesinstance = new Articles(connectDB::dbConnect());
         $listarticles = $articlesinstance->getArticles();
 
 
-		// on choisi la template à appeler
-		$template = $this->twig->load('posts/index.html');
+        // on choisi la template à appeler
+        $template = $this->twig->load('posts/index.html');
 
-		// Puis on affiche avec la méthode render
-		echo $template->render(['listarticles'=>$listarticles]);
-	}
+        // Puis on affiche avec la méthode render
+        echo $template->render(['listarticles' => $listarticles]);
+    }
 
-	public function detail($id, $error=null) {
+    public function detail($id, $error = null)
+    {
         $articleinstance = new Articles(connectDB::dbConnect());
         $article = $articleinstance->getArticleById($id);
 
-		// on choisi la template à appeler
-		$template = $this->twig->load('posts/pageid.html');
+        // on choisi la template à appeler
+        $template = $this->twig->load('posts/pageid.html');
 
-		// Puis on affiche avec la méthode render
-		echo $template->render(['article'=>$article,'error'=>$error, 'comments'=>$this->getAllArticleComments($id)]);
-	}
-    public function addComment($id) {
-        $content=$_POST['content'];
-        $pseudo=$_POST['pseudo'];
-        $title=$_POST['title'];
+        // Puis on affiche avec la méthode render
+        echo $template->render(['article' => $article, 'error' => $error, 'comments' => $this->getAllArticleComments($id)]);
+    }
+
+    public function addComment($id)
+    {
+        $content = $_POST['content'];
+        $pseudo = $_POST['pseudo'];
+        $title = $_POST['title'];
         $idarticle = $id;
 
         $commentInstance = new Comments(connectDB::dbConnect());
@@ -50,11 +55,88 @@ class PostsController extends BaseController {
         exit();
 
     }
-    private function getAllArticleComments($articleid) {
+
+    private function getAllArticleComments($articleid)
+    {
         $commentsInstance = new Comments(connectDB::dbConnect());
         $results = $commentsInstance->getAllArticleComments($articleid);
         return $results;
 
 
+    }
+
+    public function addArticle()
+    {
+        $articleInstance = new Articles(connectDB::dbConnect());
+        $listarticles=$articleInstance->getArticles();
+
+        if (isset($_POST['title']) && isset($_POST['chapo']) && isset($_POST['content'])) {
+            $title = htmlspecialchars($_POST['title']);
+            $chapo = htmlspecialchars($_POST['chapo']);
+            $content = htmlspecialchars($_POST['content']);
+            $slug = htmlspecialchars($_POST['slug']);
+            $id=($_POST['id']);
+            $img = $_POST['title'];
+            $userid = $_SESSION["id"];
+
+            $checkid = $articleInstance->checkId($id);
+
+
+          if ($checkid == 0) {
+
+              $articleInstance->insertArticle($title, $chapo, $content, $img, $slug, $userid, $id);
+            }
+            elseif ($checkid == 1) {
+
+                $articleInstance->replaceArticle($title, $chapo, $content, $img, $slug, $userid,$id);
+            }
+            else
+            {
+                header("Location: http://project5/users/admin");
+            }
+        }
+        $template = $this->twig->load('users/administrationpage.html');
+        echo $template->render(['listarticles' => $listarticles]);
+    }
+    public function delArticle($id)
+    {
+        $articleInstance = new Articles(connectDB::dbConnect());
+        $listarticles=$articleInstance->getArticles();
+
+        if (isset($id)) {
+
+            $checkId = $articleInstance->checkId($id);
+
+            if ($checkId == true) {
+                $articleInstance->suppArticle($id);
+            }
+            else
+            {
+                header("Location: http://project5/users/admin");
+            }
+        }
+        $template = $this->twig->load('users/administrationpage.html');
+        echo $template->render(['listarticles' => $listarticles]);
+    }
+
+    public function updateArticle($id)
+    {
+        $articleInstance = new Articles(connectDB::dbConnect());
+        $listarticles=$articleInstance->getArticles();
+
+        if (isset($id)) {
+
+            $checkId = $articleInstance->checkId($id);
+
+            if ($checkId == true) {
+                $ligne=$articleInstance->modArticle($id);
+            }
+            else
+            {
+                header("Location: http://project5/users/admin");
+            }
+        }
+        $template = $this->twig->load('users/administrationpage.html');
+        echo $template->render(['ligne' => $ligne , 'listarticles' => $listarticles]);
     }
 }

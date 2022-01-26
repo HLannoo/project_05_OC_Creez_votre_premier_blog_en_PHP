@@ -39,13 +39,23 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/users/login', UsersController::class . '/indexAuth');
 
     // Authentication function
-    $r->addRoute('POST', '/users/login/check', UsersController::class . '/userAuth');
+    $r->addRoute('POST', '/users/admin', UsersController::class . '/userAuth');
 
     // Inscription Page
     $r->addRoute('GET', '/users/inscription', UsersController::class . '/indexIns');
 
     // Inscription function
     $r->addRoute('POST', '/users/inscription/check', UsersController::class . '/insCheck');
+
+    // Add Article function
+    $r->addRoute('POST', '/users/admin/gestion', PostsController::class . '/addArticle');
+
+    // Delete Article function
+    $r->addRoute('GET', '/users/admin/delete/{id:\d+}', PostsController::class . '/delArticle');
+
+    // Update Article function
+    $r->addRoute('GET', '/users/admin/update/{id:\d+}', PostsController::class . '/updateArticle');
+
 
 
 });
