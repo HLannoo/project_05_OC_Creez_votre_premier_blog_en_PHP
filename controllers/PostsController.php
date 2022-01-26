@@ -46,7 +46,8 @@ class PostsController extends BaseController {
         $commentInstance = new Comments(connectDB::dbConnect());
 
         $result = $commentInstance->insertComment($pseudo, $title, $content, $idarticle);
-        $this->detail($idarticle,$result);
+        header("Location: http://project5/posts/$id");
+        exit();
 
     }
     private function getAllArticleComments($articleid) {
