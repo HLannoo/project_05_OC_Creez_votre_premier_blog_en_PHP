@@ -27,10 +27,10 @@ class Articles
         return $resArticle;
 
     }
-    function insertArticle($title,$chapo,$content,$img, $slug,$userid,$id)
+    function insertArticle($title,$chapo,$content,$img, $slug,$userid)
         {
-            $data = ['title' => $title, 'chapo' => $chapo, 'content' => $content, 'ft_img' => $img, 'slug'=>$slug, 'user_id'=>$userid,'id'=>$id];
-            $insArticle = $this->connect->prepare("INSERT INTO articles (title, chapo, content, ft_image, slug, created_at, user_id, id) VALUES (:title, :chapo, :content, :ft_img, :slug, now(), :user_id, :id)");
+            $data = ['title' => $title, 'chapo' => $chapo, 'content' => $content, 'ft_img' => $img, 'slug'=>$slug, 'user_id'=>$userid];
+            $insArticle = $this->connect->prepare("INSERT INTO articles (title, chapo, content, ft_image, slug, created_at, user_id) VALUES (:title, :chapo, :content, :ft_img, :slug, now(), :user_id)");
             $insArticle->execute($data);
             return $insArticle->rowCount();
         }

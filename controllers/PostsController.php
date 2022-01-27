@@ -84,7 +84,7 @@ class PostsController extends BaseController
 
           if ($checkid == 0) {
 
-              $articleInstance->insertArticle($title, $chapo, $content, $img, $slug, $userid, $id);
+              $articleInstance->insertArticle($title, $chapo, $content, $img, $slug, $userid,);
             }
             elseif ($checkid == 1) {
 
@@ -92,10 +92,11 @@ class PostsController extends BaseController
             }
             else
             {
-                header("Location: http://project5/users/admin");
+                header("Location: http://project5/users/admin/gestion");
             }
         }
         $template = $this->twig->load('users/administrationpage.html');
+        $listarticles=$articleInstance->getArticles();
         echo $template->render(['listarticles' => $listarticles]);
     }
     public function delArticle($id)
@@ -116,6 +117,7 @@ class PostsController extends BaseController
             }
         }
         $template = $this->twig->load('users/administrationpage.html');
+        $listarticles=$articleInstance->getArticles();
         echo $template->render(['listarticles' => $listarticles]);
     }
 
@@ -137,6 +139,7 @@ class PostsController extends BaseController
             }
         }
         $template = $this->twig->load('users/administrationpage.html');
+        $listarticles=$articleInstance->getArticles();
         echo $template->render(['ligne' => $ligne , 'listarticles' => $listarticles]);
     }
 }
