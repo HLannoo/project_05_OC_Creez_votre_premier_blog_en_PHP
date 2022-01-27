@@ -16,6 +16,7 @@ require_once APP_DIRECTORY . 'controllers/BaseController.php';
 require_once APP_DIRECTORY . 'controllers/IndexController.php';
 require_once APP_DIRECTORY . 'controllers/PostsController.php';
 require_once APP_DIRECTORY . 'controllers/UsersController.php';
+require_once APP_DIRECTORY . 'controllers/CommentsValidationController.php';
 
 
 
@@ -32,7 +33,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     // Page détail d'un post
     $r->addRoute('GET', '/posts/{id:\d+}', PostsController::class . '/detail');
 
-    // fonction d'ajout d'un commentaire
+    // Comments add function
     $r->addRoute('POST', '/posts/{id:\d+}/addComment', PostsController::class . '/addComment');
 
     // Login Page
@@ -51,10 +52,22 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('POST', '/users/admin/gestion', PostsController::class . '/addArticle');
 
     // Delete Article function
-    $r->addRoute('GET', '/users/admin/delete/{id:\d+}', PostsController::class . '/delArticle');
+    $r->addRoute('GET', '/users/admin/article/delete/{id:\d+}', PostsController::class . '/delArticle');
 
     // Update Article function
     $r->addRoute('GET', '/users/admin/update/{id:\d+}', PostsController::class . '/updateArticle');
+
+    // Comments Validation Page
+    $r->addRoute('GET', '/users/admin/validation', CommentsValidationController::class . '/index');
+
+    // Accepted Comment Page
+    $r->addRoute('GET', '/users/admin/comment/accepted/{id:\d+}', CommentsValidationController::class . '/accComment');
+
+    // Refused comment Page
+    $r->addRoute('GET', '/users/admin/comment/refused/{id:\d+}', CommentsValidationController::class . '/refComment');
+
+    // Delete Comment Page
+    $r->addRoute('GET', '/users/admin/comment/delete/{id:\d+}', CommentsValidationController::class . '/delComment');
 
 
 

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+<title>Page de validation des commentaires</title>
+{% endblock %}
+
+
+{% block body %}
+    <div class="container col-xl-10 ">
+        <div class="row justify-content-center">
+        <div class="col-md-5">
+            <h1>GESTION DES COMMENTAIRES</h1>
+            <hr>
+        </div>
+    </div>
+        <br/>
+        <div class="row">
+
+            <div class="col-xl-12">
+                <h3 class="text-center">Affichage des commentaires</h3>
+                <hr>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Article</th>
+                        <th>Titre</th>
+                        <th>pseudo</th>
+                        <th>Contenu</th>
+                        <th>Date de publication</th>
+                        <th>Autorisation</th>
+                        <th colspan="2" class="text-center">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for listcomment in listcomments %}
+                    <tr>
+                        <td style="max-width: 10em;">{{ listcomment.uim }}</td>
+                        <td style="max-width: 10em;">{{ listcomment.title }}</td>
+                        <td style="max-width: 10em;">{{ listcomment.pseudo }}</td>
+                        <td style="max-width: 12em;">{{ listcomment.content }}</td>
+                        <td style="max-width: 12em;">{{ listcomment.created_at }}</td>
+                        <td style="max-width: 12em;">{{ listcomment.published }}</td>
+                        <td class="text-center" style="max-width: 10em;">
+                            <a href="/users/admin/comment/accepted/{{ listcomment.id }}" class="btn btn-success">Valider</a>
+                            <a href="/users/admin/comment/refused/{{ listcomment.id }}" class="btn btn-warning">Refuser</a>
+                            <a href="/users/admin/comment/delete/{{ listcomment.id }}" class="btn btn-danger">Supprimer</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
