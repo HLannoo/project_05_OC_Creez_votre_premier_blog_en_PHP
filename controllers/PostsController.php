@@ -71,10 +71,10 @@ class PostsController extends BaseController
         $listarticles=$articleInstance->getArticles();
 
         if (isset($_POST['title']) && isset($_POST['chapo']) && isset($_POST['content'])) {
-            $title = htmlspecialchars($_POST['title']);
-            $chapo = htmlspecialchars($_POST['chapo']);
-            $content = htmlspecialchars($_POST['content']);
-            $slug = htmlspecialchars($_POST['slug']);
+            $title = addslashes(htmlspecialchars($_POST['title']));
+            $chapo = addslashes(htmlspecialchars($_POST['chapo']));
+            $content = addslashes(htmlspecialchars($_POST['content']));
+            $slug = addslashes(htmlspecialchars($_POST['slug']));
             $id=($_POST['id']);
             $img = $_POST['title'];
             $userid = $_SESSION["id"];
@@ -84,7 +84,7 @@ class PostsController extends BaseController
 
           if ($checkid == 0) {
 
-              $articleInstance->insertArticle($title, $chapo, $content, $img, $slug, $userid,);
+              $articleInstance->insertArticle($title, $chapo, $content, $img, $slug, $userid);
             }
             elseif ($checkid == 1) {
 

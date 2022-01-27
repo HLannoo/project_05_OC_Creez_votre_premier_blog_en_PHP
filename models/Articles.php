@@ -34,7 +34,7 @@ class Articles
             $insArticle->execute($data);
             return $insArticle->rowCount();
         }
-    function replaceArticle($title,$chapo,$content,$img, $slug,$userid, $id)
+    function replaceArticle($title,$chapo,$content,$img, $slug, $userid, $id)
     {
         $insArticle = $this->connect->query("UPDATE articles SET title='$title', chapo='$chapo', content='$content', ft_image='$img', slug='$slug', created_at=now(), user_id='$userid' WHERE id='$id' ");
         return $insArticle->rowCount();
