@@ -26,6 +26,10 @@ class UsersController extends BaseController
 
     public function userAuth()
     {
+        $articleInstance = new Articles(connectDB::dbConnect());
+        $listarticles=$articleInstance->getArticles();
+
+
         if (isset($_POST['email']) && isset($_POST['password']))
         {
             $email = htmlspecialchars($_POST['email']);
@@ -37,6 +41,7 @@ class UsersController extends BaseController
             if ($user != 0) {
                 $_SESSION["email"]=$user["email"];
                 $_SESSION["username"]=$user["username"];
+                $_SESSION["id"]=$user["id"];
                 $template = $this->twig->load('users/administrationpage.html');
             } else {
                 $template = $this->twig->load('users/login.html');
@@ -46,7 +51,7 @@ class UsersController extends BaseController
         {
             $template = $this->twig->load('users/login.html');
         }
-        echo $template->render([]);
+        echo $template->render(['listarticles' => $listarticles]);
     }
 
     // Inscription home page
