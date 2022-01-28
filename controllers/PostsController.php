@@ -76,19 +76,34 @@ class PostsController extends BaseController
             $content = addslashes(htmlspecialchars($_POST['content']));
             $slug = addslashes(htmlspecialchars($_POST['slug']));
             $id=($_POST['id']);
-            $img = $_POST['title'];
             $userid = $_SESSION["id"];
+
+            $imgpath = null;
+
+            if(!empty($_FILES['img']))
+            {
+                $temp = explode(".", $_FILES["img"]["name"]);
+                $newfilename = round(microtime(true)) . '.' . end($temp);
+
+                if (move_uploaded_file(($_FILES['img']['tmp_name']),UPLOADS_DIRECTORY . $newfilename)) {
+
+                    $imgpath = $newfilename;
+
+                }
+            }
+
+
 
             $checkid = $articleInstance->checkId($id);
 
 
           if ($checkid == 0) {
 
-              $articleInstance->insertArticle($title, $chapo, $content, $img, $slug, $userid);
+              $articleInstance->insertArticle($title, $chapo, $content, $slug, $userid, $imgpath);
             }
             elseif ($checkid == 1) {
 
-                $articleInstance->replaceArticle($title, $chapo, $content, $img, $slug, $userid,$id);
+                $articleInstance->replaceArticle($title, $chapo, $content, $slug, $userid,$id, $imgpath);
             }
             else
             {

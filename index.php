@@ -2,9 +2,10 @@
 
 session_start();
 define('APP_DIRECTORY', __DIR__ . '/');
+define('UPLOADS_DIRECTORY', __DIR__ . '/public/uploads/');
+define('SITE_URL',$_SERVER['HTTP_ORIGIN']);
 
 require APP_DIRECTORY . 'vendor/autoload.php';
-
 
 
 // todo : A charger dans un autoloader plus tard

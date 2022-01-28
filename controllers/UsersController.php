@@ -51,7 +51,7 @@ class UsersController extends BaseController
         {
             $template = $this->twig->load('users/login.html');
         }
-        echo $template->render(['listarticles' => $listarticles]);
+        echo $template->render(['site_link'=>SITE_URL, 'listarticles' => $listarticles]);
     }
 
     // Inscription home page

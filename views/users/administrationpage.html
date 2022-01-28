@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-xl-3">
                 <h3 class="text-center">Ajouter un article</h3>
-                <form method="POST" action="/users/admin/gestion">
+                <form enctype="multipart/form-data" method="POST" action="/users/admin/gestion">
                     <div class="form-group">
                         <input class="form-control" type="hidden" id="id" name="id" value="{{ ligne.id }}">
                     </div>
@@ -41,7 +41,7 @@
                     <div class="custom-file">
                         <label class="custom-file-label" for="customFile">Image d'illustration</label>
                         <br>
-                        <input type="file" class="custom-file-input" id="customFile">
+                        <input type="file" name="img" class="custom-file-input" id="customFile">
                     </div>
                     <br/>
                     <br/>
@@ -72,7 +72,7 @@
                         <td class="text-truncate" style="max-width: 10em;">{{ listarticle.title }}</td>
                         <td class="text-truncate" style="max-width: 10em;">{{ listarticle.chapo }}</td>
                         <td class="text-truncate" style="max-width: 12em;">{{ listarticle.content }}</td>
-                        <td class="text-truncate" style="max-width: 10em;">{{ listarticle.ft_image }}</td>
+                        <td class="text-truncate" style="max-width: 10em;"><img src="{{ site_link }}/uploads/{{ listarticle.ft_image }}" /></td>
                         <td class="text-truncate" style="max-width: 10em;">{{ listarticle.slug }}</td>
                         <td class="text-center" style="max-width: 10em;">
                             <a href="/users/admin/article/delete/{{ listarticle.id }}" class="btn btn-danger">Supprimer</a>
