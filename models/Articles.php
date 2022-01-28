@@ -27,16 +27,16 @@ class Articles
         return $resArticle;
 
     }
-    function insertArticle($title,$chapo,$content,$img, $slug,$userid)
+    function insertArticle($title,$chapo,$content, $slug,$userid, $imgpath='')
         {
-            $data = ['title' => $title, 'chapo' => $chapo, 'content' => $content, 'ft_img' => $img, 'slug'=>$slug, 'user_id'=>$userid];
-            $insArticle = $this->connect->prepare("INSERT INTO articles (title, chapo, content, ft_image, slug, created_at, user_id) VALUES (:title, :chapo, :content, :ft_img, :slug, now(), :user_id)");
+            $data = ['title' => $title, 'chapo' => $chapo, 'content' => $content, 'slug'=>$slug, 'user_id'=>$userid,'ft_img' => $imgpath];
+            $insArticle = $this->connect->prepare("INSERT INTO articles (title, chapo, content, slug, created_at, user_id, ft_image) VALUES (:title, :chapo, :content, :slug, now(), :user_id,:ft_img)");
             $insArticle->execute($data);
             return $insArticle->rowCount();
         }
-    function replaceArticle($title,$chapo,$content,$img, $slug, $userid, $id)
+    function replaceArticle($title,$chapo,$content, $slug, $userid, $id, $imgpath='')
     {
-        $insArticle = $this->connect->query("UPDATE articles SET title='$title', chapo='$chapo', content='$content', ft_image='$img', slug='$slug', created_at=now(), user_id='$userid' WHERE id='$id' ");
+        $insArticle = $this->connect->query("UPDATE articles SET title='$title', chapo='$chapo', content='$content', slug='$slug', created_at=now(), user_id='$userid', ft_image='$imgpath' WHERE id='$id' ");
         return $insArticle->rowCount();
     }
 
@@ -65,5 +65,4 @@ class Articles
         $resultArticle = $modArticle->fetch();
         return $resultArticle;
     }
-
     }
