@@ -15,7 +15,7 @@ class UsersController extends BaseController
     }
 
     // Authentication home page
-    public function indexAuth() {
+    public function logPage() {
 
         // on choisi la template à appeler
         $template = $this->twig->load('users/login.html');
@@ -24,14 +24,9 @@ class UsersController extends BaseController
         echo $template->render([]);
     }
 
-    public function userAuth()
-    {
-        $articleInstance = new Articles(connectDB::dbConnect());
-        $listarticles=$articleInstance->getArticles();
+    public function logAuth() {
 
-
-        if (isset($_POST['email']) && isset($_POST['password']))
-        {
+        if (isset($_POST['email']) && isset($_POST['password'])) {
             $email = htmlspecialchars($_POST['email']);
             $password = htmlspecialchars($_POST['password']);
 
@@ -39,23 +34,27 @@ class UsersController extends BaseController
             $user = $userInstance->connexion($email, $password);
 
             if ($user != 0) {
-                $_SESSION["email"]=$user["email"];
-                $_SESSION["username"]=$user["username"];
-                $_SESSION["id"]=$user["id"];
-                $template = $this->twig->load('users/administrationpage.html');
+                $template = $this->twig->load('users/administrationhome.html');
+                $_SESSION["email"] = $user["email"];
+                $_SESSION["username"] = $user["username"];
+                $_SESSION["id"] = $user["id"];
             } else {
                 $template = $this->twig->load('users/login.html');
             }
-        }
-        else
-        {
+        } else {
             $template = $this->twig->load('users/login.html');
         }
-        echo $template->render(['site_link'=>SITE_URL, 'listarticles' => $listarticles]);
+        echo $template->render([$_SESSION]);
     }
 
+    public function decFun()
+    {
+            session_destroy();
+            header("Location: http://project5/users/login");
+        }
+
     // Inscription home page
-    public function indexIns() {
+    public function insPage() {
 
         // on choisi la template à appeler
         $template = $this->twig->load('users/inscription.html');
