@@ -51,8 +51,13 @@ class PostsController extends BaseController
         $commentInstance = new Comments(connectDB::dbConnect());
 
         $result = $commentInstance->insertComment($pseudo, $title, $content, $idarticle);
-        header("Location: http://project5/posts/$id");
-        exit();
+        if ($result) {
+            header("Location: http://project5/posts/$id/success");
+            exit();
+        }
+        else {
+            //add error page (500)
+        }
 
     }
 

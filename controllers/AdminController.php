@@ -46,7 +46,7 @@ class AdminController extends BaseController
     }
 
 
-    public function accComment($id)
+    public function acceptComment($id)
     {
         $commentsInstance = new Comments(connectDB::dbConnect());
 
@@ -59,7 +59,7 @@ class AdminController extends BaseController
         echo $template->render(['listcomments' => $listcomments]);
     }
 
-    public function refComment($id)
+    public function refuseComment($id)
     {
         $commentsInstance = new Comments(connectDB::dbConnect());
 
@@ -72,7 +72,7 @@ class AdminController extends BaseController
         $listcomments=$commentsInstance->getComments();
         echo $template->render(['listcomments' => $listcomments]);
     }
-    public function delComment($id)
+    public function deleteComment($id)
     {
         $commentsInstance = new Comments(connectDB::dbConnect());
 
@@ -132,7 +132,7 @@ class AdminController extends BaseController
         echo $template->render(['listarticles' => $listarticles]);
     }
 
-    public function delArticle($id)
+    public function deleteArticle($id)
     {
         $articleInstance = new Articles(connectDB::dbConnect());
         $listarticles=$articleInstance->getArticles();

@@ -15,7 +15,7 @@ class UsersController extends BaseController
     }
 
     // Authentication home page
-    public function logPage() {
+    public function loginPage() {
 
         // on choisi la template à appeler
         $template = $this->twig->load('users/login.html');
@@ -24,7 +24,7 @@ class UsersController extends BaseController
         echo $template->render([]);
     }
 
-    public function logAuth() {
+    public function loginAuthentication() {
 
         if (isset($_POST['email']) && isset($_POST['password'])) {
             $email = htmlspecialchars($_POST['email']);
@@ -47,14 +47,14 @@ class UsersController extends BaseController
         echo $template->render([$_SESSION]);
     }
 
-    public function decFun()
+    public function disconnect()
     {
             session_destroy();
             header("Location: http://project5/users/login");
         }
 
     // Inscription home page
-    public function insPage() {
+    public function register() {
 
         // on choisi la template à appeler
         $template = $this->twig->load('users/inscription.html');
@@ -63,7 +63,7 @@ class UsersController extends BaseController
         echo $template->render([]);
     }
 
-    public function insCheck()
+    public function registrationVerification()
     {
         if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['password2']) && isset($_POST['username']) && ($_POST['password'])===($_POST['password2']))
         {
