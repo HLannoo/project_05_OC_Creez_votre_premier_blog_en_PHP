@@ -1,5 +1,25 @@
 {% extends "base.html" %}
-
+{% block nav %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container px-5">
+        <a class="navbar-brand" href="http://project5/">Hédi Lannoo</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="http://project5/">Accueil</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">A propos</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="http://project5/posts/">Les projets</a></li>
+                <div class="float-right justify-self-baseline">
+                    <form id='fermer' name='fermer' method='post' action="/users/admin/deconnexion">
+                        <input type='submit' id='soumettre' value='Se d&eacute;connecter' style='width:8em;height:2em;' />
+                    </form>
+                </div>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
 
 {% block title %}
 <title>Page d'administration</title>
@@ -16,9 +36,9 @@
     </div>
         <br/>
         <div class="row">
-            <div class="col-xl-3">
-                <h3 class="text-center">Ajouter un article</h3>
-                <form enctype="multipart/form-data" method="POST" action="/users/admin/gestion">
+            <div class="col-xl-2">
+                <h3 class="text-center">Enregistrer un article</h3>
+                <form enctype="multipart/form-data" method="POST" action="/users/admin/article/add">
                     <div class="form-group">
                         <input class="form-control" type="hidden" id="id" name="id" value="{{ ligne.id }}">
                     </div>
@@ -50,7 +70,7 @@
                     </div>
                 </form>
             </div>
-            <div class="col-xl-7">
+            <div class="col-xl-8">
                 <h3 class="text-center">Affichage des articles</h3>
                 <hr>
                 <table class="table table-bordered">
@@ -72,7 +92,7 @@
                         <td class="text-truncate" style="max-width: 10em;">{{ listarticle.title }}</td>
                         <td class="text-truncate" style="max-width: 10em;">{{ listarticle.chapo }}</td>
                         <td class="text-truncate" style="max-width: 12em;">{{ listarticle.content }}</td>
-                        <td class="text-truncate" style="max-width: 10em;"><img src="{{ site_link }}/uploads/{{ listarticle.ft_image }}" /></td>
+                        <td><img class="w-100" src="{{ site_link }}/public/uploads/{{ listarticle.ft_image }}" /></td>
                         <td class="text-truncate" style="max-width: 10em;">{{ listarticle.slug }}</td>
                         <td class="text-center" style="max-width: 10em;">
                             <a href="/users/admin/article/delete/{{ listarticle.id }}" class="btn btn-danger">Supprimer</a>

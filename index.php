@@ -3,22 +3,21 @@
 session_start();
 define('APP_DIRECTORY', __DIR__ . '/');
 define('UPLOADS_DIRECTORY', __DIR__ . '/public/uploads/');
-define('SITE_URL',$_SERVER['HTTP_ORIGIN']);
+define('SITE_URL','http://'.$_SERVER['SERVER_NAME']);
+define('LOGIN_PAGE', __DIR__ . '/views/users/login.html');
 
 require APP_DIRECTORY . 'vendor/autoload.php';
 
 
-// todo : A charger dans un autoloader plus tard
-require_once APP_DIRECTORY . 'models/connectDB.php';
-require_once APP_DIRECTORY . 'models/Articles.php';
-require_once APP_DIRECTORY . 'models/Comments.php';
-require_once APP_DIRECTORY . 'models/User.php';
-require_once APP_DIRECTORY . 'controllers/BaseController.php';
-require_once APP_DIRECTORY . 'controllers/IndexController.php';
-require_once APP_DIRECTORY . 'controllers/PostsController.php';
-require_once APP_DIRECTORY . 'controllers/UsersController.php';
-require_once APP_DIRECTORY . 'controllers/CommentsValidationController.php';
-
+// autoloader : rapporte les controllers et models si appelé
+spl_autoload_register(function ($class) {
+    $class = str_replace("\\","/", $class);
+    if (file_exists(__DIR__ .'/controllers/' . $class . '.php')) {
+        include __DIR__ .'/controllers/' . $class . '.php';
+    } elseif (file_exists(__DIR__ .'/models/' . $class . '.php')) {
+        include __DIR__ .'/models/' . $class . '.php';
+    }
+});
 
 
 
@@ -34,41 +33,50 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     // Page détail d'un post
     $r->addRoute('GET', '/posts/{id:\d+}', PostsController::class . '/detail');
 
-    // Comments add function
+    // validation commentaire
+    $r->addRoute('GET', '/posts/{id:\d+}/success', PostsController::class . '/detail');
+
+    // Comments add function on post page route rou
     $r->addRoute('POST', '/posts/{id:\d+}/addComment', PostsController::class . '/addComment');
 
-    // Login Page
-    $r->addRoute('GET', '/users/login', UsersController::class . '/indexAuth');
-
-    // Authentication function
-    $r->addRoute('POST', '/users/admin', UsersController::class . '/userAuth');
-
     // Inscription Page
-    $r->addRoute('GET', '/users/inscription', UsersController::class . '/indexIns');
+    $r->addRoute('GET', '/users/inscription', UsersController::class . '/register');
 
-    // Inscription function
-    $r->addRoute('POST', '/users/inscription/check', UsersController::class . '/insCheck');
+    // Inscription Validation function
+    $r->addRoute('POST', '/users/inscription/check', UsersController::class . '/registrationVerification');
+
+    // Login Page
+    $r->addRoute('GET', '/users/login', UsersController::class . '/loginPage');
+
+    // Login Authentication Function
+    $r->addRoute('POST', '/users/admin', UsersController::class . '/loginAuthentication');
+
+    // Deconnexion Function
+    $r->addRoute('POST', '/users/admin/deconnexion', UsersController::class . '/disconnect');
+
+    // articles administration page
+    $r->addRoute('GET', '/users/admin/article', AdminController::class . '/articleAdminPage');
 
     // Add Article function
-    $r->addRoute('POST', '/users/admin/gestion', PostsController::class . '/addArticle');
+    $r->addRoute('POST', '/users/admin/article/add', AdminController::class . '/addArticle');
 
     // Delete Article function
-    $r->addRoute('GET', '/users/admin/article/delete/{id:\d+}', PostsController::class . '/delArticle');
+    $r->addRoute('GET', '/users/admin/article/delete/{id:\d+}', AdminController::class . '/deleteArticle');
 
     // Update Article function
-    $r->addRoute('GET', '/users/admin/update/{id:\d+}', PostsController::class . '/updateArticle');
+    $r->addRoute('GET', '/users/admin/update/{id:\d+}', AdminController::class . '/updateArticle');
 
-    // Comments Validation Page
-    $r->addRoute('GET', '/users/admin/validation', CommentsValidationController::class . '/index');
+    // Comments administration Page --
+    $r->addRoute('GET', '/users/admin/comment', AdminController::class . '/commentAdminPage');
 
     // Accepted Comment Page
-    $r->addRoute('GET', '/users/admin/comment/accepted/{id:\d+}', CommentsValidationController::class . '/accComment');
+    $r->addRoute('GET', '/users/admin/comment/accepted/{id:\d+}', AdminController::class . '/acceptComment');
 
     // Refused comment Page
-    $r->addRoute('GET', '/users/admin/comment/refused/{id:\d+}', CommentsValidationController::class . '/refComment');
+    $r->addRoute('GET', '/users/admin/comment/refused/{id:\d+}', AdminController::class . '/refuseComment');
 
     // Delete Comment Page
-    $r->addRoute('GET', '/users/admin/comment/delete/{id:\d+}', CommentsValidationController::class . '/delComment');
+    $r->addRoute('GET', '/users/admin/comment/delete/{id:\d+}', AdminController::class . '/deleteComment');
 
 
 
