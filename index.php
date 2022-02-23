@@ -78,6 +78,9 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     // Delete Comment Page
     $r->addRoute('GET', '/users/admin/comment/delete/{id:\d+}', AdminController::class . '/deleteComment');
 
+    // Email sent
+    $r->addRoute('POST', '/emailsent', ContactController::class . '/contactEmail');
+
 
 
 });
