@@ -32,7 +32,7 @@ class User
             $check->execute(array("username" => $username, ":email" => $email, "password" => $password));
             return $check->rowCount();
         } else {
-            header("Location: http://project5/users/inscription");
+            return $result;
         }
     }
 }

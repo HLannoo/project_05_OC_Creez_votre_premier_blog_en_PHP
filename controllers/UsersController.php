@@ -15,7 +15,8 @@ class UsersController extends BaseController
     }
 
     // Authentication home page
-    public function loginPage() {
+    public function loginPage()
+    {
 
         // on choisi la template à appeler
         $template = $this->twig->load('users/login.html');
@@ -24,7 +25,8 @@ class UsersController extends BaseController
         echo $template->render([]);
     }
 
-    public function loginAuthentication() {
+    public function loginAuthentication()
+    {
 
         if (isset($_POST['email']) && isset($_POST['password'])) {
             $email = htmlspecialchars($_POST['email']);
@@ -49,12 +51,13 @@ class UsersController extends BaseController
 
     public function disconnect()
     {
-            session_destroy();
-            header("Location: http://project5/users/login");
-        }
+        session_destroy();
+        header("Location: http://project5/users/login");
+    }
 
     // Inscription home page
-    public function register() {
+    public function register()
+    {
 
         // on choisi la template à appeler
         $template = $this->twig->load('users/inscription.html');
@@ -65,27 +68,41 @@ class UsersController extends BaseController
 
     public function registrationVerification()
     {
-        if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['password2']) && isset($_POST['username']) && ($_POST['password'])===($_POST['password2']))
-        {
+        $error = "";
+        if (!empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['password2']) && !empty($_POST['username'])) {
             $email = htmlspecialchars($_POST['email']);
             $password = htmlspecialchars($_POST['password']);
             $username = htmlspecialchars($_POST['username']);
 
-            $userInstance = new User(connectDB::dbConnect());
+            if ($_POST['password'] === $_POST['password2']) {
 
-            if ($userInstance->Inscription($email, $password, $username) == 1)
-            {
-                $template = $this->twig->load('users/login.html');
-            }
-            else
-            {
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $userInstance = new User(connectDB::dbConnect());
+                    $checkInscription = $userInstance->Inscription($email, $password, $username);
+
+                    if ($checkInscription == 1) {
+                        $template = $this->twig->load('users/login.html');
+
+                    } else {
+                        $template = $this->twig->load('users/inscription.html');
+                        $error = "Erreur système";
+
+                    }
+                } else {
+                    $template = $this->twig->load('users/inscription.html');
+                    $error = "Email invalide";
+                }
+            } else {
                 $template = $this->twig->load('users/inscription.html');
+                $error = "Le second mot de passe est différent du premier";
             }
-        }
-        else
-        {
+        } else {
             $template = $this->twig->load('users/inscription.html');
+            $error = "Un champ n'est pas connu";
         }
-        echo $template->render([]);
+        echo $template->render(['error' => $error]);
     }
 }
+
+
+

@@ -29,24 +29,40 @@ class PostsController extends BaseController
         echo $template->render(['listarticles' => $listarticles]);
     }
 
-    public function detail($id, $error = null)
+    public function detail($id)
     {
-        $articleinstance = new Articles(connectDB::dbConnect());
-        $article = $articleinstance->getArticleById($id);
+        $verifiedId= htmlspecialchars($id);
+        $idCheck = new Articles(connectDB::dbConnect());
+        $resultCheck = $idCheck->checkId($verifiedId);
 
-        // on choisi la template à appeler
-        $template = $this->twig->load('posts/pageid.html');
 
-        // Puis on affiche avec la méthode render
-        echo $template->render(['article' => $article, 'error' => $error, 'comments' => $this->getAllArticleComments($id)]);
+        if ($resultCheck)
+        {
+            $articleInstance = new Articles(connectDB::dbConnect());
+            $article = $articleInstance->getArticleById($id);
+
+            $template = $this->twig->load('posts/pageid.html');
+
+            echo $template->render(['article' => $article, 'comments' => $this->getAllArticleComments($id)]);
+        }
+        else
+        {
+            $articlesInstance = new Articles(connectDB::dbConnect());
+            $listarticles = $articlesInstance->getArticles();
+
+        $template = $this->twig->load('posts/index.html');
+
+        echo $template->render(['listarticles' => $listarticles]);
+        }
     }
+
 
     public function addComment($id)
     {
-        $content = $_POST['content'];
-        $pseudo = $_POST['pseudo'];
-        $title = $_POST['title'];
-        $idarticle = $id;
+        $content = htmlspecialchars($_POST['content']);
+        $pseudo = htmlspecialchars($_POST['pseudo']);
+        $title = htmlspecialchars($_POST['title']);
+        $idarticle = htmlspecialchars($id);
 
         $commentInstance = new Comments(connectDB::dbConnect());
 

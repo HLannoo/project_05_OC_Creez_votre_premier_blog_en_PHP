@@ -47,10 +47,10 @@ class Articles
     }
 
 
-    function checkId($id)
+    function checkId($verifiedId)
     {
-        $checkId = $this->connect->query("SELECT id FROM articles WHERE id='$id'");
-        return $checkId->rowCount();
+        $checkId = $this->connect->query("SELECT id FROM articles WHERE id='$verifiedId'");
+        return $checkId->fetch();
     }
 
     function suppArticle($id)
