@@ -181,6 +181,7 @@
                         <textarea rows="10" name="message" placeholder="Votre message" class="form-control"></textarea>
                         <br/>
                         <button type="submit" class="btn btn-lg btn-primary">Envoyer</button>
+                        <input type="hidden" name="csrf-token" value="{{ token }}"/>
                     </div>
                 </form>
             </div>
