@@ -15,15 +15,17 @@ class Articles
 
     function getArticles()
     {
-        $reqArticles = $this->connect->query("SELECT a.id, a.slug, u.username ,a.ft_image,a.content, a.title, a.created_at, a.chapo, u.ft_image as uim FROM articles a JOIN users u ON (a.user_id=u.id)");
-        $resArticles = $reqArticles->fetchall();
+        $stmt=$this->connect->prepare ("SELECT a.id, a.slug, u.username ,a.ft_image,a.content, a.title, a.created_at, a.chapo, u.ft_image as uim FROM articles a JOIN users u ON (a.user_id=u.id)");
+        $stmt->execute();
+        $resArticles = $stmt->fetchall();
         return $resArticles;
 
     }
     function getArticleById($id)
     {
-        $reqArticle = $this->connect->query("SELECT a.id, a.slug, u.username ,a.ft_image, a.title, a.content, a.created_at, a.chapo, u.ft_image as uim, u.role FROM articles a JOIN users u ON (a.user_id=u.id) WHERE a.id=$id") ;
-        $resArticle = $reqArticle->fetch();
+        $stmt = $this->connect->prepare("SELECT a.id, a.slug, u.username ,a.ft_image, a.title, a.content, a.created_at, a.chapo, u.ft_image as uim, u.role FROM articles a JOIN users u ON (a.user_id=u.id) WHERE a.id=$id") ;
+        $stmt->execute();
+        $resArticle = $stmt->fetch();
         return $resArticle;
 
     }
@@ -36,33 +38,38 @@ class Articles
         }
     function replaceArticle($title,$chapo,$content, $slug, $userid, $id, $imgpath='')
     {
-        $insArticle = $this->connect->query("UPDATE articles SET title='$title', chapo='$chapo', content='$content', slug='$slug', created_at=now(), user_id='$userid', ft_image='$imgpath' WHERE id='$id' ");
-        return $insArticle->rowCount();
+        $stmt = $this->connect->prepare("UPDATE articles SET title='$title', chapo='$chapo', content='$content', slug='$slug', created_at=now(), user_id='$userid', ft_image='$imgpath' WHERE id='$id' ");
+        $stmt->execute();
+        return $stmt->rowCount();
     }
 
     function checkArticle($title,$slug)
     {
-        $checkArticle = $this->connect->query("SELECT id FROM articles WHERE title='$title' AND slug='$slug'");
-        return $checkArticle->rowCount();
+        $stmt = $this->connect->prepare("SELECT id FROM articles WHERE title='$title' AND slug='$slug'");
+        $stmt->execute();
+        return $stmt->rowCount();
     }
 
 
     function checkId($verifiedId)
     {
-        $checkId = $this->connect->query("SELECT id FROM articles WHERE id='$verifiedId'");
-        return $checkId->fetch();
+        $stmt = $this->connect->prepare("SELECT id FROM articles WHERE id='$verifiedId'");
+        $stmt->execute();
+        return $stmt->rowCount();
     }
 
     function suppArticle($id)
     {
-        $suppArticle = $this->connect->query("DELETE FROM articles WHERE id='$id'");
-        $resultArticle = $suppArticle->fetch();
-        return $resultArticle;
+        $stmt = $this->connect->prepare("DELETE FROM articles WHERE id='$id'");
+        $stmt->execute();
+        $stmt->fetch();
+        return $stmt;
     }
     function modArticle($id)
     {
-        $modArticle = $this->connect->query("SELECT * FROM articles WHERE id='$id'");
-        $resultArticle = $modArticle->fetch();
-        return $resultArticle;
+        $stmt = $this->connect->prepare("SELECT * FROM articles WHERE id='$id'");
+        $stmt->execute();
+        $modArticle=$stmt->fetch();
+        return $modArticle;
     }
     }

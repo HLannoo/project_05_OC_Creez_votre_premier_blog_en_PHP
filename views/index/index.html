@@ -102,7 +102,7 @@
         </div>
         <div class="container" >
             <div class="row inline-block col-12 gx-5">
-            {% for listarticle in listarticles|slice(0,3)  %}
+            {% for listarticle in listarticles|slice(3,3)  %}
             <div class=" col-lg-4 col-md-12 mb-5">
                 <div class="card h-100 shadow border-0">
                     <img class="card-img-top" src="{{ site_link }}/public/uploads/{{ listarticle.ft_image }}" alt="..." />
@@ -181,7 +181,7 @@
                         <textarea rows="10" name="message" placeholder="Votre message" class="form-control"></textarea>
                         <br/>
                         <button type="submit" class="btn btn-lg btn-primary">Envoyer</button>
-                        <input type="hidden" name="csrf-token" value="{{ token }}"/>
+                        <input type="hidden" name="csrf-token" value="{{ formcontact_token }}"/>
                     </div>
                 </form>
             </div>

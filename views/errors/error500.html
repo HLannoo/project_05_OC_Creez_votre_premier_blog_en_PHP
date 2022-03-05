@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block head %}
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Page d'accueil du blog php de hédi lannoo" />
+    <meta name="author" content="Hédi Lannoo" />
+    <title>Mon site web</title>
+
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS -->
+    <link rel="stylesheet" href="../public/assets/css/style.css" type="text/css">
+    <!-- Bootsrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+</head>
+{% endblock %}
+{% block title %}
+
+<h1>Erreur 500 </h1>
+{% endblock %}
+
+
+{% block body %}
+<div class="container">
+            <div class="col-12">
+                <h1>Oups!</h1>
+                <h2>Erreur 500</h2>
+                <div class="error-details">
+                    Désolé la page désirée à rencontrée une erreur lors du chargement.
+                </div>
+                <div class="error-actions">
+                    <a href="http://project5" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
+                        Retourner à l'accueil </a>
+                </div>
+            </div>
+</div>
+{% endblock %}
+
+

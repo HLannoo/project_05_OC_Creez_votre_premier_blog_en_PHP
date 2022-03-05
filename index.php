@@ -1,10 +1,30 @@
 <?php
-
 session_start();
 define('APP_DIRECTORY', __DIR__ . '/');
 define('UPLOADS_DIRECTORY', __DIR__ . '/public/uploads/');
 define('SITE_URL','http://'.$_SERVER['SERVER_NAME']);
+
+//INDEX LINK SHORTCUT
+define('INDEX', __DIR__ . '/views/index/index.html');
+
+//POSTS LINK SHORTCUT
+define('POSTS_INDEX', __DIR__ . '/views/posts/index.html');
+define('POSTS_PAGE_ID', __DIR__ . '/views/posts/pageid.html');
+define('POSTS_MERCI', __DIR__ . '/views/posts/merci.html');
+
+//USERS LINK SHORTCUT
+define('ADMIN_HOME_INDEX', __DIR__ . '/views/users/administrationhome.html');
+define('ADMIN_MANAGEMENT', __DIR__ . '/views/users/adminmanagement.html');
+define('ADMIN_ARTICLE', __DIR__ . '/views/users/articleadministration.html');
+define('ADMIN_COMMENT', __DIR__ . '/views/users/commentadministration.html');
+define('INSCRIPTION_PAGE', __DIR__ . '/views/users/inscription.html');
 define('LOGIN_PAGE', __DIR__ . '/views/users/login.html');
+
+//ERROR LINK SHORTCUT
+define('ERROR_500', __DIR__ . '/views/errors/error500.html');
+
+
+
 
 require APP_DIRECTORY . 'vendor/autoload.php';
 
@@ -16,6 +36,9 @@ spl_autoload_register(function ($class) {
         include __DIR__ .'/controllers/' . $class . '.php';
     } elseif (file_exists(__DIR__ .'/models/' . $class . '.php')) {
         include __DIR__ .'/models/' . $class . '.php';
+    }
+    elseif (file_exists(__DIR__ .'/vendor/psecio/csrf/' . $class . '.php')) {
+        include __DIR__ .'/vendor/psecio/csrf/' . $class . '.php';
     }
 });
 
@@ -36,8 +59,8 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     // validation commentaire
     $r->addRoute('GET', '/posts/{id:\d+}/success', PostsController::class . '/detail');
 
-    // Comments add function on post page route rou
-    $r->addRoute('POST', '/posts/{id:\d+}/addComment', PostsController::class . '/addComment');
+    // Comments add function on post page
+    $r->addRoute('POST', '/posts/{id:\d+}', PostsController::class . '/addComment');
 
     // Inscription Page
     $r->addRoute('GET', '/users/inscription', UsersController::class . '/register');
@@ -61,26 +84,43 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('POST', '/users/admin/article/add', AdminController::class . '/addArticle');
 
     // Delete Article function
-    $r->addRoute('GET', '/users/admin/article/delete/{id:\d+}', AdminController::class . '/deleteArticle');
+    $r->addRoute('POST', '/users/admin/article/delete/{id:\d+}', AdminController::class . '/deleteArticle');
 
     // Update Article function
-    $r->addRoute('GET', '/users/admin/update/{id:\d+}', AdminController::class . '/updateArticle');
+    $r->addRoute('POST', '/users/admin/update/{id:\d+}', AdminController::class . '/updateArticle');
 
     // Comments administration Page --
     $r->addRoute('GET', '/users/admin/comment', AdminController::class . '/commentAdminPage');
 
     // Accepted Comment Page
-    $r->addRoute('GET', '/users/admin/comment/accepted/{id:\d+}', AdminController::class . '/acceptComment');
+    $r->addRoute('POST', '/users/admin/comment/accepted/{id:\d+}', AdminController::class . '/acceptComment');
 
     // Refused comment Page
-    $r->addRoute('GET', '/users/admin/comment/refused/{id:\d+}', AdminController::class . '/refuseComment');
+    $r->addRoute('POST', '/users/admin/comment/refused/{id:\d+}', AdminController::class . '/refuseComment');
 
     // Delete Comment Page
-    $r->addRoute('GET', '/users/admin/comment/delete/{id:\d+}', AdminController::class . '/deleteComment');
+    $r->addRoute('POST', '/users/admin/comment/delete/{id:\d+}', AdminController::class . '/deleteComment');
+
+    // Admin management Page --
+    $r->addRoute('GET', '/users/admin/management', AdminController::class . '/managementAdminPage');
+
+    // Accepted admin Page
+    $r->addRoute('POST', '/users/admin/management/accepted/{id:\d+}', AdminController::class . '/acceptAdmin');
+
+    // Refused admin Page
+    $r->addRoute('POST', '/users/admin/management/refused/{id:\d+}', AdminController::class . '/refuseAdmin');
+
+    // Delete admin Page
+    $r->addRoute('POST', '/users/admin/management/delete/{id:\d+}', AdminController::class . '/deleteAdmin');
 
     // Email sent
-    $r->addRoute('POST', '/emailsent', ContactController::class . '/contactEmail');
+    $r->addRoute('POST', '/emailsent', IndexController::class . '/contactEmail');
 
+    // Display error server
+    $r->addRoute('GET', '/error500', RedirectController::class . '/erreurServeur');
+
+    // Display thanks for comment
+    $r->addRoute('GET', '/merci', RedirectController::class . '/thankComment');
 
 
 });

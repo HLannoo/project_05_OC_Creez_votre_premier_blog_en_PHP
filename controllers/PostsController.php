@@ -1,5 +1,4 @@
 <?php
-
 /**
  * 
  * 
@@ -34,6 +33,7 @@ class PostsController extends BaseController
         $verifiedId= htmlspecialchars($id);
         $idCheck = new Articles(connectDB::dbConnect());
         $resultCheck = $idCheck->checkId($verifiedId);
+        $manager = new \Psecio\Csrf\Manager();
 
 
         if ($resultCheck)
@@ -43,7 +43,7 @@ class PostsController extends BaseController
 
             $template = $this->twig->load('posts/pageid.html');
 
-            echo $template->render(['article' => $article, 'comments' => $this->getAllArticleComments($id)]);
+            echo $template->render(['site_link' => SITE_URL,'article' => $article, 'comments' => $this->getAllArticleComments($id),'comment_token' => $manager->generate()]);
         }
         else
         {
@@ -59,22 +59,43 @@ class PostsController extends BaseController
 
     public function addComment($id)
     {
-        $content = htmlspecialchars($_POST['content']);
-        $pseudo = htmlspecialchars($_POST['pseudo']);
-        $title = htmlspecialchars($_POST['title']);
-        $idarticle = htmlspecialchars($id);
+        $articleInstance = new Articles(connectDB::dbConnect());
+        $manager = new \Psecio\Csrf\Manager();
 
-        $commentInstance = new Comments(connectDB::dbConnect());
+        if (!empty($_POST['content']) && !empty($_POST['pseudo']) && !empty($_POST['title'])) {
 
-        $result = $commentInstance->insertComment($pseudo, $title, $content, $idarticle);
-        if ($result) {
-            header("Location: http://project5/posts/$id/success");
-            exit();
+            if (isset($_POST['csrf_token'])) {
+                $result = $manager->verify($_POST['csrf_token']);
+                if ($result === false) {
+                    header("Location: http://project5/error500");
+                }
+                $content = htmlspecialchars($_POST['content']);
+                $pseudo = htmlspecialchars($_POST['pseudo']);
+                $title = htmlspecialchars($_POST['title']);
+                $idArticle = htmlspecialchars($id);
+
+                $commentInstance = new Comments(connectDB::dbConnect());;
+                $result = $commentInstance->insertComment($pseudo, $title, $content, $idArticle);
+
+                if ($result) {
+                    header("Location: http://project5/merci");
+                } else {
+                    header("Location: http://project5/error500");
+                }
+            }
+            else {
+                    header("Location: http://project5/error500");
+                }
+        } else {
+            $error="Un champ est manquant dans votre commentaire.";
+            $article = $articleInstance->getArticleById($id);
+            $template = $this->twig->load('posts/pageid.html');
+            echo $template->render([
+                'article' => $article,
+                'comments' => $this->getAllArticleComments($id),
+                'comment_token' => $manager->generate(),
+                'error'=>$error]);
         }
-        else {
-            //add error page (500)
-        }
-
     }
 
     private function getAllArticleComments($articleid)

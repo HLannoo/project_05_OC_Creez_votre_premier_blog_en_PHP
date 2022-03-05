@@ -8,7 +8,7 @@
 
 {% block body %}
 <div class="container-fluid">
-    <div class="alert alert-danger">
+    <div>
         {{error}}
     </div>
     <div class="row justify-content-center mt-5">
@@ -36,6 +36,7 @@
         <div class="form-group">
             <div class="col-md-12 text-center">
                 <button type="submit" class="btn btn-primary btn-lg">Envoyer</button>
+                <input type="hidden" name="csrf_token" value="{{ inscription_token }}"/>
             </div>
         </div>
     </fieldset>

@@ -6,6 +6,19 @@
 
 
 {% block body %}
+<div>
+{% if error == 1 %}
+<div class="alert alert-success">
+    <p>Votre message a bien été envoyé, celui-ci est en attente de vérification par un
+        admin.</p>
+</div>
+{% elseif error is null %}
+{% else %}
+<div class="alert alert-danger">
+    <p>Un champs requis est manquant, veuillez le renseigner.</p>
+</div>
+{% endif %}
+</div>
 <div class="container px-5 my-5">
     <div class="row gx-5">
         <div class="col-lg-3">
@@ -49,22 +62,11 @@
 {% block comments %}
             <div class="container px-5 my-5 ">
                 <div class="row gx-5">
-                    {% if error == 1 %}
-                    <div class="alert alert-success">
-                        <p>Votre message a bien été envoyé, celui-ci est en attente de vérification par un
-                            admin.</p>
-                    </div>
-                    {% elseif error is null %}
-                    {% else %}
-                    <div class="alert alert-danger">
-                        <p>Un champs requis est manquant, veuillez recharger la page et réessayer.</p>
-                    </div>
-                    {% endif %}
                 </div>
                 <div class="row border border-dark">
                     <div class="col-md-12">
                         <div class="well well-sm">
-                            <form action="/posts/{{article.id}}/addComment" class="form-horizontal" method="post">
+                            <form action="/posts/{{article.id}}" class="form-horizontal" method="post">
                                 <fieldset>
                                     <legend class="text-center header">Commentaires</legend>
 
@@ -89,6 +91,7 @@
                                     <div class="form-group">
                                         <div class="col-md-12 text-center">
                                             <button class="btn btn-primary btn-lg" type="submit">Envoyer</button>
+                                            <input type="hidden" name="csrf_token" value="{{ comment_token }}"/>
                                         </div>
                                     </div>
                                 </fieldset>
