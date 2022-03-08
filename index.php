@@ -9,7 +9,6 @@ if ($_SESSION['last_ip'] !== $_SERVER['REMOTE_ADDR']){
     session_unset();
     session_destroy();
     header("Location: ".ERROR_500);
-    die;
 }
 
 define('APP_DIRECTORY', __DIR__ . '/');
