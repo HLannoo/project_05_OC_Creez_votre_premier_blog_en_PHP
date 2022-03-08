@@ -24,21 +24,21 @@ class Admin
     }
     function valAdmin($id)
     {
-        $stmt=$this->connect->prepare("UPDATE users SET role = 2 WHERE id='$id'");
-        $stmt->execute();
+        $stmt=$this->connect->prepare("UPDATE users SET role = 2 WHERE id=:id");
+        $stmt->execute(array("id"=>$id));
 
     }
 
     function denAdmin($id)
     {
-        $stmt=$this->connect->prepare("UPDATE users SET role = 3 WHERE id='$id'");
-        $stmt->execute();
+        $stmt=$this->connect->prepare("UPDATE users SET role = 3 WHERE id=:id");
+        $stmt->execute(array("id"=>$id));
     }
 
     function suprAdmin($id)
     {
-        $stmt = $this->connect->prepare("DELETE FROM users WHERE id='$id'");
-        $stmt->execute();
+        $stmt = $this->connect->prepare("DELETE FROM users WHERE id=:id");
+        $stmt->execute(array("id"=>$id));
         $delAdmin=$stmt->fetch();
         return $delAdmin;
     }

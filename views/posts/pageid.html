@@ -38,20 +38,20 @@
                     <!-- Post title-->
                     <h1 class="fw-bolder mb-1">{{article.title}}</h1>
                     <!-- Post meta content-->
-                    <div class="text-muted fst-italic mb-2">{{article.crated_at}}</div>
+                    <div class="text-muted fst-italic mb-2">{{article.created_at}}</div>
                     <!-- Post categories-->
                     <a class="badge bg-secondary text-decoration-none link-light">{{article.slug}}</a>
                 </header>
                 <!-- Preview image figure-->
                 <figure class="mb-4"><img alt="..."
-                                          class="img-fluid rounded" src="{{ site_link }}/public/uploads/{{article.ft_image }}"/>
+                                          class="img-fluid rounded" src="{{ SITE_LINK }}/public/uploads/{{article.ft_image }}"/>
                 </figure>
                 <!-- Post content-->
                 <section class="mb-5">
-                    {{article.chapo}}
+                    {{article.chapo|nl2br}}
                     <br/>
                     <br/>
-                    {{article.content}}
+                    {{article.content|nl2br}}
                 </section>
             </article>
         </div>

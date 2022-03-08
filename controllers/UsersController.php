@@ -18,11 +18,16 @@ class UsersController extends BaseController
     public function loginPage()
     {
         $manager = new \Psecio\Csrf\Manager();
+        if (isset($_SESSION["email"]) && isset($_SESSION["id"]) && ($_SESSION["role"]==2)) {
+            $template = $this->twig->load('users/administrationhome.html');
+        }
+        else {
 
-        // on choisi la template à appeler
-        $template = $this->twig->load('users/login.html');
+            // on choisi la template à appeler
+            $template = $this->twig->load('users/login.html');
 
-        // Puis on affiche la page avec la méthode render
+            // Puis on affiche la page avec la méthode render
+        }
         echo $template->render(['login_token' => $manager->generate()]);
     }
 
@@ -33,7 +38,7 @@ class UsersController extends BaseController
         if (isset($_POST['csrf_token'])) {
             $result = $manager->verify($_POST['csrf_token']);
             if ($result === false) {
-                header("Location: http://project5/error500");
+                header("Location:".ERROR_500);
             }
 
             if (!empty($_POST['email']) && !empty($_POST['password'])) {
@@ -55,6 +60,7 @@ class UsersController extends BaseController
                             $_SESSION["email"] = $user["email"];
                             $_SESSION["username"] = $user["username"];
                             $_SESSION["id"] = $user["id"];
+                            $_SESSION["role"] = $user["role"];
                             break;
                         case 0:
                             $template = $this->twig->load('users/login.html');
@@ -74,7 +80,7 @@ class UsersController extends BaseController
             }
 
         }
-                echo $template->render([$_SESSION, 'error' => $error,'login_token' => $manager->generate()]);
+                echo $template->render(['error' => $error,'login_token' => $manager->generate()]);
             }
 
 
@@ -83,7 +89,7 @@ class UsersController extends BaseController
     public function disconnect()
     {
         session_destroy();
-        header("Location: http://project5/users/login");
+        header("Location:".SITE_URL);
     }
 
     // Inscription home page
@@ -105,7 +111,7 @@ class UsersController extends BaseController
         if (isset($_POST['csrf_token'])) {
             $result = $manager->verify($_POST['csrf_token']);
             if ($result === false) {
-                header("Location: http://project5/error500");
+                header("Location:".ERROR_500);
             }
             if (!empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['password2']) && !empty($_POST['username'])) {
                 $email = htmlspecialchars($_POST['email']);

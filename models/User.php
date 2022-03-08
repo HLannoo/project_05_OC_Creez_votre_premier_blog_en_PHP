@@ -34,6 +34,5 @@ class User
         } else {
             return $result;
         }
-
     }
 }

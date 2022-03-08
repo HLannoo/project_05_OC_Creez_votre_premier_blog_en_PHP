@@ -22,5 +22,13 @@ class RedirectController extends BaseController {
         echo $template->render([]);
 
     }
+    public function thankEmail() {
+        // on choisi la template à appeler
+        $template = $this->twig->load('index/merci.html');
+
+        // Puis on affiche avec la méthode render
+        echo $template->render([]);
+
+    }
 
 }

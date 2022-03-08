@@ -22,7 +22,7 @@ class AdminController extends BaseController
             echo $template->render(['listcomments' => $listcomments,'comment_admin_token' => $manager->generate()]);
         }
         else {
-            header("Location: http://project5/users/login");;
+            header("Location:".ERROR_500);
         }
     }
 
@@ -40,7 +40,7 @@ class AdminController extends BaseController
         }
 
         else {
-            header("Location: http://project5/users/login");;
+            header("Location:".ERROR_500);
         }
     }
 
@@ -57,7 +57,7 @@ class AdminController extends BaseController
         }
 
         else {
-            header("Location: http://project5/users/login");
+            header("Location:".ERROR_500);
         }
     }
 
@@ -69,10 +69,9 @@ class AdminController extends BaseController
         if (isset($_POST['csrf_token'])) {
             $result = $manager->verify($_POST['csrf_token']);
             if ($result === false) {
-                header("Location: http://project5/error500");
+                header("Location:".ERROR_500);
             }
                 if (isset($id)) {
-                    var_dump($_POST['csrf_token']);
                     $commentsInstance->valComment($id);
                 }
                     $template = $this->twig->load('users/commentadministration.html');
@@ -88,7 +87,7 @@ class AdminController extends BaseController
         if (isset($_POST['csrf_token'])) {
             $result = $manager->verify($_POST['csrf_token']);
             if ($result === false) {
-                header("Location: http://project5/error500");
+                header("Location:".ERROR_500);
             }
             if (isset($id)) {
                 $commentsInstance->denComment($id);
@@ -106,7 +105,7 @@ class AdminController extends BaseController
         if (isset($_POST['csrf_token'])) {
             $result = $manager->verify($_POST['csrf_token']);
             if ($result === false) {
-                header("Location: http://project5/error500");
+                header("Location:".ERROR_500);
             }
 
             if (isset($id)) {
@@ -128,16 +127,16 @@ class AdminController extends BaseController
         if (isset($_POST['csrf_token'])) {
             $result = $manager->verify($_POST['csrf_token']);
             if ($result === false) {
-                header("Location: http://project5/error500");
+                header("Location:".ERROR_500);
             }
 
             if (isset($_POST['title']) && isset($_POST['chapo']) && isset($_POST['content'])) {
-                $title = addslashes(htmlspecialchars($_POST['title']));
-                $chapo = addslashes(htmlspecialchars($_POST['chapo']));
-                $content = addslashes(htmlspecialchars($_POST['content']));
-                $slug = addslashes(htmlspecialchars($_POST['slug']));
-                $id = ($_POST['id']);
-                $userid = $_SESSION["id"];
+                $title = strip_tags($_POST['title'], '<br/><br>');
+                $chapo = strip_tags($_POST['chapo'], '<br/><br>');
+                $content = strip_tags($_POST['content'], '<br/><br>');
+                $slug = strip_tags($_POST['slug'], '<br/><br>');
+                $id = is_numeric($_POST['id']);
+                $userid = is_numeric($_SESSION["id"]);
                 $imgpath = null;
 
                 if (!empty($_FILES['img'])) {
@@ -159,7 +158,7 @@ class AdminController extends BaseController
                     $articleInstance->replaceArticle($title, $chapo, $content, $slug, $userid, $id, $imgpath);
 
                 } else {
-                    header("Location: http://project5/users/admin");
+                    header("Location:".ERROR_500);
                 }
             }
         }
@@ -176,7 +175,7 @@ class AdminController extends BaseController
         if (isset($_POST['csrf_token'])) {
             $result = $manager->verify($_POST['csrf_token']);
             if ($result === false) {
-                header("Location: http://project5/error500");
+                header("Location:".ERROR_500);
             }
 
             if (isset($id)) {
@@ -186,7 +185,7 @@ class AdminController extends BaseController
                 if ($checkId == true) {
                     $articleInstance->suppArticle($id);
                 } else {
-                    header("Location: http://project5/users/admin");
+                    header("Location:".ERROR_500);
                 }
             }
         }
@@ -214,7 +213,7 @@ class AdminController extends BaseController
                 if ($checkId == true) {
                     $ligne = $articleInstance->modArticle($id);
                 } else {
-                    header("Location: http://project5/error500");
+                    header("Location:".ERROR_500);
                 }
             }
             $template = $this->twig->load('users/articleadministration.html');
@@ -230,7 +229,7 @@ class AdminController extends BaseController
         if (isset($_POST['csrf_token'])) {
             $result = $manager->verify($_POST['csrf_token']);
             if ($result === false) {
-                header("Location: http://project5/error500");
+                header("Location:".ERROR_500);
             }
 
             if (isset($id)) {
@@ -249,7 +248,7 @@ class AdminController extends BaseController
         if (isset($_POST['csrf_token'])) {
             $result = $manager->verify($_POST['csrf_token']);
             if ($result === false) {
-                header("Location: http://project5/error500");
+                header("Location:".ERROR_500);
             }
 
             if (isset($id)) {
@@ -269,13 +268,11 @@ class AdminController extends BaseController
         if (isset($_POST['csrf_token'])) {
             $result = $manager->verify($_POST['csrf_token']);
             if ($result === false) {
-                header("Location: http://project5/error500");
+                header("Location:".ERROR_500);
             }
 
             if (isset($id)) {
                 $adminInstance->suprAdmin($id);
-
-
             }
             $template = $this->twig->load('users/adminmanagement.html');
             $listadmins = $adminInstance->getAdmins();

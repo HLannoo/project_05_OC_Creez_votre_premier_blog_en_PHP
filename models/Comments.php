@@ -29,10 +29,10 @@ class Comments
 
     function getAllArticleComments($articleid)
     {
-        $stmt = $this->connect->prepare("SELECT pseudo,title, content, created_at, published FROM comments WHERE article_id=$articleid");
-        $stmt->execute();
-        $stmt->fetchall();
-        return $stmt;
+        $stmt = $this->connect->prepare("SELECT pseudo,title, content, created_at, published FROM comments WHERE article_id= :article_id");
+        $stmt->execute(array(":article_id"=>$articleid));
+        $getArticleComments=$stmt->fetchall();
+        return $getArticleComments;
 
     }
 
@@ -40,34 +40,34 @@ class Comments
     {
         $stmt = $this->connect->prepare("SELECT u.title as uim, a.title, a.id,a.pseudo, a.content ,a.created_at,a.published FROM comments a JOIN articles u ON (a.article_id=u.id)");
         $stmt->execute();
-        $stmt->fetchall();
-        return $stmt;
+        $getComment=$stmt->fetchall();
+        return $getComment;
     }
 
     function checkStatus($id)
     {
-        $stmt = $this->connect->prepare("SELECT published FROM comments WHERE id='$id'");
-        $stmt->execute();
+        $stmt = $this->connect->prepare("SELECT published FROM comments WHERE id=:id");
+        $stmt->execute(array(":id"=>$id));
         $stmt->fetch();
         return $stmt;
     }
 
     function valComment($id)
     {
-        $stmt = $this->connect->prepare("UPDATE comments SET published = 1 WHERE id='$id'");
-        $stmt->execute();
+        $stmt = $this->connect->prepare("UPDATE comments SET published = 1 WHERE id=:id");
+        $stmt->execute(array(":id"=>$id));
     }
 
     function denComment($id)
     {
-        $stmt = $this->connect->prepare("UPDATE comments SET published = 2 WHERE id='$id'");
-        $stmt->execute();
+        $stmt = $this->connect->prepare("UPDATE comments SET published = 2 WHERE id=:id");
+        $stmt->execute(array(":id"=>$id));
     }
 
     function suprComment($id)
     {
-        $stmt = $this->connect->prepare("DELETE FROM comments WHERE id='$id'");
-        $stmt->execute();
+        $stmt = $this->connect->prepare("DELETE FROM comments WHERE id=:id");
+        $stmt->execute(array(":id"=>$id));
         $stmt->fetch();
         return $stmt;
     }

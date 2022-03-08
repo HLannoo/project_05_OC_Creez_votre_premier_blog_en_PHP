@@ -24,5 +24,4 @@ class BaseController {
         $this->loader = new \Twig\Loader\FilesystemLoader(APP_DIRECTORY . 'views');
         $this->twig = new \Twig\Environment($this->loader);
     }
-
 }

@@ -43,7 +43,7 @@ class PostsController extends BaseController
 
             $template = $this->twig->load('posts/pageid.html');
 
-            echo $template->render(['site_link' => SITE_URL,'article' => $article, 'comments' => $this->getAllArticleComments($id),'comment_token' => $manager->generate()]);
+            echo $template->render(['SITE_LINK' => SITE_URL,'article' => $article, 'comments' => $this->getAllArticleComments($id),'comment_token' => $manager->generate()]);
         }
         else
         {
@@ -67,7 +67,7 @@ class PostsController extends BaseController
             if (isset($_POST['csrf_token'])) {
                 $result = $manager->verify($_POST['csrf_token']);
                 if ($result === false) {
-                    header("Location: http://project5/error500");
+                    header("Location:".ERROR_500);
                 }
                 $content = htmlspecialchars($_POST['content']);
                 $pseudo = htmlspecialchars($_POST['pseudo']);
@@ -78,13 +78,13 @@ class PostsController extends BaseController
                 $result = $commentInstance->insertComment($pseudo, $title, $content, $idArticle);
 
                 if ($result) {
-                    header("Location: http://project5/merci");
+                    header("Location:".POSTS_MERCI);
                 } else {
-                    header("Location: http://project5/error500");
+                    header("Location:".ERROR_500);
                 }
             }
             else {
-                    header("Location: http://project5/error500");
+                header("Location:".ERROR_500);
                 }
         } else {
             $error="Un champ est manquant dans votre commentaire.";

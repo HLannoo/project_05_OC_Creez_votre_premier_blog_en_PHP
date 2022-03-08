@@ -7,6 +7,7 @@
 
 
 {% block body %}
+<div class="text-align-center"> {{ error }}</div>
 <main class="flex-shrink-0">
 <header class="bg-dark py-5">
     <div class="container px-5">
@@ -102,10 +103,10 @@
         </div>
         <div class="container" >
             <div class="row inline-block col-12 gx-5">
-            {% for listarticle in listarticles|slice(3,3)  %}
+            {% for listarticle in listarticles|slice(0,3)  %}
             <div class=" col-lg-4 col-md-12 mb-5">
                 <div class="card h-100 shadow border-0">
-                    <img class="card-img-top" src="{{ site_link }}/public/uploads/{{ listarticle.ft_image }}" alt="..." />
+                    <img class="card-img-top" src="{{ site_link }}/public/uploads/{{ listarticle.ft_image }}" alt="profil picture" />
                     <div class="card-body p-4">
                         <div class="badge bg-primary bg-gradient rounded-pill mb-2">{{ listarticle.slug }}</div>
                         <a class="text-decoration-none link-dark stretched-link" href="posts/{{ listarticle.id }}"><h5 class="card-title mb-3">{{ listarticle.title }}</h5></a>
@@ -162,11 +163,12 @@
     </div>
 </section>
 </main>
+
 <div class="py-5 bg-light">
     <div class="container ">
         <div class="d-flex justify-content-center">
             <div class="col-8 m-4">
-                <form action="/emailsent" method="POST">
+                <form action="/" method="POST">
                     <div class="form-group">
                         <div class="text-center">
                             <h1>Contactez-moi ! </h1>
@@ -181,7 +183,8 @@
                         <textarea rows="10" name="message" placeholder="Votre message" class="form-control"></textarea>
                         <br/>
                         <button type="submit" class="btn btn-lg btn-primary">Envoyer</button>
-                        <input type="hidden" name="csrf-token" value="{{ formcontact_token }}"/>
+                        <input type="hidden" name="csrf-token" value="{{ form_contact_token }}"/>
+
                     </div>
                 </form>
             </div>

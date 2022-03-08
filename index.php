@@ -1,27 +1,40 @@
 <?php
+// Start Session and verification Session IP
+ini_set('session.cookie_httponly',true);
 session_start();
+if (isset($_SESSION['last_ip'])===false) {
+    $_SESSION['last_ip'] = $_SERVER['REMOTE_ADDR'];
+}
+if ($_SESSION['last_ip'] !== $_SERVER['REMOTE_ADDR']){
+    session_unset();
+    session_destroy();
+    header("Location: ".ERROR_500);
+    die;
+}
+
 define('APP_DIRECTORY', __DIR__ . '/');
 define('UPLOADS_DIRECTORY', __DIR__ . '/public/uploads/');
-define('SITE_URL','http://'.$_SERVER['SERVER_NAME']);
+
 
 //INDEX LINK SHORTCUT
-define('INDEX', __DIR__ . '/views/index/index.html');
+define('SITE_URL','http://'.$_SERVER['SERVER_NAME']);
+define('CONTACT_MERCI', 'http://'.$_SERVER['SERVER_NAME'].'/merci');
 
 //POSTS LINK SHORTCUT
-define('POSTS_INDEX', __DIR__ . '/views/posts/index.html');
-define('POSTS_PAGE_ID', __DIR__ . '/views/posts/pageid.html');
-define('POSTS_MERCI', __DIR__ . '/views/posts/merci.html');
+define('POSTS_INDEX', 'http://'.$_SERVER['SERVER_NAME'].'/posts/');
+define('POSTS_PAGE_ID', 'http://'.$_SERVER['SERVER_NAME'].'/posts/{id:\d+}');
+define('POSTS_MERCI', 'http://'.$_SERVER['SERVER_NAME'].'/posts/merci');
 
 //USERS LINK SHORTCUT
-define('ADMIN_HOME_INDEX', __DIR__ . '/views/users/administrationhome.html');
-define('ADMIN_MANAGEMENT', __DIR__ . '/views/users/adminmanagement.html');
-define('ADMIN_ARTICLE', __DIR__ . '/views/users/articleadministration.html');
-define('ADMIN_COMMENT', __DIR__ . '/views/users/commentadministration.html');
-define('INSCRIPTION_PAGE', __DIR__ . '/views/users/inscription.html');
-define('LOGIN_PAGE', __DIR__ . '/views/users/login.html');
+define('ADMIN_HOME_INDEX','http://'.$_SERVER['SERVER_NAME'].'/users/admin');
+define('ADMIN_MANAGEMENT', 'http://'.$_SERVER['SERVER_NAME'].'/users/admin/management');
+define('ADMIN_ARTICLE', 'http://'.$_SERVER['SERVER_NAME'].'/users/admin/article');
+define('ADMIN_COMMENT', 'http://'.$_SERVER['SERVER_NAME'].'/users/admin/comment');
+define('INSCRIPTION_PAGE', 'http://'.$_SERVER['SERVER_NAME'].'/users/inscription');
+define('LOGIN_PAGE', 'http://'.$_SERVER['SERVER_NAME'].'/users/login');
 
 //ERROR LINK SHORTCUT
-define('ERROR_500', __DIR__ . '/views/errors/error500.html');
+define('ERROR_500', 'http://'.$_SERVER['SERVER_NAME'].'/error500');
 
 
 
@@ -114,13 +127,16 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('POST', '/users/admin/management/delete/{id:\d+}', AdminController::class . '/deleteAdmin');
 
     // Email sent
-    $r->addRoute('POST', '/emailsent', IndexController::class . '/contactEmail');
+    $r->addRoute('POST', '/', IndexController::class . '/contactEmail');
 
     // Display error server
     $r->addRoute('GET', '/error500', RedirectController::class . '/erreurServeur');
 
-    // Display thanks for comment
-    $r->addRoute('GET', '/merci', RedirectController::class . '/thankComment');
+    // Display thanks for your comment
+    $r->addRoute('GET', '/posts/merci', RedirectController::class . '/thankComment');
+
+    // Display thanks for your Email
+    $r->addRoute('GET', '/merci', RedirectController::class . '/thankEmail');
 
 
 });
