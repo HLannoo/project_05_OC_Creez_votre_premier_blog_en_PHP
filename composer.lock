@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7c014f1fbc1731577d5aa1ef8e51632e",
+    "content-hash": "197a68e58470a55cb61c77c2a5ac6381",
     "packages": [
         {
             "name": "nikic/fast-route",
@@ -133,6 +133,53 @@
                 }
             ],
             "time": "2022-02-17T08:19:04+00:00"
+        },
+        {
+            "name": "psecio/csrf",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/psecio/csrf.git",
+                "reference": "26f66f97d0fbb8b6a6ba72af7d53dcd90e331568"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/psecio/csrf/zipball/26f66f97d0fbb8b6a6ba72af7d53dcd90e331568",
+                "reference": "26f66f97d0fbb8b6a6ba72af7d53dcd90e331568",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Psecio": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Cornutt",
+                    "email": "ccornutt@phpdeveloper.org",
+                    "homepage": "http://www.phpdeveloper.org/"
+                }
+            ],
+            "description": "CSRF Token Generation Library",
+            "homepage": "https://github.com/psecio/csrf.git",
+            "keywords": [
+                "csrf",
+                "security",
+                "token"
+            ],
+            "support": {
+                "issues": "https://github.com/psecio/csrf/issues",
+                "source": "https://github.com/psecio/csrf/tree/master"
+            },
+            "time": "2016-01-08T21:52:34+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",

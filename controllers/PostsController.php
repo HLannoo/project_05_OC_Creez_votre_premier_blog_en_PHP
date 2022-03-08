@@ -1,5 +1,4 @@
 <?php
-
 /**
  * 
  * 
@@ -29,36 +28,74 @@ class PostsController extends BaseController
         echo $template->render(['listarticles' => $listarticles]);
     }
 
-    public function detail($id, $error = null)
+    public function detail($id)
     {
-        $articleinstance = new Articles(connectDB::dbConnect());
-        $article = $articleinstance->getArticleById($id);
+        $verifiedId= htmlspecialchars($id);
+        $idCheck = new Articles(connectDB::dbConnect());
+        $resultCheck = $idCheck->checkId($verifiedId);
+        $manager = new \Psecio\Csrf\Manager();
 
-        // on choisi la template à appeler
-        $template = $this->twig->load('posts/pageid.html');
 
-        // Puis on affiche avec la méthode render
-        echo $template->render(['article' => $article, 'error' => $error, 'comments' => $this->getAllArticleComments($id)]);
+        if ($resultCheck)
+        {
+            $articleInstance = new Articles(connectDB::dbConnect());
+            $article = $articleInstance->getArticleById($id);
+
+            $template = $this->twig->load('posts/pageid.html');
+
+            echo $template->render(['SITE_LINK' => SITE_URL,'article' => $article, 'comments' => $this->getAllArticleComments($id),'comment_token' => $manager->generate()]);
+        }
+        else
+        {
+            $articlesInstance = new Articles(connectDB::dbConnect());
+            $listarticles = $articlesInstance->getArticles();
+
+        $template = $this->twig->load('posts/index.html');
+
+        echo $template->render(['listarticles' => $listarticles]);
+        }
     }
+
 
     public function addComment($id)
     {
-        $content = $_POST['content'];
-        $pseudo = $_POST['pseudo'];
-        $title = $_POST['title'];
-        $idarticle = $id;
+        $articleInstance = new Articles(connectDB::dbConnect());
+        $manager = new \Psecio\Csrf\Manager();
 
-        $commentInstance = new Comments(connectDB::dbConnect());
+        if (!empty($_POST['content']) && !empty($_POST['pseudo']) && !empty($_POST['title'])) {
 
-        $result = $commentInstance->insertComment($pseudo, $title, $content, $idarticle);
-        if ($result) {
-            header("Location: http://project5/posts/$id/success");
-            exit();
+            if (isset($_POST['csrf_token'])) {
+                $result = $manager->verify($_POST['csrf_token']);
+                if ($result === false) {
+                    header("Location:".ERROR_500);
+                }
+                $content = htmlspecialchars($_POST['content']);
+                $pseudo = htmlspecialchars($_POST['pseudo']);
+                $title = htmlspecialchars($_POST['title']);
+                $idArticle = htmlspecialchars($id);
+
+                $commentInstance = new Comments(connectDB::dbConnect());;
+                $result = $commentInstance->insertComment($pseudo, $title, $content, $idArticle);
+
+                if ($result) {
+                    header("Location:".POSTS_MERCI);
+                } else {
+                    header("Location:".ERROR_500);
+                }
+            }
+            else {
+                header("Location:".ERROR_500);
+                }
+        } else {
+            $error="Un champ est manquant dans votre commentaire.";
+            $article = $articleInstance->getArticleById($id);
+            $template = $this->twig->load('posts/pageid.html');
+            echo $template->render([
+                'article' => $article,
+                'comments' => $this->getAllArticleComments($id),
+                'comment_token' => $manager->generate(),
+                'error'=>$error]);
         }
-        else {
-            //add error page (500)
-        }
-
     }
 
     private function getAllArticleComments($articleid)

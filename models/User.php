@@ -16,7 +16,7 @@ class User
 
     function connexion($email, $password)
     {
-        $check = $this->connect->prepare('SELECT username, email, id FROM users WHERE email = :email AND password = :password ');
+        $check = $this->connect->prepare('SELECT username, email, id, role FROM users WHERE email = :email AND password = :password ');
         $check->execute(array(":email" => $email, ":password" => $password));
         return $check->fetch();
     }
@@ -32,7 +32,7 @@ class User
             $check->execute(array("username" => $username, ":email" => $email, "password" => $password));
             return $check->rowCount();
         } else {
-            header("Location: http://project5/users/inscription");
+            return $result;
         }
     }
 }

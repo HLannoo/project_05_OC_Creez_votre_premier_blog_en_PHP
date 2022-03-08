@@ -15,77 +15,140 @@ class UsersController extends BaseController
     }
 
     // Authentication home page
-    public function loginPage() {
+    public function loginPage()
+    {
+        $manager = new \Psecio\Csrf\Manager();
+        if (isset($_SESSION["email"]) && isset($_SESSION["id"]) && ($_SESSION["role"]==2)) {
+            $template = $this->twig->load('users/administrationhome.html');
+        }
+        else {
 
-        // on choisi la template à appeler
-        $template = $this->twig->load('users/login.html');
+            // on choisi la template à appeler
+            $template = $this->twig->load('users/login.html');
 
-        // Puis on affiche la page avec la méthode render
-        echo $template->render([]);
+            // Puis on affiche la page avec la méthode render
+        }
+        echo $template->render(['login_token' => $manager->generate()]);
     }
 
-    public function loginAuthentication() {
+    public function loginAuthentication()
+    {
+        $error = "";
+        $manager = new \Psecio\Csrf\Manager();
+        if (isset($_POST['csrf_token'])) {
+            $result = $manager->verify($_POST['csrf_token']);
+            if ($result === false) {
+                header("Location:".ERROR_500);
+            }
 
-        if (isset($_POST['email']) && isset($_POST['password'])) {
-            $email = htmlspecialchars($_POST['email']);
-            $password = htmlspecialchars($_POST['password']);
+            if (!empty($_POST['email']) && !empty($_POST['password'])) {
+                $email = htmlspecialchars($_POST['email']);
+                $password = htmlspecialchars($_POST['password']);
 
-            $userInstance = new User(connectDB::dbConnect());
-            $user = $userInstance->connexion($email, $password);
+                $userInstance = new User(connectDB::dbConnect());
+                $user = $userInstance->connexion($email, $password);
+                if (!empty($user)) {
+                    $resultRole = $user['role'];
 
-            if ($user != 0) {
-                $template = $this->twig->load('users/administrationhome.html');
-                $_SESSION["email"] = $user["email"];
-                $_SESSION["username"] = $user["username"];
-                $_SESSION["id"] = $user["id"];
+                    switch ($resultRole) {
+                        case 3:
+                            $template = $this->twig->load('users/login.html');
+                            $error = "Votre demande de compte administrateur n'a pas été validé";
+                            break;
+                        case 2:
+                            $template = $this->twig->load('users/administrationhome.html');
+                            $_SESSION["email"] = $user["email"];
+                            $_SESSION["username"] = $user["username"];
+                            $_SESSION["id"] = $user["id"];
+                            $_SESSION["role"] = $user["role"];
+                            break;
+                        case 0:
+                            $template = $this->twig->load('users/login.html');
+                            $error = "Votre compte est en attente d'une vérification par un admin";
+                            break;
+                        default:
+                            $template = $this->twig->load('users/login.html');
+                            $error = "Un problème inconnu est survenu";
+                    }
+                } else {
+                    $template = $this->twig->load('users/login.html');
+                    $error = "Aucun compte administrateur n'existe avec ces identifiants";
+                }
             } else {
                 $template = $this->twig->load('users/login.html');
+                $error = "Un champ est manquant";
             }
-        } else {
-            $template = $this->twig->load('users/login.html');
+
         }
-        echo $template->render([$_SESSION]);
-    }
+                echo $template->render(['error' => $error,'login_token' => $manager->generate()]);
+            }
+
+
+
 
     public function disconnect()
     {
-            session_destroy();
-            header("Location: http://project5/users/login");
-        }
+        session_destroy();
+        header("Location:".SITE_URL);
+    }
 
     // Inscription home page
-    public function register() {
+    public function register()
+    {
+        $manager = new \Psecio\Csrf\Manager();
 
         // on choisi la template à appeler
         $template = $this->twig->load('users/inscription.html');
 
         // Puis on affiche la page avec la méthode render
-        echo $template->render([]);
+        echo $template->render(['inscription_token' => $manager->generate()]);
     }
 
     public function registrationVerification()
     {
-        if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['password2']) && isset($_POST['username']) && ($_POST['password'])===($_POST['password2']))
-        {
-            $email = htmlspecialchars($_POST['email']);
-            $password = htmlspecialchars($_POST['password']);
-            $username = htmlspecialchars($_POST['username']);
-
-            $userInstance = new User(connectDB::dbConnect());
-
-            if ($userInstance->Inscription($email, $password, $username) == 1)
-            {
-                $template = $this->twig->load('users/login.html');
+        $error = "";
+        $manager = new \Psecio\Csrf\Manager();
+        if (isset($_POST['csrf_token'])) {
+            $result = $manager->verify($_POST['csrf_token']);
+            if ($result === false) {
+                header("Location:".ERROR_500);
             }
-            else
-            {
+            if (!empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['password2']) && !empty($_POST['username'])) {
+                $email = htmlspecialchars($_POST['email']);
+                $password = htmlspecialchars($_POST['password']);
+                $username = htmlspecialchars($_POST['username']);
+
+                if ($_POST['password'] === $_POST['password2']) {
+
+                    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        $userInstance = new User(connectDB::dbConnect());
+                        $checkInscription = $userInstance->Inscription($email, $password, $username);
+
+                        if ($checkInscription == 1) {
+                            $template = $this->twig->load('users/login.html');
+
+                        } else {
+                            $template = $this->twig->load('users/inscription.html');
+                            $error = "Erreur système";
+
+                        }
+                    } else {
+                        $template = $this->twig->load('users/inscription.html');
+                        $error = "Email invalide";
+                    }
+                } else {
+                    $template = $this->twig->load('users/inscription.html');
+                    $error = "Le second mot de passe est différent du premier";
+                }
+            } else {
                 $template = $this->twig->load('users/inscription.html');
+                $error = "Un champ n'est pas connu";
             }
         }
-        else
-        {
-            $template = $this->twig->load('users/inscription.html');
-        }
-        echo $template->render([]);
+            echo $template->render(['error' => $error,'inscription_token' => $manager->generate()]);
+
     }
 }
+
+
+

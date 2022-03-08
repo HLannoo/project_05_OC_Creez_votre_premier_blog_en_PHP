@@ -1,10 +1,42 @@
 <?php
-
+// Start Session and verification Session IP
+ini_set('session.cookie_httponly',true);
 session_start();
+if (isset($_SESSION['last_ip'])===false) {
+    $_SESSION['last_ip'] = $_SERVER['REMOTE_ADDR'];
+}
+if ($_SESSION['last_ip'] !== $_SERVER['REMOTE_ADDR']){
+    session_unset();
+    session_destroy();
+    header("Location: ".ERROR_500);
+}
+
 define('APP_DIRECTORY', __DIR__ . '/');
 define('UPLOADS_DIRECTORY', __DIR__ . '/public/uploads/');
+
+
+//INDEX LINK SHORTCUT
 define('SITE_URL','http://'.$_SERVER['SERVER_NAME']);
-define('LOGIN_PAGE', __DIR__ . '/views/users/login.html');
+define('CONTACT_MERCI', 'http://'.$_SERVER['SERVER_NAME'].'/merci');
+
+//POSTS LINK SHORTCUT
+define('POSTS_INDEX', 'http://'.$_SERVER['SERVER_NAME'].'/posts/');
+define('POSTS_PAGE_ID', 'http://'.$_SERVER['SERVER_NAME'].'/posts/{id:\d+}');
+define('POSTS_MERCI', 'http://'.$_SERVER['SERVER_NAME'].'/posts/merci');
+
+//USERS LINK SHORTCUT
+define('ADMIN_HOME_INDEX','http://'.$_SERVER['SERVER_NAME'].'/users/admin');
+define('ADMIN_MANAGEMENT', 'http://'.$_SERVER['SERVER_NAME'].'/users/admin/management');
+define('ADMIN_ARTICLE', 'http://'.$_SERVER['SERVER_NAME'].'/users/admin/article');
+define('ADMIN_COMMENT', 'http://'.$_SERVER['SERVER_NAME'].'/users/admin/comment');
+define('INSCRIPTION_PAGE', 'http://'.$_SERVER['SERVER_NAME'].'/users/inscription');
+define('LOGIN_PAGE', 'http://'.$_SERVER['SERVER_NAME'].'/users/login');
+
+//ERROR LINK SHORTCUT
+define('ERROR_500', 'http://'.$_SERVER['SERVER_NAME'].'/error500');
+
+
+
 
 require APP_DIRECTORY . 'vendor/autoload.php';
 
@@ -16,6 +48,9 @@ spl_autoload_register(function ($class) {
         include __DIR__ .'/controllers/' . $class . '.php';
     } elseif (file_exists(__DIR__ .'/models/' . $class . '.php')) {
         include __DIR__ .'/models/' . $class . '.php';
+    }
+    elseif (file_exists(__DIR__ .'/vendor/psecio/csrf/' . $class . '.php')) {
+        include __DIR__ .'/vendor/psecio/csrf/' . $class . '.php';
     }
 });
 
@@ -36,8 +71,8 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     // validation commentaire
     $r->addRoute('GET', '/posts/{id:\d+}/success', PostsController::class . '/detail');
 
-    // Comments add function on post page route rou
-    $r->addRoute('POST', '/posts/{id:\d+}/addComment', PostsController::class . '/addComment');
+    // Comments add function on post page
+    $r->addRoute('POST', '/posts/{id:\d+}', PostsController::class . '/addComment');
 
     // Inscription Page
     $r->addRoute('GET', '/users/inscription', UsersController::class . '/register');
@@ -61,26 +96,46 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('POST', '/users/admin/article/add', AdminController::class . '/addArticle');
 
     // Delete Article function
-    $r->addRoute('GET', '/users/admin/article/delete/{id:\d+}', AdminController::class . '/deleteArticle');
+    $r->addRoute('POST', '/users/admin/article/delete/{id:\d+}', AdminController::class . '/deleteArticle');
 
     // Update Article function
-    $r->addRoute('GET', '/users/admin/update/{id:\d+}', AdminController::class . '/updateArticle');
+    $r->addRoute('POST', '/users/admin/update/{id:\d+}', AdminController::class . '/updateArticle');
 
     // Comments administration Page --
     $r->addRoute('GET', '/users/admin/comment', AdminController::class . '/commentAdminPage');
 
     // Accepted Comment Page
-    $r->addRoute('GET', '/users/admin/comment/accepted/{id:\d+}', AdminController::class . '/acceptComment');
+    $r->addRoute('POST', '/users/admin/comment/accepted/{id:\d+}', AdminController::class . '/acceptComment');
 
     // Refused comment Page
-    $r->addRoute('GET', '/users/admin/comment/refused/{id:\d+}', AdminController::class . '/refuseComment');
+    $r->addRoute('POST', '/users/admin/comment/refused/{id:\d+}', AdminController::class . '/refuseComment');
 
     // Delete Comment Page
-    $r->addRoute('GET', '/users/admin/comment/delete/{id:\d+}', AdminController::class . '/deleteComment');
+    $r->addRoute('POST', '/users/admin/comment/delete/{id:\d+}', AdminController::class . '/deleteComment');
+
+    // Admin management Page --
+    $r->addRoute('GET', '/users/admin/management', AdminController::class . '/managementAdminPage');
+
+    // Accepted admin Page
+    $r->addRoute('POST', '/users/admin/management/accepted/{id:\d+}', AdminController::class . '/acceptAdmin');
+
+    // Refused admin Page
+    $r->addRoute('POST', '/users/admin/management/refused/{id:\d+}', AdminController::class . '/refuseAdmin');
+
+    // Delete admin Page
+    $r->addRoute('POST', '/users/admin/management/delete/{id:\d+}', AdminController::class . '/deleteAdmin');
 
     // Email sent
-    $r->addRoute('POST', '/emailsent', ContactController::class . '/contactEmail');
+    $r->addRoute('POST', '/', IndexController::class . '/contactEmail');
 
+    // Display error server
+    $r->addRoute('GET', '/error500', RedirectController::class . '/erreurServeur');
+
+    // Display thanks for your comment
+    $r->addRoute('GET', '/posts/merci', RedirectController::class . '/thankComment');
+
+    // Display thanks for your Email
+    $r->addRoute('GET', '/merci', RedirectController::class . '/thankEmail');
 
 
 });

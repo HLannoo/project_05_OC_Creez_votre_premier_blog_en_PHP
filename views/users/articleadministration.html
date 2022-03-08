@@ -66,7 +66,8 @@
                     <br/>
                     <br/>
                     <div class="form-group">
-                        <input class=" btn-primary btn-block" type="submit" name="btn_ajout" value="Enregistrer">
+                        <button type="submit" class=" btn-primary btn-block">Enregistrer</button>
+                        <input  type="hidden" name="csrf_token" value="{{ article_admin_token }}">
                     </div>
                 </form>
             </div>
@@ -95,8 +96,15 @@
                         <td><img class="w-100" src="{{ site_link }}/public/uploads/{{ listarticle.ft_image }}" /></td>
                         <td class="text-truncate" style="max-width: 10em;">{{ listarticle.slug }}</td>
                         <td class="text-center" style="max-width: 10em;">
-                            <a href="/users/admin/article/delete/{{ listarticle.id }}" class="btn btn-danger">Supprimer</a>
-                            <a href="/users/admin/update/{{ listarticle.id }}" class="btn btn-info">Modifier</a>
+                            <form class="form-horizontal" method="POST" action="/users/admin/article/delete/{{ listarticle.id }}">
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                                <input type="hidden" name="csrf_token" value="{{ article_admin_token }}"/>
+                            </form>
+
+                            <form class="form-horizontal" method="POST" action="/users/admin/update/{{ listarticle.id }}">
+                            <button type="submit" class="btn btn-info">Modifier</button>
+                                <input type="hidden" name="csrf_token" value="{{ article_admin_token }}"/>
+                            </form>
                         </td>
                     </tr>
                     {% endfor %}

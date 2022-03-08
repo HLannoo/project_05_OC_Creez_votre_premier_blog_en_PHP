@@ -31,7 +31,7 @@
     <div class="container col-xl-10 ">
         <div class="row justify-content-center">
         <div class="col-md-5">
-            <h1>GESTION DES COMMENTAIRES</h1>
+            <h1>GESTION DES ADMINS</h1>
             <hr>
         </div>
     </div>
@@ -39,44 +39,42 @@
         <div class="row">
 
             <div class="col-xl-12">
-                <h3 class="text-center">Affichage des commentaires</h3>
+                <h3 class="text-center">Affichage des admins</h3>
                 <hr>
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th>Article</th>
-                        <th>Titre</th>
-                        <th>pseudo</th>
-                        <th>Contenu</th>
-                        <th>Date de publication</th>
-                        <th>Autorisation</th>
+                        <th>id/th>
+                        <th>Pseudo</th>
+                        <th>Date d'inscription</th>
+                        <th>Photo de profil</th>
+                        <th>Rôle</th>
                         <th colspan="2" class="text-center">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for listcomment in listcomments %}
+                    {% for listadmin in listadmins %}
                     <tr>
-                        <td style="max-width: 10em;">{{ listcomment.uim }}</td>
-                        <td style="max-width: 10em;">{{ listcomment.title }}</td>
-                        <td style="max-width: 10em;">{{ listcomment.pseudo }}</td>
-                        <td style="max-width: 12em;">{{ listcomment.content }}</td>
-                        <td style="max-width: 12em;">{{ listcomment.created_at }}</td>
-                        <td style="max-width: 12em;">{{ listcomment.published }}</td>
+                        <td style="max-width: 10em;">{{ listadmin.id }}</td>
+                        <td style="max-width: 10em;">{{ listadmin.username }}</td>
+                        <td style="max-width: 10em;">{{ listadmin.created_at }}</td>
+                        <td style="max-width: 10em;"><img src="{{ site_link }}/public/uploads/{{ listadmin.ft_image }}" /></td>
+                        <td style="max-width: 12em;">{{ listadmin.role }}</td>
+
                         <td class="text-center" style="max-width: 10em;">
-
-                            <form class="form-horizontal" method="POST" action="/users/admin/comment/accepted/{{ listcomment.id }}">
-                            <button type="submit" class="btn btn-success">Valider</button>
-                                <input type="hidden" name="csrf_token" value="{{ comment_admin_token }}"/>
+                            <form class="form-horizontal" method="POST" action="/users/admin/management/accepted/{{ listadmin.id }}">
+                            <button type="submit"  class="btn btn-success">Valider</button>
+                            <input type="hidden" name="csrf_token" value="{{ management_admin_token }}"/>
                             </form>
 
-                            <form class="form-horizontal" method="POST" action="/users/admin/comment/refused/{{ listcomment.id }}">
+                            <form class="form-horizontal" method="POST" action="/users/admin/management/refused/{{ listadmin.id }}">
                             <button type="submit" class="btn btn-warning">Refuser</button>
-                                <input type="hidden" name="csrf_token" value="{{ comment_admin_token }}"/>
+                            <input type="hidden" name="csrf_token" value="{{ management_admin_token }}"/>
                             </form>
 
-                            <form class="form-horizontal" method="POST" action="/users/admin/comment/delete/{{ listcomment.id }}">
-                            <button type="submit" class="btn btn-danger">Supprimer</button>
-                                <input type="hidden" name="csrf_token" value="{{ comment_admin_token }}"/>
+                            <form class="form-horizontal" method="POST" action="/users/admin/management/delete/{{ listadmin.id }}">
+                            <button type="submit"  class="btn btn-danger">Supprimer</button>
+                            <input type="hidden" name="csrf_token" value="{{ management_admin_token }}"/>
                             </form>
                         </td>
                     </tr>
