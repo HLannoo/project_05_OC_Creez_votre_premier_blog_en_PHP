@@ -137,6 +137,9 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     // Display thanks for your Email
     $r->addRoute('GET', '/merci', RedirectController::class . '/thankEmail');
 
+    // Security Function -> upload img
+    $r->addRoute('GET', '/upload', SecurityController::class . '/verifyUpload');
+
 
 });
 
