@@ -52,6 +52,9 @@ spl_autoload_register(function ($class) {
     elseif (file_exists(__DIR__ .'/vendor/psecio/csrf/' . $class . '.php')) {
         include __DIR__ .'/vendor/psecio/csrf/' . $class . '.php';
     }
+    elseif (file_exists(__DIR__ .'/tools/' . $class . '.php')) {
+        include __DIR__ .'/tools/' . $class . '.php';
+    }
 });
 
 
@@ -138,7 +141,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/merci', RedirectController::class . '/thankEmail');
 
     // Security Function -> upload img
-    $r->addRoute('GET', '/upload', SecurityController::class . '/verifyUpload');
+    $r->addRoute('GET', '/upload', Security::class . '/verifyUpload');
 
 
 });

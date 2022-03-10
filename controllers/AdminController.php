@@ -139,57 +139,40 @@ class AdminController extends BaseController
                 $img = $_FILES['img'];
                 $id = ($_POST['id']);
                 $userid = ($_SESSION["id"]);
-                $imgpath = null;
-                $securityInstance = new SecurityController;
+                $checkId = $articleInstance->checkId($id);
 
-                if (!empty($img)) {
-                    $verifyUpload = $securityInstance->verifyUpload();
-
-                    if ($verifyUpload == true) {
-
-                        $temp = explode(".", $_FILES["img"]["name"]);
-                        $newfilename = round(microtime(true)) . '.' . end($temp);
-
-
-                        if (move_uploaded_file(($_FILES['img']['tmp_name']), UPLOADS_DIRECTORY . $newfilename)) {
-                            $imgpath = $newfilename;
-                            $checkId = $articleInstance->checkId($id);
-                            $ultimateCheck = array(empty($img), $checkId);
-
-                            switch ($ultimateCheck) {
-
-                                case array(false, 0):
-                                    $articleInstance->insertArticle($title, $chapo, $content, $slug, $userid, $imgpath);
-                                    break;
-
-                                case array(false, 1):
-                                    $img = $articleInstance->getImage($id);
-
-                                    if (file_exists(UPLOADS_DIRECTORY . $img[0])) {
-                                        unlink(UPLOADS_DIRECTORY . $img[0]);
-                                    }
-                                    $articleInstance->replaceArticle($title, $chapo, $content, $slug, $userid, $id, $imgpath);
-                                    break;
-
-                                case array(true, 1):
-                                    $articleInstance->replaceArticleNoImg($title, $chapo, $content, $slug, $userid, $id);
-                                    break;
-                            }
-                        }
-                        else {
-                            header("Location:" . ERROR_500);
-                        }
-                    }
-                    else {
-                        header("Location:" . ERROR_500);
-                    }
-                } else {
-                    header("Location:" . ERROR_500);
+                if ($checkId == 1 && $_FILES['img']['error']==4) {
+                    $articleInstance->replaceArticleNoImg($title, $chapo, $content, $slug, $userid, $id);
                 }
-                } else {
-                    header("Location:" . ERROR_500);
+                else {
+                    $security = new Security;
+                    $newfilename = $security->securityReplacement();
+                    $checkId = $articleInstance->checkId($id);
+
+                    switch ($checkId) {
+
+                        case 0;
+
+                            if (move_uploaded_file(($_FILES['img']['tmp_name']), UPLOADS_DIRECTORY . $newfilename)) {
+                                $imgPath = $newfilename;
+                                $articleInstance->insertArticle($title, $chapo, $content, $slug, $userid, $imgPath);
+                            }
+                            break;
+
+                        case 1;
+                            $image = $articleInstance->getImage($id);
+                            if (file_exists(UPLOADS_DIRECTORY . $image[0])) {
+                                unlink(UPLOADS_DIRECTORY . $image[0]);
+                                $imgPath = $newfilename;
+                                $articleInstance->replaceArticle($title, $chapo, $content, $slug, $userid, $id, $imgPath);
+                                if (move_uploaded_file(($_FILES['img']['tmp_name']), UPLOADS_DIRECTORY . $newfilename)) {
+                                }
+                            }
+                            break;
+                    }
                 }
             }
+                    }
                 else {
             header("Location:" . ERROR_500);
         }

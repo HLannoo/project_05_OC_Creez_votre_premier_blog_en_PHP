@@ -52,6 +52,7 @@ class Articles
         $stmt->execute($data);
         return $stmt->rowCount();
     }
+
     function replaceArticleNoImg($title,$chapo,$content, $slug, $userid, $id)
     {   $data = ['title' => $title, 'chapo' => $chapo, 'content' => $content, 'slug'=>$slug, 'user_id'=>$userid,"id"=>$id];
         $stmt = $this->connect->prepare("UPDATE articles SET title=:title, chapo=:chapo, content=:content, slug=:slug, created_at=now(), user_id=:user_id WHERE id=:id ");
