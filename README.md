@@ -24,7 +24,7 @@ Lancer la commande **composer update**
 
 
 
-
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/8cb2adeae4dc45e9852e5c403661625f)](https://www.codacy.com/gh/Kakahuette400/project_05/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Kakahuette400/project_05&amp;utm_campaign=Badge_Grade)
 
 
 
