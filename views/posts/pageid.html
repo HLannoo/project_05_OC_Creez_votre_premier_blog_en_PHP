@@ -23,10 +23,9 @@
     <div class="row gx-5">
         <div class="col-lg-3">
             <div class="d-flex align-items-center mt-lg-5 mb-4">
-                <img alt="..." class="img-fluid rounded-circle" src="{{article.uim}}"/>
+                <img alt="..." class="img-fluid rounded-circle" src="{{ SITE_LINK }}/public/assets/img/{{article.uim}}"/>
                 <div class="ms-3">
                     <div class="fw-bold">{{article.username}}</div>
-                    <div class="text-muted">{{article.role}}</div>
                 </div>
             </div>
         </div>
@@ -43,8 +42,8 @@
                     <a class="badge bg-secondary text-decoration-none link-light">{{article.slug}}</a>
                 </header>
                 <!-- Preview image figure-->
-                <figure class="mb-4"><img alt="..."
-                                          class="img-fluid rounded" src="{{ SITE_LINK }}/public/uploads/{{article.ft_image }}"/>
+                <figure class="mb-4">
+                    <img alt="photo" class="img-fluid rounded" src="{{ SITE_LINK }}/public/uploads/{{article.ft_image }}"/>
                 </figure>
                 <!-- Post content-->
                 <section class="mb-5">

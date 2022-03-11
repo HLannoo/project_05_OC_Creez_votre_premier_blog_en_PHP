@@ -18,7 +18,7 @@ class IndexController extends BaseController
         $template = $this->twig->load('index/index.html');
 
         // Puis on affiche avec la méthode render
-        echo $template->render(['listarticles' => $listarticles, 'form_contact_token' => $manager->generate()]);
+        echo $template->render(['SITE_LINK'=>SITE_URL, 'listarticles' => $listarticles, 'form_contact_token' => $manager->generate()]);
     }
 
     public function contactEmail()

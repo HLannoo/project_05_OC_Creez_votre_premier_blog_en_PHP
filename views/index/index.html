@@ -14,15 +14,15 @@
         <div class="row gx-5 align-items-center justify-content-center">
             <div class="col-lg-8 col-xl-7 col-xxl-6">
                 <div class="my-5 text-center text-xl-start">
-                    <h1 class="text-left display-5 fw-bolder text-white mb-2">Développeur PHP/SYMPHONY</h1>
-                    <p class="text-left lead fw-normal text-white-50 mb-4 ">Fort de diverses formations et expériences en webmarketing, négociation et relation client et maintenant développement en PHP/SYMPHONY, je mets mes services à la disposition des entreprises. </p>
+                    <h1 class="text-left display-5 fw-bolder text-white mb-2">Développeur PHP/SYMFONY</h1>
+                    <p class="text-left lead fw-normal text-white-50 mb-4 ">Fort de diverses formations et expériences en webmarketing, négociation et relation client et maintenant développement en PHP/SYMFONY, je mets mes services à la disposition des entreprises. </p>
                     <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
                         <a class="col-md-4 mr-2 btn btn-primary btn-lg px-4 me-sm-3" href="#features">En savoir plus</a>
                         <a class="col-md-4 btn btn-outline-light btn-lg px-4" href="http://project5/posts/">Voir les projets</a>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class=" rounded-circle w-50 img-fluid my-5" src="../../public/assets/img/hedi_image_gf.jfif" alt="..." /></div>
+            <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class=" rounded-circle w-50 img-fluid my-5" src="{{ SITE_LINK }}/public/assets/img/hedi_img_GF.jpg" alt="..." /></div>
         </div>
     </div>
 </header>
@@ -115,7 +115,7 @@
                     <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
                         <div class="d-flex align-items-end justify-content-between">
                             <div class="d-flex align-items-center">
-                                <img class="rounded-circle me-3" src="{{ listarticle.uim }}" alt="..." />
+                                <img class="rounded-circle w-25" src="{{ SITE_LINK }}/public/assets/img/{{listarticle.uim}}" alt="photo" />
                                 <div class="small">
                                     <div class="fw-bold">{{ listarticle.username }}</div>
                                     <div class="text-muted">{{ listarticle.created_at }}</div>
