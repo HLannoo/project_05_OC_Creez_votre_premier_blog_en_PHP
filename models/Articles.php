@@ -20,6 +20,16 @@ class Articles
         $resArticles = $stmt->fetchall();
         return $resArticles;
 
+
+    }
+    function getImage($id)
+    {
+        $stmt=$this->connect->prepare ("SELECT ft_image FROM articles where (id=:id)");
+        $stmt->execute(array('id'=>$id));
+        $resArticles = $stmt->fetch();
+        return $resArticles;
+
+
     }
     function getArticleById($id)
     {
@@ -39,6 +49,13 @@ class Articles
     function replaceArticle($title,$chapo,$content, $slug, $userid, $id, $imgpath='')
     {   $data = ['title' => $title, 'chapo' => $chapo, 'content' => $content, 'slug'=>$slug, 'user_id'=>$userid,'ft_img' => $imgpath,"id"=>$id];
         $stmt = $this->connect->prepare("UPDATE articles SET title=:title, chapo=:chapo, content=:content, slug=:slug, created_at=now(), user_id=:user_id, ft_image=:ft_img WHERE id=:id ");
+        $stmt->execute($data);
+        return $stmt->rowCount();
+    }
+
+    function replaceArticleNoImg($title,$chapo,$content, $slug, $userid, $id)
+    {   $data = ['title' => $title, 'chapo' => $chapo, 'content' => $content, 'slug'=>$slug, 'user_id'=>$userid,"id"=>$id];
+        $stmt = $this->connect->prepare("UPDATE articles SET title=:title, chapo=:chapo, content=:content, slug=:slug, created_at=now(), user_id=:user_id WHERE id=:id ");
         $stmt->execute($data);
         return $stmt->rowCount();
     }

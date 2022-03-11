@@ -31,12 +31,12 @@ class AdminController extends BaseController
     {
         if ($_SESSION) {
 
-            $commentsinstance = new Articles(connectDB::dbConnect());
-            $listarticles = $commentsinstance->getArticles();
+            $articlesInstance = new Articles(connectDB::dbConnect());
+            $listArticles = $articlesInstance->getArticles();
             $manager = new \Psecio\Csrf\Manager();
 
             $template = $this->twig->load('users/articleadministration.html');
-            echo $template->render(['site_link' => SITE_URL, 'listarticles' => $listarticles,'article_admin_token' => $manager->generate()]);
+            echo $template->render(['site_link' => SITE_URL, 'listarticles' => $listArticles,'article_admin_token' => $manager->generate()]);
         }
 
         else {
@@ -122,50 +122,65 @@ class AdminController extends BaseController
     public function addArticle()
     {
         $articleInstance = new Articles(connectDB::dbConnect());
-        $listarticles=$articleInstance->getArticles();
+        $listarticles = $articleInstance->getArticles();
         $manager = new \Psecio\Csrf\Manager();
+
         if (isset($_POST['csrf_token'])) {
             $result = $manager->verify($_POST['csrf_token']);
             if ($result === false) {
-                header("Location:".ERROR_500);
+                header("Location:" . ERROR_500);
+                die;
             }
-
             if (isset($_POST['title']) && isset($_POST['chapo']) && isset($_POST['content'])) {
                 $title = strip_tags($_POST['title'], '<br/><br>');
                 $chapo = strip_tags($_POST['chapo'], '<br/><br>');
                 $content = strip_tags($_POST['content'], '<br/><br>');
                 $slug = strip_tags($_POST['slug'], '<br/><br>');
-                $id = is_numeric($_POST['id']);
-                $userid = is_numeric($_SESSION["id"]);
-                $imgpath = null;
+                $img = $_FILES['img'];
+                $id = ($_POST['id']);
+                $userid = ($_SESSION["id"]);
+                $checkId = $articleInstance->checkId($id);
 
-                if (!empty($_FILES['img'])) {
-                    $temp = explode(".", $_FILES["img"]["name"]);
-                    $newfilename = round(microtime(true)) . '.' . end($temp);
+                if ($checkId == 1 && $_FILES['img']['error']==4) {
+                    $articleInstance->replaceArticleNoImg($title, $chapo, $content, $slug, $userid, $id);
+                }
+                else {
+                    $security = new Security;
+                    $newfilename = $security->securityReplacement();
+                    $checkId = $articleInstance->checkId($id);
 
-                    if (move_uploaded_file(($_FILES['img']['tmp_name']), UPLOADS_DIRECTORY . $newfilename)) {
+                    switch ($checkId) {
 
-                        $imgpath = $newfilename;
+                        case 0;
 
+                            if (move_uploaded_file(($_FILES['img']['tmp_name']), UPLOADS_DIRECTORY . $newfilename)) {
+                                $imgPath = $newfilename;
+                                $articleInstance->insertArticle($title, $chapo, $content, $slug, $userid, $imgPath);
+                            }
+                            break;
+
+                        case 1;
+                            $image = $articleInstance->getImage($id);
+                            if (file_exists(UPLOADS_DIRECTORY . $image[0])) {
+                                unlink(UPLOADS_DIRECTORY . $image[0]);
+                                $imgPath = $newfilename;
+                                $articleInstance->replaceArticle($title, $chapo, $content, $slug, $userid, $id, $imgPath);
+                                if (move_uploaded_file(($_FILES['img']['tmp_name']), UPLOADS_DIRECTORY . $newfilename)) {
+                                }
+                            }
+                            break;
                     }
                 }
-                $checkId = $articleInstance->checkId($id);
-                if ($checkId == 0) {
-
-                    $articleInstance->insertArticle($title, $chapo, $content, $slug, $userid, $imgpath);
-                } elseif ($checkId == 1) {
-
-                    $articleInstance->replaceArticle($title, $chapo, $content, $slug, $userid, $id, $imgpath);
-
-                } else {
-                    header("Location:".ERROR_500);
-                }
             }
+                    }
+                else {
+            header("Location:" . ERROR_500);
         }
         $template = $this->twig->load('users/articleadministration.html');
-        $listarticles=$articleInstance->getArticles();
-        echo $template->render(['listarticles' => $listarticles,'article_admin_token' => $manager->generate()]);
+        $listarticles = $articleInstance->getArticles();
+        echo $template->render(['listarticles' => $listarticles, 'article_admin_token' => $manager->generate()]);
     }
+
 
     public function deleteArticle($id)
     {
@@ -175,7 +190,7 @@ class AdminController extends BaseController
         if (isset($_POST['csrf_token'])) {
             $result = $manager->verify($_POST['csrf_token']);
             if ($result === false) {
-                header("Location:".ERROR_500);
+                header("Location:" . ERROR_500);
             }
 
             if (isset($id)) {
@@ -183,7 +198,12 @@ class AdminController extends BaseController
                 $checkId = $articleInstance->checkId($id);
 
                 if ($checkId == true) {
+                    $img = $articleInstance->getImage($id);
                     $articleInstance->suppArticle($id);
+                }
+                if (file_exists(UPLOADS_DIRECTORY . $img[0])){
+                    unlink(UPLOADS_DIRECTORY . $img[0]);
+
                 } else {
                     header("Location:".ERROR_500);
                 }
@@ -203,7 +223,7 @@ class AdminController extends BaseController
         if (isset($_POST['csrf_token'])) {
             $result = $manager->verify($_POST['csrf_token']);
             if ($result === false) {
-                header("Location: http://project5/error500");
+                header("Location:".ERROR_500);
             }
 
             if (isset($id)) {

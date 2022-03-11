@@ -38,7 +38,7 @@
         <div class="row">
             <div class="col-xl-2">
                 <h3 class="text-center">Enregistrer un article</h3>
-                <form enctype="multipart/form-data" method="POST" action="/users/admin/article/add">
+                <form enctype="multipart/form-data" method="POST" action="/users/admin/article/add" class="form-group">
                     <div class="form-group">
                         <input class="form-control" type="hidden" id="id" name="id" value="{{ ligne.id }}">
                     </div>
@@ -58,10 +58,12 @@
                         <label>Contenu : </label>
                         <textarea class="form-control" type="text" name="content" placeholder="Le contenu">{{ ligne.content }}</textarea>
                     </div>
+                    <label><p>Image: maximum 2Mo</p> </label>
                     <div class="custom-file">
-                        <label class="custom-file-label" for="customFile">Image d'illustration</label>
+                        <label class="custom-file-label" for="customFile" >Insérer une image</label>
                         <br>
                         <input type="file" name="img" class="custom-file-input" id="customFile">
+                        <input type="hidden" name="MAX_FILE_SIZE" value="2000000" title="octets par image maximum" />
                     </div>
                     <br/>
                     <br/>
