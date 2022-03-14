@@ -182,6 +182,7 @@ class AdminController extends BaseController
     }
 
 
+
     public function deleteArticle($id)
     {
         $articleInstance = new Articles(connectDB::dbConnect());
