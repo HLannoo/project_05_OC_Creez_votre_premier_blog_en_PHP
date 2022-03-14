@@ -44,7 +44,7 @@
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th>id/th>
+                        <th>id</th>
                         <th>Pseudo</th>
                         <th>Date d'inscription</th>
                         <th>Photo de profil</th>
@@ -55,7 +55,7 @@
                     <tbody>
                     {% for listadmin in listadmins %}
                     <tr>
-                        <td style="max-width: 10em;">{{ listadmin.id }}</td>
+                        <td style="max-width: 10em;">{{ listadmin.id }} </td>
                         <td style="max-width: 10em;">{{ listadmin.username }}</td>
                         <td style="max-width: 10em;">{{ listadmin.created_at }}</td>
                         <td style="max-width: 10em;"><img src="{{ site_link }}/public/uploads/{{ listadmin.ft_image }}" /></td>
