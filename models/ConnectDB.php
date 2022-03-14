@@ -2,13 +2,28 @@
 
 class connectDB
 {
-    public static function dbConnect($host = 'localhost', $dbname = 'blog_php', $user = 'root', $pass = '')
+
+    private static $instance = null ;
+
+    public static function dbConnect()
+
     {
-        try {
-            return new PDO("mysql:host=$host;dbname=$dbname;port=3308", $user, $pass);
-        } catch (PDOException $e) {
-            print "Erreur : " . $e->getmessage() . "<br/>";
-            die;
+        if (self::$instance === null)
+        {
+            try {
+               $filename = require APP_DIRECTORY . 'config/config_db.php';
+               self::$instance = new PDO(
+                   "mysql:host=$filename[0];
+                   dbname=$filename[1];
+                   port=$filename[2]",
+                   $filename[3],
+                   $filename[4]);
+            } catch (PDOException $e) {
+                print "Erreur : " . $e->getmessage() . "<br/>";
+                die;
+            }
         }
+        return self::$instance;
+
     }
 }
