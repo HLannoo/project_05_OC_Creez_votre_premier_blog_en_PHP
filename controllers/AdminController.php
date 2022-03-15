@@ -146,45 +146,47 @@ class AdminController extends BaseController
                 $userid = ($_SESSION["id"]);
                 $checkId = $articleInstance->checkId($id);
 
-                if ($checkId == 1 && $_FILES['img']['error']==4) {
+                if ($checkId == 1 && $_FILES['img']['error'] == 4) {
                     $articleInstance->replaceArticleNoImg($title, $chapo, $content, $slug, $userid, $id);
-                }
-                else {
+                } else {
                     $security = new Security;
                     $newfilename = $security->securityReplacement();
-                    $checkId = $articleInstance->checkId($id);
+                    if (!empty($newfilename)) {
+                        $checkId = $articleInstance->checkId($id);
+                        switch ($checkId) {
 
-                    switch ($checkId) {
+                            case 0;
 
-                        case 0;
-
-                            if (move_uploaded_file(($_FILES['img']['tmp_name']), UPLOADS_DIRECTORY . $newfilename)) {
-                                $imgPath = $newfilename;
-                                $articleInstance->insertArticle($title, $chapo, $content, $slug, $userid, $imgPath);
-                            }
-                            break;
-
-                        case 1;
-                            $image = $articleInstance->getImage($id);
-                            if (file_exists(UPLOADS_DIRECTORY . $image[0])) {
-                                unlink(UPLOADS_DIRECTORY . $image[0]);
-                                $imgPath = $newfilename;
-                                $articleInstance->replaceArticle($title, $chapo, $content, $slug, $userid, $id, $imgPath);
                                 if (move_uploaded_file(($_FILES['img']['tmp_name']), UPLOADS_DIRECTORY . $newfilename)) {
+                                    $imgPath = $newfilename;
+                                    $articleInstance->insertArticle($title, $chapo, $content, $slug, $userid, $imgPath);
                                 }
-                            }
-                            break;
+                                break;
+
+                            case 1;
+                                $image = $articleInstance->getImage($id);
+                                if (file_exists(UPLOADS_DIRECTORY . $image[0])) {
+                                    unlink(UPLOADS_DIRECTORY . $image[0]);
+                                    $imgPath = $newfilename;
+                                    $articleInstance->replaceArticle($title, $chapo, $content, $slug, $userid, $id, $imgPath);
+                                    if (move_uploaded_file(($_FILES['img']['tmp_name']), UPLOADS_DIRECTORY . $newfilename)) {
+                                    }
+                                }
+                                break;
+                        }
+                    } else {
+                        return false;
                     }
                 }
             }
-                    }
-                else {
+        } else {
             header("Location:" . ERROR_500);
         }
         $template = $this->twig->load('users/articleadministration.html');
         $listarticles = $articleInstance->getArticles();
         $view = $template->render(['listarticles' => $listarticles, 'article_admin_token' => $manager->generate()]);
         echo $view;
+        return true;
     }
 
 
