@@ -41,20 +41,20 @@
                         <input class="form-control" type="hidden" id="id" name="id" value="{{ ligne.id }}">
                     </div>
                     <div class="form-group">
-                        <label>Titre : </label>
-                        <input class="form-control" type="text" name="title" placeholder="Le titre" value="{{ ligne.title }}">
+                        <label>Titre: 50 caractères max </label>
+                        <input class="form-control" maxlength="50" type="text" name="title" placeholder="Le titre" value="{{ ligne.title }}">
                     </div>
                     <div class="form-group">
-                        <label>Slug : </label>
-                        <input class="form-control" type="text" name="slug" placeholder="Le slug" value="{{ ligne.slug }}">
+                        <label>Slug: 25 caractères max </label>
+                        <input class="form-control" type="text" maxlength="25" name="slug" placeholder="Le slug" value="{{ ligne.slug }}">
                     </div>
                     <div class="form-group">
-                        <label>Chapô : </label>
-                        <input class="form-control" type="text" name="chapo" placeholder="Le chapô" value="{{ ligne.chapo }}">
+                        <label>Chapô: 300 caractères max</label>
+                        <input class="form-control" type="text" maxlength="300" name="chapo" placeholder="Le chapô" value="{{ ligne.chapo }}">
                     </div>
                     <div class="form-group">
-                        <label>Contenu : </label>
-                        <textarea class="form-control" type="text" name="content" placeholder="Le contenu">{{ ligne.content }}</textarea>
+                        <label>Contenu: 1200 caractères max</label>
+                        <textarea class="form-control" type="text" maxlength="1200" name="content" placeholder="Le contenu">{{ ligne.content }}</textarea>
                     </div>
                     <label><p>Image: maximum 2Mo</p> </label>
                     <div class="custom-file">
