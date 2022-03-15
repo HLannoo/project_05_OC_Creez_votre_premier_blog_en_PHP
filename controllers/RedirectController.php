@@ -14,7 +14,7 @@ class RedirectController extends BaseController
 
         // Puis on affiche avec la méthode render
         $view = $template->render([]);
-        print_r($view);
+        echo $view;
 
     }
 
@@ -25,7 +25,7 @@ class RedirectController extends BaseController
 
         // Puis on affiche avec la méthode render
         $view = $template->render([]);
-        print_r($view);
+        echo $view;
 
     }
 
@@ -36,7 +36,7 @@ class RedirectController extends BaseController
 
         // Puis on affiche avec la méthode render
         $view = $template->render([]);
-        print_r($view);
+        echo $view;
 
     }
 

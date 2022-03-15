@@ -8,7 +8,7 @@ class IndexController extends BaseController
 {
 
 
-    public function index($params = array())
+    public function index()
     {
         $articlesinstance = new Articles(connectDB::dbConnect());
         $listarticles = $articlesinstance->getArticles();
@@ -18,8 +18,9 @@ class IndexController extends BaseController
         $template = $this->twig->load('index/index.html');
 
         // Puis on affiche avec la méthode render
-        $view = $template->render(['SITE_LINK'=>SITE_URL, 'listarticles' => $listarticles, 'form_contact_token' => $manager->generate()]);
-        print_r ($view);
+       $view = $template->render(['SITE_LINK'=>SITE_URL, 'listarticles' => $listarticles, 'form_contact_token' => $manager->generate()]);
+        echo $view;
+
     }
 
     public function contactEmail()
@@ -57,6 +58,6 @@ class IndexController extends BaseController
             }
         }
         $view = $template->render([ 'error' => $error,'form_contact_token' => $manager->generate(),'SITE_LINK'=> SITE_URL]);
-        print_r($view);
+        echo $view;
     }
 }

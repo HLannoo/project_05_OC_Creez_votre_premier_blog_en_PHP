@@ -38,7 +38,7 @@ class Security extends BaseController
             $error="Le fichier image est vide";
             $template = $this->twig->load('errors/uploaderror.html');
             $view = $template->render(['error'=>$error,'site_link' => SITE_URL]);
-            print_r($view);
+            echo $view;
             die;
         }
 
@@ -46,14 +46,14 @@ class Security extends BaseController
             $error="la taille du fichier est dépassé, maximum 2mo.";
             $template = $this->twig->load('errors/uploaderror.html');
             $view = $template->render(['error'=>$error,'site_link' => SITE_URL]);
-            print_r($view);
+            echo $view;
             die;
         }
         elseif (count($extension) <2 || !in_array(strtolower(end($extension)),$extensions)) {
             $error="L'extension du fichier n'est pas pris en charge.";
             $template = $this->twig->load('errors/uploaderror.html');
             $view = $template->render(['error'=>$error,'site_link' => SITE_URL]);
-            print_r($view);
+            echo $view;
             die;
         }
         elseif (!in_array($typeFile,$type)) {
@@ -61,7 +61,7 @@ class Security extends BaseController
             $error="L'upload nécessite un fichier, voici les types autorisés: png, jpg, jpeg.";
             $template = $this->twig->load('errors/uploaderror.html');
             $view = $template->render(['error'=>$error,'site_link' => SITE_URL]);
-            print_r($view);
+            echo $view;
             die;
         }
         else {
@@ -86,7 +86,7 @@ class Security extends BaseController
                 $error = "Le fichier a rencontré un problème lors de son encodage.";
                 $template = $this->twig->load('errors/uploaderror.html');
                 $view = $template->render(['error' => $error, 'site_link' => SITE_URL]);
-            print_r($view);
+            echo $view;
             die;
 
             }
