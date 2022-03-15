@@ -28,7 +28,8 @@ class UsersController extends BaseController
 
             // Puis on affiche la page avec la méthode render
         }
-        echo $template->render(['login_token' => $manager->generate()]);
+        $view = $template->render(['login_token' => $manager->generate()]);
+        echo $view;;
     }
 
     public function loginAuthentication()
@@ -36,16 +37,16 @@ class UsersController extends BaseController
         $error = "";
         $manager = new \Psecio\Csrf\Manager();
         if (isset($_POST['csrf_token'])) {
-            $result = $manager->verify($_POST['csrf_token']);
+            $result = $manager->verify(stripslashes($_POST['csrf_token']));
             if ($result === false) {
                 header("Location:".ERROR_500);
             }
 
             if (!empty($_POST['email']) && !empty($_POST['password'])) {
-                $email = htmlspecialchars($_POST['email']);
-                $password = htmlspecialchars($_POST['password']);
+                $email = htmlspecialchars(filter_var(stripslashes($_POST['email']),FILTER_VALIDATE_EMAIL));
+                $password = htmlspecialchars(stripslashes($_POST['password']));
 
-                $userInstance = new User(connectDB::dbConnect());
+                $userInstance = new User(ConnectDB::dbConnect());
                 $user = $userInstance->connexion($email, $password);
                 if (!empty($user)) {
                     $resultRole = $user['role'];
@@ -80,7 +81,8 @@ class UsersController extends BaseController
             }
 
         }
-                echo $template->render(['error' => $error,'login_token' => $manager->generate()]);
+                $view = $template->render(['error' => $error,'login_token' => $manager->generate()]);
+                echo $view;;
             }
 
 
@@ -101,7 +103,8 @@ class UsersController extends BaseController
         $template = $this->twig->load('users/inscription.html');
 
         // Puis on affiche la page avec la méthode render
-        echo $template->render(['inscription_token' => $manager->generate()]);
+        $view = $template->render(['inscription_token' => $manager->generate()]);
+        echo $view;;
     }
 
     public function registrationVerification()
@@ -109,23 +112,23 @@ class UsersController extends BaseController
         $error = "";
         $manager = new \Psecio\Csrf\Manager();
         if (isset($_POST['csrf_token'])) {
-            $result = $manager->verify($_POST['csrf_token']);
+            $result = $manager->verify(stripslashes($_POST['csrf_token']));
             if ($result === false) {
                 header("Location:".ERROR_500);
             }
             if (!empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['password2']) && !empty($_POST['username'])) {
-                $email = htmlspecialchars($_POST['email']);
-                $password = htmlspecialchars($_POST['password']);
-                $username = htmlspecialchars($_POST['username']);
+                $email = htmlspecialchars(stripslashes($_POST['email']));
+                $password = htmlspecialchars(stripslashes($_POST['password']));
+                $username = htmlspecialchars(stripslashes($_POST['username']));
 
                 if ($_POST['password'] === $_POST['password2']) {
 
                     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                        $userInstance = new User(connectDB::dbConnect());
+                        $userInstance = new User(ConnectDB::dbConnect());
                         $checkInscription = $userInstance->Inscription($email, $password, $username);
 
                         if ($checkInscription == 1) {
-                            $template = $this->twig->load('users/login.html');
+                            header("Location:".LOGIN_PAGE);
 
                         } else {
                             $template = $this->twig->load('users/inscription.html');
@@ -145,7 +148,8 @@ class UsersController extends BaseController
                 $error = "Un champ n'est pas connu";
             }
         }
-            echo $template->render(['error' => $error,'inscription_token' => $manager->generate()]);
+            $view = $template->render(['error' => $error,'inscription_token' => $manager->generate()]);
+            echo $view;;
 
     }
 }

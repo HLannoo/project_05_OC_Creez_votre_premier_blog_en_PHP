@@ -1,6 +1,5 @@
 <?php
 // Start Session and verification Session IP
-ini_set('session.cookie_httponly',true);
 session_start();
 if (isset($_SESSION['last_ip'])===false) {
     $_SESSION['last_ip'] = $_SERVER['REMOTE_ADDR'];
@@ -10,8 +9,6 @@ if ($_SESSION['last_ip'] !== $_SERVER['REMOTE_ADDR']){
     session_destroy();
     header("Location: ".ERROR_500);
 }
-
-
 
 define('APP_DIRECTORY', __DIR__ . '/');
 define('UPLOADS_DIRECTORY', __DIR__ . '/public/uploads/');
@@ -166,15 +163,15 @@ $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
 switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
         // ... 404 Not Found
-        // Todo : definir une page d'erreur
-        echo 'PAGE NOT FOUND';
+        $msg ='PAGE NOT FOUND';
+        echo $msg;;
         break;
     
 
     case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
         $allowedMethods = $routeInfo[1];
         // ... 405 Method Not Allowed
-        die('405');
+        header("Location: ".ERROR_500);
         break;
 
     case FastRoute\Dispatcher::FOUND:

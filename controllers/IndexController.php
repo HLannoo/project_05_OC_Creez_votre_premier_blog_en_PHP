@@ -8,9 +8,9 @@ class IndexController extends BaseController
 {
 
 
-    public function index($params = array())
+    public function index()
     {
-        $articlesinstance = new Articles(connectDB::dbConnect());
+        $articlesinstance = new Articles(ConnectDB::dbConnect());
         $listarticles = $articlesinstance->getArticles();
         $manager = new \Psecio\Csrf\Manager();
 
@@ -18,7 +18,9 @@ class IndexController extends BaseController
         $template = $this->twig->load('index/index.html');
 
         // Puis on affiche avec la méthode render
-        echo $template->render(['SITE_LINK'=>SITE_URL, 'listarticles' => $listarticles, 'form_contact_token' => $manager->generate()]);
+       $view = $template->render(['SITE_LINK'=>SITE_URL, 'listarticles' => $listarticles, 'form_contact_token' => $manager->generate()]);
+        echo $view;
+
     }
 
     public function contactEmail()
@@ -31,10 +33,10 @@ class IndexController extends BaseController
                 header("Location: ".ERROR_500);
             }
             if (!empty($_POST['surname']) && !empty($_POST['firstname']) && !empty($_POST['email']) && !empty($_POST['message'])) {
-                $surname = htmlspecialchars($_POST['surname']);
-                $firstname = htmlspecialchars($_POST['firstname']);
-                $email = htmlspecialchars($_POST['email']);
-                $message = htmlspecialchars($_POST['message']);
+                $surname = htmlspecialchars(stripslashes($_POST['surname']));
+                $firstname = htmlspecialchars(stripslashes($_POST['firstname']));
+                $email = htmlspecialchars(stripslashes(filter_var($_POST['email'],FILTER_VALIDATE_EMAIL)));
+                $message = htmlspecialchars(stripslashes($_POST['message']));
                 $headers = "FROM : $email, $surname, $firstname";
 
 
@@ -55,6 +57,7 @@ class IndexController extends BaseController
                     $template = $this->twig->load('index/index.html');
             }
         }
-        echo $template->render([ 'error' => $error,'form_contact_token' => $manager->generate(),'SITE_LINK'=> SITE_URL]);
+        $view = $template->render([ 'error' => $error,'form_contact_token' => $manager->generate(),'SITE_LINK'=> SITE_URL]);
+        echo $view;
     }
 }

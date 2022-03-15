@@ -13,7 +13,8 @@ class RedirectController extends BaseController
         $template = $this->twig->load('errors/error500.html');
 
         // Puis on affiche avec la méthode render
-        echo $template->render([]);
+        $view = $template->render([]);
+        echo $view;
 
     }
 
@@ -23,7 +24,8 @@ class RedirectController extends BaseController
         $template = $this->twig->load('posts/merci.html');
 
         // Puis on affiche avec la méthode render
-        echo $template->render([]);
+        $view = $template->render([]);
+        echo $view;
 
     }
 
@@ -33,7 +35,8 @@ class RedirectController extends BaseController
         $template = $this->twig->load('index/merci.html');
 
         // Puis on affiche avec la méthode render
-        echo $template->render([]);
+        $view = $template->render([]);
+        echo $view;
 
     }
 

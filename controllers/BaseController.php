@@ -3,13 +3,14 @@
 /**
  *
  */
-class BaseController {
+class BaseController
+{
 
 
     /**
      * @var \Twig\Loader\FilesystemLoader
      */
-	protected $loader;
+    protected $loader;
 
     /**
      * @var \Twig\Environment
@@ -19,6 +20,7 @@ class BaseController {
     /**
      *
      */
+
     public function __construct()
     {
         $this->loader = new \Twig\Loader\FilesystemLoader(APP_DIRECTORY . 'views');
