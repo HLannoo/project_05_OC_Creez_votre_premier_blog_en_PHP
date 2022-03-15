@@ -164,7 +164,6 @@ $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
 switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
         // ... 404 Not Found
-        // Todo : definir une page d'erreur
         $msg ='PAGE NOT FOUND';
         echo $msg;;
         break;
