@@ -36,7 +36,8 @@ class AdminController extends BaseController
             $manager = new \Psecio\Csrf\Manager();
 
             $template = $this->twig->load('users/articleadministration.html');
-            echo $template->render(['site_link' => SITE_URL, 'listarticles' => $listArticles,'article_admin_token' => $manager->generate()]);
+            $view = $template->render(['site_link' => SITE_URL, 'listarticles' => $listArticles,'article_admin_token' => $manager->generate()]);
+            echo $view;
         }
 
         else {
@@ -53,7 +54,8 @@ class AdminController extends BaseController
             $manager = new \Psecio\Csrf\Manager();
 
             $template = $this->twig->load('users/adminmanagement.html');
-            echo $template->render(['site_link' => SITE_URL, 'listadmins' => $listadmins,'management_admin_token' => $manager->generate()]);
+            $view =  $template->render(['site_link' => SITE_URL, 'listadmins' => $listadmins,'management_admin_token' => $manager->generate()]);
+            echo $view;
         }
 
         else {
@@ -76,7 +78,8 @@ class AdminController extends BaseController
                 }
                     $template = $this->twig->load('users/commentadministration.html');
                     $listcomments = $commentsInstance->getComments();
-                    echo $template->render(['listcomments' => $listcomments,'comment_admin_token' => $manager->generate()]);
+                    $view = $template->render(['listcomments' => $listcomments,'comment_admin_token' => $manager->generate()]);
+                    echo $view;
                 }
     }
 
@@ -94,7 +97,8 @@ class AdminController extends BaseController
             }
             $template = $this->twig->load('users/commentadministration.html');
             $listcomments = $commentsInstance->getComments();
-            echo $template->render(['listcomments' => $listcomments,'comment_admin_token' => $manager->generate()]);
+            $view = $template->render(['listcomments' => $listcomments,'comment_admin_token' => $manager->generate()]);
+            echo $view;
         }
     }
 
@@ -115,7 +119,8 @@ class AdminController extends BaseController
             }
             $template = $this->twig->load('users/commentadministration.html');
             $listcomments = $commentsInstance->getComments();
-            echo $template->render(['listcomments' => $listcomments,'comment_admin_token' => $manager->generate()]);
+            $view = $template->render(['listcomments' => $listcomments,'comment_admin_token' => $manager->generate()]);
+            echo $view;
         }
     }
 
@@ -137,7 +142,7 @@ class AdminController extends BaseController
                 $content = strip_tags($_POST['content'], '<br/><br>');
                 $slug = strip_tags($_POST['slug'], '<br/><br>');
                 $img = $_FILES['img'];
-                $id = ($_POST['id']);
+                $id = $_POST['id'];
                 $userid = ($_SESSION["id"]);
                 $checkId = $articleInstance->checkId($id);
 
@@ -178,7 +183,8 @@ class AdminController extends BaseController
         }
         $template = $this->twig->load('users/articleadministration.html');
         $listarticles = $articleInstance->getArticles();
-        echo $template->render(['listarticles' => $listarticles, 'article_admin_token' => $manager->generate()]);
+        $view = $template->render(['listarticles' => $listarticles, 'article_admin_token' => $manager->generate()]);
+        echo $view;
     }
 
 
@@ -212,7 +218,8 @@ class AdminController extends BaseController
         }
         $template = $this->twig->load('users/articleadministration.html');
         $listarticles=$articleInstance->getArticles();
-        echo $template->render(['listarticles' => $listarticles,'article_admin_token' => $manager->generate()]);
+        $view = $template->render(['listarticles' => $listarticles,'article_admin_token' => $manager->generate()]);
+        echo $view;
     }
 
 
@@ -239,7 +246,8 @@ class AdminController extends BaseController
             }
             $template = $this->twig->load('users/articleadministration.html');
             $listarticles = $articleInstance->getArticles();
-            echo $template->render(['ligne' => $ligne, 'listarticles' => $listarticles, 'article_admin_token' => $manager->generate()]);
+            $view =  $template->render(['ligne' => $ligne, 'listarticles' => $listarticles, 'article_admin_token' => $manager->generate()]);
+            echo $view;
         }
     }
 
@@ -259,7 +267,8 @@ class AdminController extends BaseController
             }
             $template = $this->twig->load('users/adminmanagement.html');
             $listadmins = $adminInstance->getAdmins();
-            echo $template->render(['site_link' => SITE_URL, 'listadmins' => $listadmins, 'management_admin_token' => $manager->generate()]);
+            $view =  $template->render(['site_link' => SITE_URL, 'listadmins' => $listadmins, 'management_admin_token' => $manager->generate()]);
+            echo $view;
         }
     }
     public function refuseAdmin($id)
