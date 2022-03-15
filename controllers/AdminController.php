@@ -206,7 +206,7 @@ class AdminController extends BaseController
 
                 $checkId = $articleInstance->checkId($id);
 
-                if ($checkId == true) {
+                if ($checkId === 1) {
                     $img = $articleInstance->getImage($id);
                     $articleInstance->suppArticle($id);
                 }
