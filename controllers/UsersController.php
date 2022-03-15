@@ -46,7 +46,7 @@ class UsersController extends BaseController
                 $email = htmlspecialchars(filter_var(stripslashes($_POST['email']),FILTER_VALIDATE_EMAIL));
                 $password = htmlspecialchars(stripslashes($_POST['password']));
 
-                $userInstance = new User(connectDB::dbConnect());
+                $userInstance = new User(ConnectDB::dbConnect());
                 $user = $userInstance->connexion($email, $password);
                 if (!empty($user)) {
                     $resultRole = $user['role'];
@@ -124,7 +124,7 @@ class UsersController extends BaseController
                 if ($_POST['password'] === $_POST['password2']) {
 
                     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                        $userInstance = new User(connectDB::dbConnect());
+                        $userInstance = new User(ConnectDB::dbConnect());
                         $checkInscription = $userInstance->Inscription($email, $password, $username);
 
                         if ($checkInscription == 1) {

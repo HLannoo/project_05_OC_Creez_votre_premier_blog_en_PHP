@@ -14,7 +14,7 @@ class AdminController extends BaseController
     public function commentAdminPage()
     {
         if ($_SESSION) {
-            $commentsinstance = new Comments(connectDB::dbConnect());
+            $commentsinstance = new Comments(ConnectDB::dbConnect());
             $listcomments = $commentsinstance->getComments();
             $manager = new \Psecio\Csrf\Manager();
 
@@ -32,7 +32,7 @@ class AdminController extends BaseController
     {
         if ($_SESSION) {
 
-            $articlesInstance = new Articles(connectDB::dbConnect());
+            $articlesInstance = new Articles(ConnectDB::dbConnect());
             $listArticles = $articlesInstance->getArticles();
             $manager = new \Psecio\Csrf\Manager();
 
@@ -50,7 +50,7 @@ class AdminController extends BaseController
     {
         if ($_SESSION) {
 
-            $admininstance = new Admin(connectDB::dbConnect());
+            $admininstance = new Admin(ConnectDB::dbConnect());
             $listadmins = $admininstance->getAdmins();
             $manager = new \Psecio\Csrf\Manager();
 
@@ -67,7 +67,7 @@ class AdminController extends BaseController
 
     public function acceptComment($id)
     {
-        $commentsInstance = new Comments(connectDB::dbConnect());
+        $commentsInstance = new Comments(ConnectDB::dbConnect());
         $manager = new \Psecio\Csrf\Manager();
         if (isset($_POST['csrf_token'])) {
             $result = $manager->verify(stripslashes($_POST['csrf_token']));
@@ -86,7 +86,7 @@ class AdminController extends BaseController
 
     public function refuseComment($id)
     {
-        $commentsInstance = new Comments(connectDB::dbConnect());
+        $commentsInstance = new Comments(ConnectDB::dbConnect());
         $manager = new \Psecio\Csrf\Manager();
         if (isset($_POST['csrf_token'])) {
             $result = $manager->verify(stripslashes($_POST['csrf_token']));
@@ -105,7 +105,7 @@ class AdminController extends BaseController
 
     public function deleteComment($id)
     {
-        $commentsInstance = new Comments(connectDB::dbConnect());
+        $commentsInstance = new Comments(ConnectDB::dbConnect());
         $manager = new \Psecio\Csrf\Manager();
         if (isset($_POST['csrf_token'])) {
             $result = $manager->verify($_POST['csrf_token']);
@@ -127,7 +127,7 @@ class AdminController extends BaseController
 
     public function addArticle()
     {
-        $articleInstance = new Articles(connectDB::dbConnect());
+        $articleInstance = new Articles(ConnectDB::dbConnect());
         $listarticles = $articleInstance->getArticles();
         $manager = new \Psecio\Csrf\Manager();
 
@@ -191,7 +191,7 @@ class AdminController extends BaseController
 
     public function deleteArticle($id)
     {
-        $articleInstance = new Articles(connectDB::dbConnect());
+        $articleInstance = new Articles(ConnectDB::dbConnect());
         $listarticles=$articleInstance->getArticles();
         $manager = new \Psecio\Csrf\Manager();
         if (isset($_POST['csrf_token'])) {
@@ -225,7 +225,7 @@ class AdminController extends BaseController
 
     public function updateArticle($id)
     {
-        $articleInstance = new Articles(connectDB::dbConnect());
+        $articleInstance = new Articles(ConnectDB::dbConnect());
         $listarticles = $articleInstance->getArticles();
         $manager = new \Psecio\Csrf\Manager();
         if (isset($_POST['csrf_token'])) {
@@ -238,7 +238,7 @@ class AdminController extends BaseController
 
                 $checkId = $articleInstance->checkId($id);
 
-                if ($checkId == true) {
+                if ($checkId === true) {
                     $ligne = $articleInstance->modArticle($id);
                 } else {
                     header("Location:".ERROR_500);
@@ -253,7 +253,7 @@ class AdminController extends BaseController
 
     public function acceptAdmin($id)
     {
-        $adminInstance = new Admin(connectDB::dbConnect());
+        $adminInstance = new Admin(ConnectDB::dbConnect());
         $manager = new \Psecio\Csrf\Manager();
         if (isset($_POST['csrf_token'])) {
             $result = $manager->verify(stripslashes($_POST['csrf_token']));
@@ -273,7 +273,7 @@ class AdminController extends BaseController
     }
     public function refuseAdmin($id)
     {
-        $adminInstance = new Admin(connectDB::dbConnect());
+        $adminInstance = new Admin(ConnectDB::dbConnect());
         $manager = new \Psecio\Csrf\Manager();
         if (isset($_POST['csrf_token'])) {
             $result = $manager->verify(stripslashes($_POST['csrf_token']));
@@ -295,7 +295,7 @@ class AdminController extends BaseController
 
     public function deleteAdmin($id)
     {
-        $adminInstance = new Admin(connectDB::dbConnect());
+        $adminInstance = new Admin(ConnectDB::dbConnect());
         $manager = new \Psecio\Csrf\Manager();
         if (isset($_POST['csrf_token'])) {
             $result = $manager->verify(stripslashes($_POST['csrf_token']));

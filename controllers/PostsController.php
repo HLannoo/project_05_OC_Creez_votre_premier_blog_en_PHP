@@ -17,7 +17,7 @@ class PostsController extends BaseController
     public function index($params = array())
     {
 
-        $articlesinstance = new Articles(connectDB::dbConnect());
+        $articlesinstance = new Articles(ConnectDB::dbConnect());
         $listarticles = $articlesinstance->getArticles();
 
 
@@ -32,14 +32,14 @@ class PostsController extends BaseController
     public function detail($id)
     {
         $verifiedId= htmlspecialchars($id);
-        $idCheck = new Articles(connectDB::dbConnect());
+        $idCheck = new Articles(ConnectDB::dbConnect());
         $resultCheck = $idCheck->checkId($verifiedId);
         $manager = new \Psecio\Csrf\Manager();
 
 
         if ($resultCheck)
         {
-            $articleInstance = new Articles(connectDB::dbConnect());
+            $articleInstance = new Articles(ConnectDB::dbConnect());
             $article = $articleInstance->getArticleById($id);
 
             $template = $this->twig->load('posts/pageid.html');
@@ -49,7 +49,7 @@ class PostsController extends BaseController
         }
         else
         {
-            $articlesInstance = new Articles(connectDB::dbConnect());
+            $articlesInstance = new Articles(ConnectDB::dbConnect());
             $listarticles = $articlesInstance->getArticles();
 
         $template = $this->twig->load('posts/index.html');
@@ -62,7 +62,7 @@ class PostsController extends BaseController
 
     public function addComment($id)
     {
-        $articleInstance = new Articles(connectDB::dbConnect());
+        $articleInstance = new Articles(ConnectDB::dbConnect());
         $manager = new \Psecio\Csrf\Manager();
 
         if (!empty($_POST['content']) && !empty($_POST['pseudo']) && !empty($_POST['title'])) {
@@ -77,7 +77,7 @@ class PostsController extends BaseController
                 $title = htmlspecialchars(stripslashes($_POST['title']));
                 $idArticle = htmlspecialchars($id);
 
-                $commentInstance = new Comments(connectDB::dbConnect());;
+                $commentInstance = new Comments(ConnectDB::dbConnect());;
                 $result = $commentInstance->insertComment($pseudo, $title, $content, $idArticle);
 
                 if ($result) {
@@ -104,7 +104,7 @@ class PostsController extends BaseController
 
     private function getAllArticleComments($articleid)
     {
-        $commentsInstance = new Comments(connectDB::dbConnect());
+        $commentsInstance = new Comments(ConnectDB::dbConnect());
         $results = $commentsInstance->getAllArticleComments($articleid);
         return $results;
 

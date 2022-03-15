@@ -10,7 +10,7 @@ class IndexController extends BaseController
 
     public function index()
     {
-        $articlesinstance = new Articles(connectDB::dbConnect());
+        $articlesinstance = new Articles(ConnectDB::dbConnect());
         $listarticles = $articlesinstance->getArticles();
         $manager = new \Psecio\Csrf\Manager();
 

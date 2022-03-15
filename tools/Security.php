@@ -38,27 +38,27 @@ class Security extends BaseController
             $error="Le fichier image est vide";
             $template = $this->twig->load('errors/uploaderror.html');
             $view = $template->render(['error'=>$error,'site_link' => SITE_URL]);
-            echo $view;
+            exit($view);
         }
 
         elseif ($sizeFile > $max_size || $errFile != 0 || empty($tmpFile)) {
             $error="la taille du fichier est dépassé, maximum 2mo.";
             $template = $this->twig->load('errors/uploaderror.html');
             $view = $template->render(['error'=>$error,'site_link' => SITE_URL]);
-            echo $view;
+            exit($view);
         }
         elseif (count($extension) <2 || !in_array(strtolower(end($extension)),$extensions)) {
             $error="L'extension du fichier n'est pas pris en charge.";
             $template = $this->twig->load('errors/uploaderror.html');
             $view = $template->render(['error'=>$error,'site_link' => SITE_URL]);
-            echo $view;
+            exit($view);
         }
         elseif (!in_array($typeFile,$type)) {
 
             $error="L'upload nécessite un fichier, voici les types autorisés: png, jpg, jpeg.";
             $template = $this->twig->load('errors/uploaderror.html');
             $view = $template->render(['error'=>$error,'site_link' => SITE_URL]);
-            echo $view;
+            exit($view);
         }
         else {
             $response=true;
@@ -69,8 +69,9 @@ class Security extends BaseController
     function securityReplacement()
     {
 
-        $articleInstance = new Articles(connectDB::dbConnect());
+        $articleInstance = new Articles(ConnectDB::dbConnect());
         $verifyUpload = $this->verifyUpload();
+       
 
         if ($verifyUpload === true) {
 
@@ -82,7 +83,7 @@ class Security extends BaseController
                 $error = "Le fichier a rencontré un problème lors de son encodage.";
                 $template = $this->twig->load('errors/uploaderror.html');
                 $view = $template->render(['error' => $error, 'site_link' => SITE_URL]);
-            echo $view;
+            exit($view);
 
             }
         }
