@@ -24,8 +24,7 @@ Lancer la commande **composer update**
 
 
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/8cb2adeae4dc45e9852e5c403661625f)](https://www.codacy.com/gh/Kakahuette400/project_05/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Kakahuette400/project_05&amp;utm_campaign=Badge_Grade)
-
+[![SymfonyInsight](https://insight.symfony.com/projects/4ea20490-080e-4c13-811d-175d00c66607/big.svg)](https://insight.symfony.com/projects/4ea20490-080e-4c13-811d-175d00c66607)
 
 
 
