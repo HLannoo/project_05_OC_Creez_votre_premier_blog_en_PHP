@@ -166,7 +166,7 @@ switch ($routeInfo[0]) {
         // ... 404 Not Found
         // Todo : definir une page d'erreur
         $msg ='PAGE NOT FOUND';
-        echo $msg;
+        print_r($msg);
         break;
     
 

@@ -29,7 +29,7 @@ class UsersController extends BaseController
             // Puis on affiche la page avec la méthode render
         }
         $view = $template->render(['login_token' => $manager->generate()]);
-        echo $view;
+        print_r($view);
     }
 
     public function loginAuthentication()
@@ -82,7 +82,7 @@ class UsersController extends BaseController
 
         }
                 $view = $template->render(['error' => $error,'login_token' => $manager->generate()]);
-                echo $view;
+                print_r($view);
             }
 
 
@@ -104,7 +104,7 @@ class UsersController extends BaseController
 
         // Puis on affiche la page avec la méthode render
         $view = $template->render(['inscription_token' => $manager->generate()]);
-        echo $view;
+        print_r($view);
     }
 
     public function registrationVerification()
@@ -149,7 +149,7 @@ class UsersController extends BaseController
             }
         }
             $view = $template->render(['error' => $error,'inscription_token' => $manager->generate()]);
-            echo $view;
+            print_r($view);
 
     }
 }

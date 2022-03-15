@@ -26,7 +26,7 @@ class PostsController extends BaseController
 
         // Puis on affiche avec la méthode render
         $view =  $template->render(['listarticles' => $listarticles]);
-        echo $view;
+        print_r($view);
     }
 
     public function detail($id)
@@ -45,7 +45,7 @@ class PostsController extends BaseController
             $template = $this->twig->load('posts/pageid.html');
 
             $view = $template->render(['SITE_LINK' => SITE_URL,'article' => $article, 'comments' => $this->getAllArticleComments($id),'comment_token' => $manager->generate()]);
-            echo $view;
+            print_r($view);
         }
         else
         {
@@ -55,7 +55,7 @@ class PostsController extends BaseController
         $template = $this->twig->load('posts/index.html');
 
         $view = $template->render(['listarticles' => $listarticles]);
-        echo $view;
+        print_r($view);
         }
     }
 
@@ -98,7 +98,7 @@ class PostsController extends BaseController
                 'comments' => $this->getAllArticleComments($id),
                 'comment_token' => $manager->generate(),
                 'error'=>$error]);
-            echo $view;
+            print_r($view);
         }
     }
 

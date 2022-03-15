@@ -20,7 +20,7 @@ class connectDB
                    $filename[4]);
             } catch (PDOException $e) {
                 $display = "Erreur : " . $e->getmessage() . "<br/>";
-                print $display;
+                print_r($display);
                 die;
             }
         }

@@ -19,7 +19,7 @@ class IndexController extends BaseController
 
         // Puis on affiche avec la méthode render
         $view = $template->render(['SITE_LINK'=>SITE_URL, 'listarticles' => $listarticles, 'form_contact_token' => $manager->generate()]);
-        echo  $view;
+        print_r ($view);
     }
 
     public function contactEmail()
@@ -57,6 +57,6 @@ class IndexController extends BaseController
             }
         }
         $view = $template->render([ 'error' => $error,'form_contact_token' => $manager->generate(),'SITE_LINK'=> SITE_URL]);
-        echo $view;
+        print_r($view);
     }
 }

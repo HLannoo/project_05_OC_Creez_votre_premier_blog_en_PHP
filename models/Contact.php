@@ -39,7 +39,7 @@ class Contact
             $mail->send();
         } catch (Exception $e) {
             $response = "Votre message n'a pas pu être envoyé. Mailer Error: {$mail->ErrorInfo}";
-            echo $response;
+            print_r($response);
         }
     }
 }
