@@ -39,7 +39,6 @@ class Security extends BaseController
             $template = $this->twig->load('errors/uploaderror.html');
             $view = $template->render(['error'=>$error,'site_link' => SITE_URL]);
             echo $view;
-            die;
         }
 
         elseif ($sizeFile > $max_size || $errFile != 0 || empty($tmpFile)) {
@@ -47,14 +46,12 @@ class Security extends BaseController
             $template = $this->twig->load('errors/uploaderror.html');
             $view = $template->render(['error'=>$error,'site_link' => SITE_URL]);
             echo $view;
-            die;
         }
         elseif (count($extension) <2 || !in_array(strtolower(end($extension)),$extensions)) {
             $error="L'extension du fichier n'est pas pris en charge.";
             $template = $this->twig->load('errors/uploaderror.html');
             $view = $template->render(['error'=>$error,'site_link' => SITE_URL]);
             echo $view;
-            die;
         }
         elseif (!in_array($typeFile,$type)) {
 
@@ -62,7 +59,6 @@ class Security extends BaseController
             $template = $this->twig->load('errors/uploaderror.html');
             $view = $template->render(['error'=>$error,'site_link' => SITE_URL]);
             echo $view;
-            die;
         }
         else {
             $response=true;

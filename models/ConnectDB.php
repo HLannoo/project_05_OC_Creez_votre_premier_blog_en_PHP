@@ -10,7 +10,6 @@ class connectDB
     {
         if (self::$instance === null)
         {
-            try {
                $filename = require APP_DIRECTORY . 'config/config_db.php';
                self::$instance = new PDO(
                    "mysql:host=$filename[0];
@@ -18,13 +17,8 @@ class connectDB
                    port=$filename[2]",
                    $filename[3],
                    $filename[4]);
-            } catch (PDOException $e) {
-                $display = "Erreur : " . $e->getmessage() . "<br/>";
-                echo $display;
-                die;
-            }
-        }
-        return self::$instance;
 
+            }
+        return self::$instance;
     }
 }

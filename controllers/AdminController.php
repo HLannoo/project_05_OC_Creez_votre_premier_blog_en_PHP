@@ -20,7 +20,7 @@ class AdminController extends BaseController
 
             $template = $this->twig->load('users/commentadministration.html');
             $view = $template->render(['listcomments' => $listcomments,'comment_admin_token' => $manager->generate()]);
-            print_r($view)
+            echo $view;
         }
         else {
             header("Location:".ERROR_500);
