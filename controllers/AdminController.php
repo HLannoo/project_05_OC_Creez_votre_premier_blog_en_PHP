@@ -135,7 +135,6 @@ class AdminController extends BaseController
             $result = $manager->verify($_POST['csrf_token']);
             if ($result === false) {
                 header("Location:" . ERROR_500);
-                die;
             }
             if (isset($_POST['title']) && isset($_POST['chapo']) && isset($_POST['content'])) {
                 $title = strip_tags(stripslashes($_POST['title']), '<br/><br>');

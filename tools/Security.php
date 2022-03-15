@@ -83,7 +83,6 @@ class Security extends BaseController
                 $template = $this->twig->load('errors/uploaderror.html');
                 $view = $template->render(['error' => $error, 'site_link' => SITE_URL]);
             echo $view;
-            die;
 
             }
         }
