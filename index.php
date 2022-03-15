@@ -11,8 +11,6 @@ if ($_SESSION['last_ip'] !== $_SERVER['REMOTE_ADDR']){
     header("Location: ".ERROR_500);
 }
 
-
-
 define('APP_DIRECTORY', __DIR__ . '/');
 define('UPLOADS_DIRECTORY', __DIR__ . '/public/uploads/');
 
@@ -167,7 +165,8 @@ switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
         // ... 404 Not Found
         // Todo : definir une page d'erreur
-        echo 'PAGE NOT FOUND';
+        $msg ='PAGE NOT FOUND';
+        echo $msg;
         break;
     
 

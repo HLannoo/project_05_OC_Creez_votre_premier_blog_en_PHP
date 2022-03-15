@@ -25,7 +25,8 @@ class PostsController extends BaseController
         $template = $this->twig->load('posts/index.html');
 
         // Puis on affiche avec la méthode render
-        echo $template->render(['listarticles' => $listarticles]);
+        $view =  $template->render(['listarticles' => $listarticles]);
+        echo $view;
     }
 
     public function detail($id)
@@ -43,7 +44,8 @@ class PostsController extends BaseController
 
             $template = $this->twig->load('posts/pageid.html');
 
-            echo $template->render(['SITE_LINK' => SITE_URL,'article' => $article, 'comments' => $this->getAllArticleComments($id),'comment_token' => $manager->generate()]);
+            $view = $template->render(['SITE_LINK' => SITE_URL,'article' => $article, 'comments' => $this->getAllArticleComments($id),'comment_token' => $manager->generate()]);
+            echo $view;
         }
         else
         {
@@ -52,7 +54,8 @@ class PostsController extends BaseController
 
         $template = $this->twig->load('posts/index.html');
 
-        echo $template->render(['listarticles' => $listarticles]);
+        $view = $template->render(['listarticles' => $listarticles]);
+        echo $view;
         }
     }
 
@@ -65,13 +68,13 @@ class PostsController extends BaseController
         if (!empty($_POST['content']) && !empty($_POST['pseudo']) && !empty($_POST['title'])) {
 
             if (isset($_POST['csrf_token'])) {
-                $result = $manager->verify($_POST['csrf_token']);
+                $result = $manager->verify(stripslashes($_POST['csrf_token']));
                 if ($result === false) {
                     header("Location:".ERROR_500);
                 }
-                $content = htmlspecialchars($_POST['content']);
-                $pseudo = htmlspecialchars($_POST['pseudo']);
-                $title = htmlspecialchars($_POST['title']);
+                $content = htmlspecialchars(stripslashes($_POST['content']));
+                $pseudo = htmlspecialchars(stripslashes($_POST['pseudo']));
+                $title = htmlspecialchars(stripslashes($_POST['title']));
                 $idArticle = htmlspecialchars($id);
 
                 $commentInstance = new Comments(connectDB::dbConnect());;
@@ -90,11 +93,12 @@ class PostsController extends BaseController
             $error="Un champ est manquant dans votre commentaire.";
             $article = $articleInstance->getArticleById($id);
             $template = $this->twig->load('posts/pageid.html');
-            echo $template->render([
+            $view = $template->render([
                 'article' => $article,
                 'comments' => $this->getAllArticleComments($id),
                 'comment_token' => $manager->generate(),
                 'error'=>$error]);
+            echo $view;
         }
     }
 

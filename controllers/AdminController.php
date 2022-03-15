@@ -69,7 +69,7 @@ class AdminController extends BaseController
         $commentsInstance = new Comments(connectDB::dbConnect());
         $manager = new \Psecio\Csrf\Manager();
         if (isset($_POST['csrf_token'])) {
-            $result = $manager->verify($_POST['csrf_token']);
+            $result = $manager->verify(stripslashes($_POST['csrf_token']));
             if ($result === false) {
                 header("Location:".ERROR_500);
             }
@@ -88,7 +88,7 @@ class AdminController extends BaseController
         $commentsInstance = new Comments(connectDB::dbConnect());
         $manager = new \Psecio\Csrf\Manager();
         if (isset($_POST['csrf_token'])) {
-            $result = $manager->verify($_POST['csrf_token']);
+            $result = $manager->verify(stripslashes($_POST['csrf_token']));
             if ($result === false) {
                 header("Location:".ERROR_500);
             }
@@ -137,10 +137,10 @@ class AdminController extends BaseController
                 die;
             }
             if (isset($_POST['title']) && isset($_POST['chapo']) && isset($_POST['content'])) {
-                $title = strip_tags($_POST['title'], '<br/><br>');
-                $chapo = strip_tags($_POST['chapo'], '<br/><br>');
-                $content = strip_tags($_POST['content'], '<br/><br>');
-                $slug = strip_tags($_POST['slug'], '<br/><br>');
+                $title = strip_tags(stripslashes($_POST['title']), '<br/><br>');
+                $chapo = strip_tags(stripslashes($_POST['chapo']), '<br/><br>');
+                $content = strip_tags(stripslashes($_POST['content']), '<br/><br>');
+                $slug = strip_tags(stripslashes($_POST['slug']), '<br/><br>');
                 $img = $_FILES['img'];
                 $id = $_POST['id'];
                 $userid = ($_SESSION["id"]);
@@ -195,7 +195,7 @@ class AdminController extends BaseController
         $listarticles=$articleInstance->getArticles();
         $manager = new \Psecio\Csrf\Manager();
         if (isset($_POST['csrf_token'])) {
-            $result = $manager->verify($_POST['csrf_token']);
+            $result = $manager->verify(stripslashes($_POST['csrf_token']));
             if ($result === false) {
                 header("Location:" . ERROR_500);
             }
@@ -229,7 +229,7 @@ class AdminController extends BaseController
         $listarticles = $articleInstance->getArticles();
         $manager = new \Psecio\Csrf\Manager();
         if (isset($_POST['csrf_token'])) {
-            $result = $manager->verify($_POST['csrf_token']);
+            $result = $manager->verify(stripslashes($_POST['csrf_token']));
             if ($result === false) {
                 header("Location:".ERROR_500);
             }
@@ -256,7 +256,7 @@ class AdminController extends BaseController
         $adminInstance = new Admin(connectDB::dbConnect());
         $manager = new \Psecio\Csrf\Manager();
         if (isset($_POST['csrf_token'])) {
-            $result = $manager->verify($_POST['csrf_token']);
+            $result = $manager->verify(stripslashes($_POST['csrf_token']));
             if ($result === false) {
                 header("Location:".ERROR_500);
             }
@@ -276,7 +276,7 @@ class AdminController extends BaseController
         $adminInstance = new Admin(connectDB::dbConnect());
         $manager = new \Psecio\Csrf\Manager();
         if (isset($_POST['csrf_token'])) {
-            $result = $manager->verify($_POST['csrf_token']);
+            $result = $manager->verify(stripslashes($_POST['csrf_token']));
             if ($result === false) {
                 header("Location:".ERROR_500);
             }
@@ -288,15 +288,17 @@ class AdminController extends BaseController
             }
             $template = $this->twig->load('users/adminmanagement.html');
             $listadmins = $adminInstance->getAdmins();
-            echo $template->render(['site_link' => SITE_URL, 'listadmins' => $listadmins, 'management_admin_token' => $manager->generate()]);
+            $view = $template->render(['site_link' => SITE_URL, 'listadmins' => $listadmins, 'management_admin_token' => $manager->generate()]);
+            echo $view;
         }
     }
+
     public function deleteAdmin($id)
     {
         $adminInstance = new Admin(connectDB::dbConnect());
         $manager = new \Psecio\Csrf\Manager();
         if (isset($_POST['csrf_token'])) {
-            $result = $manager->verify($_POST['csrf_token']);
+            $result = $manager->verify(stripslashes($_POST['csrf_token']));
             if ($result === false) {
                 header("Location:".ERROR_500);
             }
@@ -306,7 +308,8 @@ class AdminController extends BaseController
             }
             $template = $this->twig->load('users/adminmanagement.html');
             $listadmins = $adminInstance->getAdmins();
-            echo $template->render(['site_link' => SITE_URL, 'listadmins' => $listadmins, 'management_admin_token' => $manager->generate()]);
+            $view = $template->render(['site_link' => SITE_URL, 'listadmins' => $listadmins, 'management_admin_token' => $manager->generate()]);
+            echo $view;
         }
     }
 }

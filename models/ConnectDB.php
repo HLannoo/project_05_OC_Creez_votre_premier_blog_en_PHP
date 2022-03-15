@@ -19,7 +19,8 @@ class connectDB
                    $filename[3],
                    $filename[4]);
             } catch (PDOException $e) {
-                print "Erreur : " . $e->getmessage() . "<br/>";
+                $display = "Erreur : " . $e->getmessage() . "<br/>";
+                print $display;
                 die;
             }
         }
