@@ -11,6 +11,8 @@ if ($_SESSION['last_ip'] !== $_SERVER['REMOTE_ADDR']){
     header("Location: ".ERROR_500);
 }
 
+
+
 define('APP_DIRECTORY', __DIR__ . '/');
 define('UPLOADS_DIRECTORY', __DIR__ . '/public/uploads/');
 
@@ -36,9 +38,8 @@ define('LOGIN_PAGE', 'http://'.$_SERVER['SERVER_NAME'].'/users/login');
 define('ERROR_500', 'http://'.$_SERVER['SERVER_NAME'].'/error500');
 
 
-
-
 require APP_DIRECTORY . 'vendor/autoload.php';
+
 
 
 // autoloader : rapporte les controllers et models si appelé
@@ -55,8 +56,10 @@ spl_autoload_register(function ($class) {
     elseif (file_exists(__DIR__ .'/tools/' . $class . '.php')) {
         include __DIR__ .'/tools/' . $class . '.php';
     }
+    elseif (file_exists(__DIR__ .'/config/' . $class . '.php')) {
+        include __DIR__ .'/config/' . $class . '.php';
+    }
 });
-
 
 
 // on défini nos routes ici
