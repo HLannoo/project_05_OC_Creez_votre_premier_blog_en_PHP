@@ -240,7 +240,7 @@ class AdminController extends BaseController
 
                 $checkId = $articleInstance->checkId($id);
 
-                if ($checkId === 1) {
+                if ($checkId === true) {
                     $ligne = $articleInstance->modArticle($id);
                 } else {
                     header("Location:".ERROR_500);

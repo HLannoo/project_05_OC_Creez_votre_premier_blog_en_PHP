@@ -34,19 +34,13 @@ class Security extends BaseController
         $max_size = 2000000;
         $response=false;
 
-
         if ($checkFile === null){
-            $error="Le fichier n'a pas été reçu";
+            $error="Le fichier image est vide";
 
         }
-        elseif (empty($tmpFile) ) {
-            $error="Le fichier image est vide.";
 
-
-        }
-        elseif ($sizeFile > $max_size || $errFile != 0 ) {
+        elseif ($sizeFile > $max_size || $errFile != 0 || empty($tmpFile)) {
             $error="la taille du fichier est dépassé, maximum 2mo.";
-
 
         }
         elseif (count($extension) <2 || !in_array(strtolower(end($extension)),$extensions)) {
