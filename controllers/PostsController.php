@@ -14,7 +14,7 @@ class PostsController extends BaseController
     }
 
     // Page d'accueil
-    public function index($params = array())
+    public function index()
     {
 
         $articlesinstance = new Articles(ConnectDB::dbConnect());
