@@ -7,7 +7,6 @@ class IndexController extends BaseController
 
 {
 
-
     public function index()
     {
         $articlesinstance = new Articles(ConnectDB::dbConnect());
