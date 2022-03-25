@@ -7,13 +7,6 @@
 class UsersController extends BaseController
 {
 
-
-    // Initialisation du contructeur par défaut
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     // Authentication home page
     public function loginPage()
     {

@@ -5,14 +5,6 @@
  */
 class PostsController extends BaseController
 {
-
-
-    // Initialisation du contructeur par défaut
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     // Page d'accueil
     public function index($params = array())
     {
