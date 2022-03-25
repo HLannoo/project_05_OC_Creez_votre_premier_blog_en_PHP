@@ -31,7 +31,7 @@ class Comments
     {
         $stmt = $this->connect->prepare("SELECT pseudo,title, content, created_at, published FROM comments WHERE article_id= :article_id");
         $stmt->execute(array(":article_id"=>$articleid));
-        $getArticleComments=$stmt->fetchall();
+        $getArticleComments=$stmt->fetchAll();
         return $getArticleComments;
 
     }
