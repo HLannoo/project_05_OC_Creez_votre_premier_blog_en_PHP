@@ -24,25 +24,35 @@ Step 3: Create a database on your DBMS and import the blog_php.sql file avaiable
 
 Step 4: create the project_05/config/config_db_.php file with access to your database.
 - Create config_db.php file whit this function :
-  * return Array
-(
+
+`Place this code`
+  
+    <?php
+    return Array
+    (
     $host="your host",
     $dbname="your dbname",
     $port="your port",
-    $user="your user name",
-    $pass="your password",
+    $user="your user dbname",
+    $pass="your password dbname",
+    );
+
 
 Step 5: Fill in the project_05/config/config_email.php file with access to your email account.
 
 - Create config_email.php file whit this function :
-  
- return Array
-(
-    $smtp="your SMTP",
-    $username="your email",
-    $password="your emaiil password",
-    $port=your port,
 
+`place this code :`
+
+    <?php
+    return Array
+    (
+    $smtp="your SMPTP",
+    $username="your email",
+    $password="your email password",
+    $port=your port,
+    );
+    
 Step 6: Your blog is now functional, you can now connect to the administrator panel.
 
 
