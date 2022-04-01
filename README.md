@@ -8,17 +8,42 @@ Code quality has been validated by Symfony Insight. You can access the inspectio
 - MySql 5.7.36
 - Apache 2.*
 
+## Requirements
+- Localhost 
+For this project i used WAMPSERVER avaible here : https://www.wampserver.com/
+
 
 ## Installing the project:
 Step 1: Clone the Repository on server from the root via the command: **git clone https://github.com/Kakahuette400/project_05.git**
 
-Step 2: Create a database on your DBMS and import the blog_php.sql file
+Step 2: Install composer on your project if it's not already the case: https://getcomposer.org/
+- Install all dependances avaible on : https://packagist.org/ whit "composer install"
+- Read the documentation to customize your installation
 
-Step 3: Fill the project_05/config/config_db_.php file with access to your database.
+Step 3: Create a database on your DBMS and import the blog_php.sql file avaiable in diagrams folder
 
-Step 4: Fill in the project_05/config/config_email.php file with access to your email account.
+Step 4: create the project_05/config/config_db_.php file with access to your database.
+- Create config_db.php file whit this function :
+  * return Array
+(
+    $host="your host",
+    $dbname="your dbname",
+    $port="your port",
+    $user="your user name",
+    $pass="your password",
 
-Step 4: Your blog is now functional, you can now connect to the administrator panel.
+Step 5: Fill in the project_05/config/config_email.php file with access to your email account.
+
+- Create config_email.php file whit this function :
+  
+ return Array
+(
+    $smtp="your SMTP",
+    $username="your email",
+    $password="your emaiil password",
+    $port=your port,
+
+Step 6: Your blog is now functional, you can now connect to the administrator panel.
 
 
 ## Libraries used:
