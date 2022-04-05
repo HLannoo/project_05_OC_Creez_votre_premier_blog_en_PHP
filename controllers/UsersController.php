@@ -80,7 +80,10 @@ class UsersController extends BaseController
             }
 
         }
-                $view = $template->render(['POSTS_INDEX' => POSTS_INDEX,
+                $view = $template->render(['ADMIN_COMMENT'=>ADMIN_COMMENT,
+                    'ADMIN_ARTICLE'=>ADMIN_ARTICLE,
+                    'ADMIN_MANAGEMENT'=>ADMIN_MANAGEMENT,
+                    'POSTS_INDEX' => POSTS_INDEX,
                     'SITE_LINK' => SITE_URL,
                     'LOGIN_PAGE' => LOGIN_PAGE,
                     'error' => $error,

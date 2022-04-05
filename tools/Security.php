@@ -63,7 +63,10 @@ class Security extends BaseController
             return $response;
         }
         $template = $this->twig->load('errors/uploaderror.html');
-        $view = $template->render(['error' => $error, 'site_link' => SITE_URL]);
+        $view = $template->render(['POSTS_INDEX' => POSTS_INDEX,
+            'SITE_LINK' => SITE_URL,
+            'LOGIN_PAGE' => LOGIN_PAGE,
+            'error' => $error, 'site_link' => SITE_URL]);
         echo $view;
         return $response;
 
