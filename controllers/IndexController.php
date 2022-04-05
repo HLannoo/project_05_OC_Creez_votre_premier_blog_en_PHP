@@ -17,7 +17,11 @@ class IndexController extends BaseController
         $template = $this->twig->load('index/index.html');
 
         // Puis on affiche avec la méthode render
-       $view = $template->render(['SITE_LINK'=>SITE_URL, 'listarticles' => $listarticles, 'form_contact_token' => $manager->generate()]);
+       $view = $template->render(['LOGIN_PAGE'=>LOGIN_PAGE,
+           'POSTS_INDEX'=>POSTS_INDEX,
+           'SITE_LINK'=>SITE_URL,
+           'listarticles' => $listarticles,
+           'form_contact_token' => $manager->generate()]);
         echo $view;
 
     }
@@ -56,7 +60,10 @@ class IndexController extends BaseController
                     $template = $this->twig->load('index/index.html');
             }
         }
-        $view = $template->render([ 'error' => $error,'form_contact_token' => $manager->generate(),'SITE_LINK'=> SITE_URL]);
+        $view = $template->render([
+            'error' => $error,
+            'form_contact_token' => $manager->generate(),
+            'SITE_LINK'=> SITE_URL]);
         echo $view;
     }
 }

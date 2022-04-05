@@ -13,7 +13,10 @@ class RedirectController extends BaseController
         $template = $this->twig->load('errors/error500.html');
 
         // Puis on affiche avec la méthode render
-        $view = $template->render([]);
+        $view = $template->render(['POSTS_INDEX' => POSTS_INDEX,
+            'SITE_LINK' => SITE_URL,
+            'LOGIN_PAGE' => LOGIN_PAGE
+            ]);
         echo $view;
 
     }
@@ -24,7 +27,9 @@ class RedirectController extends BaseController
         $template = $this->twig->load('posts/merci.html');
 
         // Puis on affiche avec la méthode render
-        $view = $template->render([]);
+        $view = $template->render(['POSTS_INDEX' => POSTS_INDEX,
+            'SITE_LINK' => SITE_URL,
+            'LOGIN_PAGE' => LOGIN_PAGE]);
         echo $view;
 
     }
@@ -35,7 +40,9 @@ class RedirectController extends BaseController
         $template = $this->twig->load('index/merci.html');
 
         // Puis on affiche avec la méthode render
-        $view = $template->render([]);
+        $view = $template->render(['POSTS_INDEX' => POSTS_INDEX,
+            'SITE_LINK' => SITE_URL,
+            'LOGIN_PAGE' => LOGIN_PAGE,]);
         echo $view;
 
     }
