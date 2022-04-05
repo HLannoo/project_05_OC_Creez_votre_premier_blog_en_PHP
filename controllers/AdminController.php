@@ -15,7 +15,11 @@ class AdminController extends BaseController
             $manager = new \Psecio\Csrf\Manager();
 
             $template = $this->twig->load('users/commentadministration.html');
-            $view = $template->render(['listcomments' => $listcomments,'comment_admin_token' => $manager->generate()]);
+            $view = $template->render(['POSTS_INDEX' => POSTS_INDEX,
+                'SITE_LINK' => SITE_URL,
+                'LOGIN_PAGE' => LOGIN_PAGE,
+                'listcomments' => $listcomments,
+                'comment_admin_token' => $manager->generate()]);
             echo $view;
         }
         else {
@@ -33,7 +37,12 @@ class AdminController extends BaseController
             $manager = new \Psecio\Csrf\Manager();
 
             $template = $this->twig->load('users/articleadministration.html');
-            $view = $template->render(['site_link' => SITE_URL, 'listarticles' => $listArticles,'article_admin_token' => $manager->generate()]);
+            $view = $template->render(['POSTS_INDEX' => POSTS_INDEX,
+                'SITE_LINK' => SITE_URL,
+                'LOGIN_PAGE' => LOGIN_PAGE,
+                'site_link' => SITE_URL,
+                'listarticles' => $listArticles,
+                'article_admin_token' => $manager->generate()]);
             echo $view;
         }
 
@@ -51,7 +60,12 @@ class AdminController extends BaseController
             $manager = new \Psecio\Csrf\Manager();
 
             $template = $this->twig->load('users/adminmanagement.html');
-            $view =  $template->render(['site_link' => SITE_URL, 'listadmins' => $listadmins,'management_admin_token' => $manager->generate()]);
+            $view =  $template->render(['POSTS_INDEX' => POSTS_INDEX,
+                'SITE_LINK' => SITE_URL,
+                'LOGIN_PAGE' => LOGIN_PAGE,
+                'site_link' => SITE_URL,
+                'listadmins' => $listadmins,
+                'management_admin_token' => $manager->generate()]);
             echo $view;
         }
 
@@ -75,7 +89,10 @@ class AdminController extends BaseController
                 }
                     $template = $this->twig->load('users/commentadministration.html');
                     $listcomments = $commentsInstance->getComments();
-                    $view = $template->render(['listcomments' => $listcomments,'comment_admin_token' => $manager->generate()]);
+                    $view = $template->render(['POSTS_INDEX' => POSTS_INDEX,
+                        'SITE_LINK' => SITE_URL,
+                        'LOGIN_PAGE' => LOGIN_PAGE,
+                        'listcomments' => $listcomments,'comment_admin_token' => $manager->generate()]);
                     echo $view;
                 }
     }
@@ -94,7 +111,10 @@ class AdminController extends BaseController
             }
             $template = $this->twig->load('users/commentadministration.html');
             $listcomments = $commentsInstance->getComments();
-            $view = $template->render(['listcomments' => $listcomments,'comment_admin_token' => $manager->generate()]);
+            $view = $template->render(['POSTS_INDEX' => POSTS_INDEX,
+                'SITE_LINK' => SITE_URL,
+                'LOGIN_PAGE' => LOGIN_PAGE,
+                'listcomments' => $listcomments,'comment_admin_token' => $manager->generate()]);
             echo $view;
         }
     }
@@ -116,7 +136,10 @@ class AdminController extends BaseController
             }
             $template = $this->twig->load('users/commentadministration.html');
             $listcomments = $commentsInstance->getComments();
-            $view = $template->render(['listcomments' => $listcomments,'comment_admin_token' => $manager->generate()]);
+            $view = $template->render(['POSTS_INDEX' => POSTS_INDEX,
+                'SITE_LINK' => SITE_URL,
+                'LOGIN_PAGE' => LOGIN_PAGE,
+                'listcomments' => $listcomments,'comment_admin_token' => $manager->generate()]);
             echo $view;
         }
     }
@@ -180,7 +203,11 @@ class AdminController extends BaseController
         }
         $template = $this->twig->load('users/articleadministration.html');
         $listarticles = $articleInstance->getArticles();
-        $view = $template->render(['listarticles' => $listarticles, 'article_admin_token' => $manager->generate()]);
+        $view = $template->render(['POSTS_INDEX' => POSTS_INDEX,
+            'SITE_LINK' => SITE_URL,
+            'LOGIN_PAGE' => LOGIN_PAGE,
+            'listarticles' => $listarticles,
+            'article_admin_token' => $manager->generate()]);
         echo $view;
         return true;
     }
@@ -216,7 +243,11 @@ class AdminController extends BaseController
         }
         $template = $this->twig->load('users/articleadministration.html');
         $listarticles=$articleInstance->getArticles();
-        $view = $template->render(['listarticles' => $listarticles,'article_admin_token' => $manager->generate()]);
+        $view = $template->render(['POSTS_INDEX' => POSTS_INDEX,
+            'SITE_LINK' => SITE_URL,
+            'LOGIN_PAGE' => LOGIN_PAGE,
+            'listarticles' => $listarticles,
+            'article_admin_token' => $manager->generate()]);
         echo $view;
     }
 
@@ -244,7 +275,12 @@ class AdminController extends BaseController
             }
             $template = $this->twig->load('users/articleadministration.html');
             $listarticles = $articleInstance->getArticles();
-            $view =  $template->render(['ligne' => $ligne, 'listarticles' => $listarticles, 'article_admin_token' => $manager->generate()]);
+            $view =  $template->render(['POSTS_INDEX' => POSTS_INDEX,
+                'SITE_LINK' => SITE_URL,
+                'LOGIN_PAGE' => LOGIN_PAGE,
+                'ligne' => $ligne,
+                'listarticles' => $listarticles,
+                'article_admin_token' => $manager->generate()]);
             echo $view;
         }
     }
@@ -265,7 +301,11 @@ class AdminController extends BaseController
             }
             $template = $this->twig->load('users/adminmanagement.html');
             $listadmins = $adminInstance->getAdmins();
-            $view =  $template->render(['site_link' => SITE_URL, 'listadmins' => $listadmins, 'management_admin_token' => $manager->generate()]);
+            $view =  $template->render(['POSTS_INDEX' => POSTS_INDEX,
+                'SITE_LINK' => SITE_URL,
+                'LOGIN_PAGE' => LOGIN_PAGE,
+                'listadmins' => $listadmins,
+                'management_admin_token' => $manager->generate()]);
             echo $view;
         }
     }
@@ -286,7 +326,11 @@ class AdminController extends BaseController
             }
             $template = $this->twig->load('users/adminmanagement.html');
             $listadmins = $adminInstance->getAdmins();
-            $view = $template->render(['site_link' => SITE_URL, 'listadmins' => $listadmins, 'management_admin_token' => $manager->generate()]);
+            $view = $template->render(['POSTS_INDEX' => POSTS_INDEX,
+                'SITE_LINK' => SITE_URL,
+                'LOGIN_PAGE' => LOGIN_PAGE,
+                'listadmins' => $listadmins,
+                'management_admin_token' => $manager->generate()]);
             echo $view;;
         }
     }
@@ -306,7 +350,11 @@ class AdminController extends BaseController
             }
             $template = $this->twig->load('users/adminmanagement.html');
             $listadmins = $adminInstance->getAdmins();
-            $view = $template->render(['site_link' => SITE_URL, 'listadmins' => $listadmins, 'management_admin_token' => $manager->generate()]);
+            $view = $template->render(['POSTS_INDEX' => POSTS_INDEX,
+                'SITE_LINK' => SITE_URL,
+                'LOGIN_PAGE' => LOGIN_PAGE,
+                'listadmins' => $listadmins,
+                'management_admin_token' => $manager->generate()]);
             echo $view;;
         }
     }

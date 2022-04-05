@@ -5,7 +5,7 @@
  */
 class PostsController extends BaseController
 {
-    // Page d'accueil
+    // Page d'accueil des projets
     public function index($params = array())
     {
 
@@ -17,7 +17,9 @@ class PostsController extends BaseController
         $template = $this->twig->load('posts/index.html');
 
         // Puis on affiche avec la méthode render
-        $view =  $template->render(['listarticles' => $listarticles]);
+        $view =  $template->render(['LOGIN_PAGE'=>LOGIN_PAGE,
+            'SITE_LINK'=>SITE_URL,
+            'listarticles' => $listarticles]);
         echo $view;
     }
 
@@ -36,7 +38,12 @@ class PostsController extends BaseController
 
             $template = $this->twig->load('posts/pageid.html');
 
-            $view = $template->render(['SITE_LINK' => SITE_URL,'article' => $article, 'comments' => $this->getAllArticleComments($id),'comment_token' => $manager->generate()]);
+            $view = $template->render(['LOGIN_PAGE'=>LOGIN_PAGE,
+                'POSTS_INDEX' => POSTS_INDEX,
+                'SITE_LINK' => SITE_URL,
+                'article' => $article,
+                'comments' => $this->getAllArticleComments($id),
+                'comment_token' => $manager->generate()]);
             echo $view;
         }
         else
@@ -46,7 +53,10 @@ class PostsController extends BaseController
 
         $template = $this->twig->load('posts/index.html');
 
-        $view = $template->render(['listarticles' => $listarticles]);
+        $view = $template->render(['LOGIN_PAGE'=>LOGIN_PAGE,
+                'POSTS_INDEX' => POSTS_INDEX,
+                'SITE_LINK'=>SITE_URL,
+                'listarticles' => $listarticles]);
         echo $view;
         }
     }

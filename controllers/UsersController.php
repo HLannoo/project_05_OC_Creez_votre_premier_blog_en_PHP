@@ -21,7 +21,13 @@ class UsersController extends BaseController
 
             // Puis on affiche la page avec la méthode render
         }
-        $view = $template->render(['login_token' => $manager->generate()]);
+        $view = $template->render(['ADMIN_COMMENT'=>ADMIN_COMMENT,
+            'ADMIN_ARTICLE'=>ADMIN_ARTICLE,
+            'ADMIN_MANAGEMENT'=>ADMIN_MANAGEMENT,
+            'POSTS_INDEX' => POSTS_INDEX,
+            'SITE_LINK' => SITE_URL,
+            'LOGIN_PAGE' => LOGIN_PAGE,
+            'login_token' => $manager->generate()]);
         echo $view;;
     }
 
@@ -74,7 +80,11 @@ class UsersController extends BaseController
             }
 
         }
-                $view = $template->render(['error' => $error,'login_token' => $manager->generate()]);
+                $view = $template->render(['POSTS_INDEX' => POSTS_INDEX,
+                    'SITE_LINK' => SITE_URL,
+                    'LOGIN_PAGE' => LOGIN_PAGE,
+                    'error' => $error,
+                    'login_token' => $manager->generate()]);
                 echo $view;;
             }
 
@@ -96,7 +106,10 @@ class UsersController extends BaseController
         $template = $this->twig->load('users/inscription.html');
 
         // Puis on affiche la page avec la méthode render
-        $view = $template->render(['inscription_token' => $manager->generate()]);
+        $view = $template->render(['POSTS_INDEX' => POSTS_INDEX,
+            'SITE_LINK' => SITE_URL,
+            'LOGIN_PAGE' => LOGIN_PAGE,
+            'inscription_token' => $manager->generate()]);
         echo $view;;
     }
 
@@ -141,7 +154,10 @@ class UsersController extends BaseController
                 $error = "Un champ n'est pas connu";
             }
         }
-            $view = $template->render(['error' => $error,'inscription_token' => $manager->generate()]);
+            $view = $template->render(['POSTS_INDEX' => POSTS_INDEX,
+                'SITE_LINK' => SITE_URL,
+                'LOGIN_PAGE' => LOGIN_PAGE,
+                'error' => $error,'inscription_token' => $manager->generate()]);
             echo $view;;
 
     }

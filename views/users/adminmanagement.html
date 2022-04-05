@@ -3,12 +3,12 @@
 {% block nav %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container px-5">
-        <a class="navbar-brand" href="http://project5/">Hédi Lannoo</a>
+        <a class="navbar-brand" href="{{ SITE_LINK }}">Hédi Lannoo</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="http://project5/">Accueil</a></li>
-                <li class="nav-item"><a class="nav-link" href="http://project5/posts/">Les projets</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ SITE_LINK }}">Accueil</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ POSTS_INDEX }}">Les projets</a></li>
                 <div class="float-right justify-self-baseline">
                     <form id='fermer' name='fermer' method='post' action="/users/admin/deconnexion">
                         <input type='submit' id='soumettre' value='Se d&eacute;connecter' style='width:8em;height:2em;' />
@@ -92,7 +92,7 @@
         <div class="row align-items-center justify-content-between flex-column flex-sm-row">
             <div class="col-auto"><div class="small m-0 text-white">Copyright &copy;Hédi Lannoo 2022</div></div>
             <div class="col-auto">
-                <a class="link-light small" href="http://project5/users/login">Admin home page</a>
+                <a class="link-light small" href="{{LOGIN_PAGE}}">Admin home page</a>
             </div>
         </div>
     </div>

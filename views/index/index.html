@@ -18,7 +18,7 @@
                     <p class="text-left lead fw-normal text-white-50 mb-4 ">Fort de diverses formations et expériences en webmarketing, négociation et relation client et maintenant développement en PHP/SYMFONY, je mets mes services à la disposition des entreprises. </p>
                     <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
                         <a class="col-md-4 mr-2 btn btn-primary btn-lg px-4 me-sm-3" href="#features">En savoir plus</a>
-                        <a class="col-md-4 btn btn-outline-light btn-lg px-4" href="http://project5/posts/">Voir les projets</a>
+                        <a class="col-md-4 btn btn-outline-light btn-lg px-4" href={{ POSTS_INDEX }}>Voir les projets</a>
                     </div>
                 </div>
             </div>
@@ -153,7 +153,7 @@
                         <p>Découvrez mon profil en téléchargeant mon CV ci-dessous :<p>
                     </div>
                     <div class=" mb-2 text-center">
-                        <a class="btn btn-outline-light" target="_blank" download="CV Hédi Lannoo" type="button" href="http://project5/public/assets/img/CV- Hédi Lannoo.pdf">
+                        <a class="btn btn-outline-light" target="_blank" download="CV Hédi Lannoo" type="button" href="{{SITE_URL}}/public/assets/img/CV- Hédi Lannoo.pdf">
                             Télécharger le CV
                         </a>
                     </div>
@@ -191,6 +191,4 @@
         </div>
     </div>
 </div>
-
-
 {% endblock %}
