@@ -22,7 +22,7 @@ Step 2: Install composer on your project if it's not already the case: https://g
 
 Step 3: Create a database on your DBMS and import the blog_php.sql file avaiable in diagrams folder
 
-Step 4: create the project_05/config/config_db.php file with access to your database.
+Step 4: create the project_05/config/config_db.php file with access to your database (/!\ CREATE config folder and config files : config_db.php and config_email.php
 - Create config_db.php file whit this function :
 
 `Place this code`
