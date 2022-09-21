@@ -13,26 +13,27 @@ if ($_SESSION['last_ip'] !== $_SERVER['REMOTE_ADDR']){
 define('APP_DIRECTORY', __DIR__ . '/');
 define('UPLOADS_DIRECTORY', __DIR__ . '/public/uploads/');
 
-
+$server = $_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'];
 //INDEX LINK SHORTCUT
-define('SITE_URL','http://'.$_SERVER['SERVER_NAME']);
-define('CONTACT_MERCI', 'http://'.$_SERVER['SERVER_NAME'].'/merci');
+define('SITE_URL','http://'.$server);
+
+define('CONTACT_MERCI', 'http://'.$server.'/merci');
 
 //POSTS LINK SHORTCUT
-define('POSTS_INDEX', 'http://'.$_SERVER['SERVER_NAME'].'/posts/');
-define('POSTS_PAGE_ID', 'http://'.$_SERVER['SERVER_NAME'].'/posts/{id:\d+}');
-define('POSTS_MERCI', 'http://'.$_SERVER['SERVER_NAME'].'/posts/merci');
+define('POSTS_INDEX', 'http://'.$server.'/posts/');
+define('POSTS_PAGE_ID', 'http://'.$server.'/posts/{id:\d+}');
+define('POSTS_MERCI', 'http://'.$server.'/posts/merci');
 
 //USERS LINK SHORTCUT
-define('ADMIN_HOME_INDEX','http://'.$_SERVER['SERVER_NAME'].'/users/admin');
-define('ADMIN_MANAGEMENT', 'http://'.$_SERVER['SERVER_NAME'].'/users/admin/management');
-define('ADMIN_ARTICLE', 'http://'.$_SERVER['SERVER_NAME'].'/users/admin/article');
-define('ADMIN_COMMENT', 'http://'.$_SERVER['SERVER_NAME'].'/users/admin/comment');
-define('INSCRIPTION_PAGE', 'http://'.$_SERVER['SERVER_NAME'].'/users/inscription');
-define('LOGIN_PAGE', 'http://'.$_SERVER['SERVER_NAME'].'/users/login');
+define('ADMIN_HOME_INDEX','http://'.$server.'/users/admin');
+define('ADMIN_MANAGEMENT', 'http://'.$server.'/users/admin/management');
+define('ADMIN_ARTICLE', 'http://'.$server.'/users/admin/article');
+define('ADMIN_COMMENT', 'http://'.$server.'/users/admin/comment');
+define('INSCRIPTION_PAGE', 'http://'.$server.'/users/inscription');
+define('LOGIN_PAGE', 'http://'.$server.'/users/login');
 
 //ERROR LINK SHORTCUT
-define('ERROR_500', 'http://'.$_SERVER['SERVER_NAME'].'/error500');
+define('ERROR_500', 'http://'.$server.'/error500');
 
 
 require APP_DIRECTORY . 'vendor/autoload.php';
